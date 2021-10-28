@@ -1,13 +1,16 @@
 import React from "react";
-import Button from "../../Components/Button/button"
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
+import "./login.css"
 
 const Login = () => {
     return (
         <>
             <form>
-                <input type='text' placeholder='Nome'/>
-                <input type='password' placeholder='Senha'/>
-                <Button Descricao='Entrar'></Button>
+                <p>Login</p>
+                <div><input type='text' placeholder='Nome'/></div>
+                <div><input type='password' placeholder='Senha'/></div>
+                <div><Button color="secondary" variant="contained" endIcon={<SendIcon />}>Login</Button></div>
             </form>
         </>
     )

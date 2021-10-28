@@ -4,7 +4,7 @@ import Routes from "./Routes/routes"
 
 reactDom.render(
     //<GlobalContext>
-      <Routes />,
+        <Routes />,
     //</GlobalContext>,
     document.getElementById("root")
 );
