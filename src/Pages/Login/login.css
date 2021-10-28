@@ -1,0 +1,8 @@
+form{
+    box-shadow: 1px 1px 5px black;
+    padding:10px;
+    border-radius:20px;
+    width:50%;
+    margin:auto;
+    text-align: center;
+}
