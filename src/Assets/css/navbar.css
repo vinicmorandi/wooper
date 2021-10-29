@@ -27,7 +27,6 @@ body{
 #sidebar *{
     margin-top:5px;
     margin-bottom:5px;
-    color: black !important;
 }
 
 .principal{
@@ -37,9 +36,14 @@ body{
 a{
     text-decoration: none;
     color:white !important;
+    display: none;
 }
 
 .titulo{
     font-size:40px;
     margin:0px;
+}
+
+.ativo{
+    display:inline;
 }
