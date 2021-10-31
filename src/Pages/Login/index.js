@@ -1,11 +1,13 @@
+// React
 import React from "react";
-import Button from '@material-ui/core/Button';
-import SendIcon from '@material-ui/icons/Send';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+
+// Material UI
+import { Button } from "@material-ui/core";
+import { Box } from "@mui/system";
+import { TextField, FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { Send } from "@mui/icons-material";
+
+// CSS
 import "./login.css"
 
 const Login = () => {
@@ -33,7 +35,7 @@ const Login = () => {
             <FormGroup>
                 <FormControlLabel control={<Switch defaultChecked />} label="Lembrar senha" />
             </FormGroup>
-            <div><Button color="primary" variant="contained" endIcon={<SendIcon />}>Login</Button></div>
+            <div><Button color="primary" variant="contained" endIcon={<Send />}>Login</Button></div>
         </Box>
     )
 }
