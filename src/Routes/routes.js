@@ -18,7 +18,7 @@ import Login from "../Pages/Login"
 import Pokedex from '../Pages/Pokedex'
 
 // CSS
-import "../Assets/css/navbar.css"
+import "./navbar.css"
 
 // Tamanho da Sidebar
 const drawerWidth = 240;
