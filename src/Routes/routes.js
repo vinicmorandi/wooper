@@ -16,6 +16,7 @@ import CatchingPokemonTwoToneIcon from '@mui/icons-material/CatchingPokemonTwoTo
 import Home from "../Pages/Home"
 import Login from "../Pages/Login"
 import Pokedex from '../Pages/Pokedex'
+import Signup from '../Pages/Signup'
 
 // CSS
 import "./navbar.css"
@@ -95,7 +96,7 @@ export default function Routes() {
                             {open === true ? <ChevronLeft /> : <Menu />}
                         </IconButton>
                     </DrawerHeader>
-                    <Divider sx={{ 'border-color': "rgba(255, 255, 255, 0.3)" }} />
+                    <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
                     <List>
                         <NavLink className='iconesSidebar' to="/">
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Home">
@@ -128,7 +129,7 @@ export default function Routes() {
                             </ListItem>
                         </div>
                     </List>
-                    <Divider sx={{ 'border-color': "rgba(255, 255, 255, 0.3)" }} />
+                    <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
                     <List>
                         <NavLink className='iconesSidebar' to="/Login">
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
@@ -145,6 +146,9 @@ export default function Routes() {
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     {/* Rotas - Dependendo do link, será retornado um componente diferente */}
                     <Switch>
+                        <Route path='/signup'>
+                            <Signup></Signup>
+                        </Route>
                         <Route path='/login'>
                             <Login></Login>
                         </Route>

@@ -16,15 +16,26 @@ export default class Pokedex extends React.Component {
 
     // Renderiza os Pokemon Individualmente
     renderPoke = (poke) => {
-        return <div>{poke.name}</div>
+        let url = "./Assets/Images/pokemons/"+poke.id.toLocaleString('en-US', {minimumIntegerDigits: 3, useGrouping:false})+poke.species.name+".png";
+        let classes = "pokemon "+poke.types[0].type.name
+        return (
+            <div className={classes} key={poke.id}>
+                <p>#{poke.id}</p>
+                <p class='nome'>{poke.species.name}</p>
+                <img loading='lazy' alt={poke.species.name} src={url}></img>
+            </div>
+        )
     }
 
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     async componentDidMount() {
-        const url = "https://pokeapi.co/api/v2/pokemon?limit=1000"
-        var resposta = await fetch(url)
-        var pokemon = await resposta.json()
-        this.setState({ pokemon: pokemon.results, carregando: false })
+        var pokemon = [];
+        for (let i = 1; i < 810; i++){
+            let url = "https://pokeapi.co/api/v2/pokemon/"+i;
+            var resposta = await fetch(url);
+            pokemon[i] = await resposta.json();
+        }
+        this.setState({ pokemon: pokemon, carregando: false })
     }
 
 
@@ -32,11 +43,13 @@ export default class Pokedex extends React.Component {
         return (
             <>
                 {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
-                {this.state.carregando ? (<CircularProgress sx={{margin:'auto',display:'block'}} size='100px' color='inherit'/>) : (
-                    <div>
-                        <Typography variant='h2' gutterBottom='true'>Pokédex</Typography>
-                        <div>{this.state.pokemon.map(this.renderPoke)}</div>
+                {this.state.carregando ? (<CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness="1" size='100px' color='inherit' />) : (
+                    <>
+                    <Typography variant='h2' gutterBottom={true}>Pokédex</Typography>
+                    <div id='pokedex'>
+                        {this.state.pokemon.map(this.renderPoke)}
                     </div>
+                    </>
                 )}
             </>
         )

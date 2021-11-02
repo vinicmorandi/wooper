@@ -4,8 +4,9 @@ import React from "react";
 // Material UI
 import { Button } from "@material-ui/core";
 import { Box } from "@mui/system";
-import { TextField, FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { Send } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
 
 // CSS
 import "./login.css"
@@ -30,11 +31,9 @@ const Login = () => {
     return (
         <Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }, }} noValidate autoComplete="off">
             <p>Login</p>
-            <TextField id="outlined-basic" label="Email" variant="outlined" />
+            <TextField id="outlined-basic" label="Email" type='email' variant="outlined" />
             <TextField id="outlined-basic" label="Senha" type='password' onClick={handleClickShowPassword} variant="outlined" />
-            <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked />} label="Lembrar senha" />
-            </FormGroup>
+            <Typography>Não possui uma conta? <NavLink to="/signup">Crie uma agora!</NavLink></Typography>
             <div><Button color="primary" variant="contained" endIcon={<Send />}>Login</Button></div>
         </Box>
     )
