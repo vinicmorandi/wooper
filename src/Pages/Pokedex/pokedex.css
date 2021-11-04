@@ -154,3 +154,17 @@
 #pokedex>img{
     margin:auto;
 }
+
+#headerPokedex>*:nth-child(2){
+    margin: 0px auto 30px auto;
+    display:flex;
+    width:90%;
+}
+
+.nomePoke{
+    text-transform: capitalize;
+}
+
+p{
+    margin:10px;
+}

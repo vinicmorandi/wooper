@@ -31,8 +31,8 @@ const Login = () => {
     return (
         <Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }, }} noValidate autoComplete="off">
             <p>Login</p>
-            <TextField id="outlined-basic" label="Email" type='email' variant="outlined" />
-            <TextField id="outlined-basic" label="Senha" type='password' onClick={handleClickShowPassword} variant="outlined" />
+            <TextField label="Email" type='email' variant="outlined" />
+            <TextField label="Senha" type='password' onClick={handleClickShowPassword} variant="outlined" />
             <Typography>Não possui uma conta? <NavLink to="/signup">Crie uma agora!</NavLink></Typography>
             <div><Button color="primary" variant="contained" endIcon={<Send />}>Login</Button></div>
         </Box>
