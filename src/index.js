@@ -1,10 +1,11 @@
 import React from "react"
 import reactDom from "react-dom"
 import Routes from "./Routes/routes"
+import GlobalContext from './Contexts/context'
 
 reactDom.render(
-    //<GlobalContext>
+    <GlobalContext>
         <Routes />,
-    //</GlobalContext>,
+    </GlobalContext>,
     document.getElementById("root")
 );

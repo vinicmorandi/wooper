@@ -7,6 +7,8 @@ import { Typography, CircularProgress, TextField } from "@mui/material";
 // CSS
 import './pokedex.css'
 
+var todosPokemon = []
+
 export default class Pokedex extends React.Component {
     // Define os states
     state = {
@@ -41,13 +43,28 @@ export default class Pokedex extends React.Component {
 
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     async componentDidMount() {
-        var pokemon = [];
-        for (let i = 1; i < 810; i++) {
+        document.title = 'Pokédex | Sussy'
+        for (let i = 1; i < 150; i++) {
             let url = "https://pokeapi.co/api/v2/pokemon/" + i;
             var resposta = await fetch(url);
-            pokemon[i] = await resposta.json();
+            todosPokemon[i] = await resposta.json();
         }
-        this.setState({ pokemon: pokemon, carregando: false })
+        this.setState({ pokemon: todosPokemon, carregando: false })
+    }
+
+    pesquisaPokemon(e){
+        var pokemonArray = [];
+        for (let i = 0; i < todosPokemon.length; i++) {
+            if(todosPokemon[i]){
+                if(todosPokemon[i].species.name.includes(e)){
+                    pokemonArray[i] = todosPokemon[i]
+                }
+            }
+            if(e===''){
+                pokemonArray = todosPokemon
+            }
+        }
+        this.setState({ pokemon: pokemonArray })
     }
 
 
@@ -59,7 +76,7 @@ export default class Pokedex extends React.Component {
                     <>
                         <div id='headerPokedex'>
                             <Typography variant='h2' align='center' gutterBottom={true}>Pokédex</Typography>
-                            <TextField label="Pesquisar" variant='outlined'/>
+                            <TextField label="Pesquisar" variant='outlined' onChange={event => this.pesquisaPokemon(event.target.value)}/>
                         </div>
                         <div id='pokedex'>
                             {this.state.pokemon.map(this.renderPoke)}

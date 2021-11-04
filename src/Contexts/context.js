@@ -1,13 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
-export const Context = createContext("");
+export const Usuario = createContext("");
 
-export default function GlobalContext({ children }) {
+export default function GlobalContext ({ children }){
     return (
-        <Context.Provider
-            value={{ token }}
+        <Usuario.Provider
+            value="sus"
         >
             {children}
-        </Context.Provider>
+        </Usuario.Provider>
     );
 }

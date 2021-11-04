@@ -6,3 +6,20 @@
     margin-bottom:10px !important;
 }
 
+#login{
+    text-align: center;
+	width:30vw;
+	margin:20vh auto
+}
+
+#inputsLogin{
+	display: flex;
+	flex-direction: column;
+	width:100%;
+	justify-content: center;
+}
+
+#botaoLogin{
+	text-align: center;
+	width: 100%;
+}

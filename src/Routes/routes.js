@@ -9,7 +9,8 @@ import { styled } from '@mui/material/styles';
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
 import { IconButton, Drawer, Divider, List, ListItem, ListItemText, ListItemIcon, Tooltip } from "@mui/material";
-import { AccountCircle, Home as HomeIcon, Menu, DeviceHub, ChevronLeft } from "@material-ui/icons";
+import { AccountCircle, Home as HomeIcon, Menu, ChevronLeft, AllOut, ListAlt, Settings, HeadsetMic } from "@material-ui/icons";
+import { AlignHorizontalLeft } from "@mui/icons-material";
 import CatchingPokemonTwoToneIcon from '@mui/icons-material/CatchingPokemonTwoTone';
 
 // Páginas
@@ -122,15 +123,58 @@ export default function Routes() {
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Batalhas">
                                 <ListItemIcon>
                                     <Tooltip title="Batalhas" placement="right-start">
-                                        <DeviceHub />
+                                        <AllOut />
                                     </Tooltip>
                                 </ListItemIcon>
                                 <ListItemText primary="Batalhas" />
                             </ListItem>
                         </div>
+                        <NavLink className='iconesSidebar' to="/ranking">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Pokedex">
+                                <ListItemIcon>
+                                    <Tooltip title="Ranking" placement="right-start">
+                                        <AlignHorizontalLeft />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText primary="Ranking" />
+                            </ListItem>
+                        </NavLink>
                     </List>
                     <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
                     <List>
+                        <NavLink className='iconesSidebar' to="/configuracoes">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                                <ListItemIcon>
+                                    <Tooltip title="Configurações" placement="right-start">
+                                        <Settings />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText primary="Configurações" />
+                            </ListItem>
+                        </NavLink>
+                        <NavLink className='iconesSidebar' to="/contato">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                                <ListItemIcon>
+                                    <Tooltip title="SAC" placement="right-start">
+                                        <HeadsetMic />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText primary="SAC" />
+                            </ListItem>
+                        </NavLink>
+                    </List>
+                    <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
+                    <List>
+                        <NavLink className='iconesSidebar' to="/times">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                                <ListItemIcon>
+                                    <Tooltip title="Times" placement="right-start">
+                                        <ListAlt />
+                                    </Tooltip>
+                                </ListItemIcon>
+                                <ListItemText primary="Times" />
+                            </ListItem>
+                        </NavLink>
                         <NavLink className='iconesSidebar' to="/Login">
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
                                 <ListItemIcon>
