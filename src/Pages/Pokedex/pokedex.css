@@ -5,7 +5,7 @@
     border-radius: 25px;
     margin-bottom: 30px;
     background-position: -25% 35%;
-    filter:drop-shadow(1px 1px 1px black);
+    filter:drop-shadow(1px 1px 5px rgb(187, 185, 185));
     color:white !important;
     font-size:30px;
     font-weight: bold;
@@ -145,8 +145,8 @@
     display: flex !important;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    width:90%;
+    justify-content: space-between;
+    width:85%;
     margin:auto;
 }
 
@@ -157,7 +157,7 @@
 #headerPokedex>*:nth-child(2){
     margin: 0px auto 30px auto;
     display:flex;
-    width:90%;
+    width:85%;
 }
 
 .nomePoke{
