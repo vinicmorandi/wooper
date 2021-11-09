@@ -18,6 +18,8 @@ import Home from "../Pages/Home"
 import Login from "../Pages/Login"
 import Pokedex from '../Pages/Pokedex'
 import Signup from '../Pages/Signup'
+import Ranking from '../Pages/Ranking'
+import Batalha from '../Pages/Batalhas'
 
 // CSS
 import "./navbar.css"
@@ -195,6 +197,12 @@ export default function Routes() {
                         </Route>
                         <Route path='/login'>
                             <Login></Login>
+                        </Route>
+                        <Route path='/ranking'>
+                            <Ranking></Ranking>
+                        </Route>
+                        <Route path='/batalha'>
+                            <Batalha></Batalha>
                         </Route>
                         <Route path='/pokedex'>
                             <Pokedex></Pokedex>

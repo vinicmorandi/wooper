@@ -1,1 +1,119 @@
-import React from 'React';
+#batalhaMaster{
+    max-width: 70vw;
+    margin:auto;
+}
+
+#telaBatalha{
+    height:700px;
+    box-shadow: 0px 0px 2px black;
+    margin-bottom:10px;
+    padding:10px;
+}
+
+#ataquesBTL{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ATK{
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position-y: 38%;
+    background-position-x: -40px;
+    width: 24%;
+    height:75px;
+    color:white !important;
+    font-size:25px !important;
+    text-shadow: 1px 1px 1px black;
+}
+
+.normal{
+    background-image:url(https://i.imgur.com/Q9AZAUE.jpeg);
+    background-color:#acb1b0 !important;
+}
+/*Lutador*/
+.fighting{
+    background-image:url(https://i.imgur.com/E9rvCDD.jpeg);
+    background-color:#f2798a !important;
+}
+/*Voador*/
+.flying{
+    background-image:url(https://i.imgur.com/Nc54VQe.jpeg);
+    background-color:#b5cced !important;
+}
+/*Venenoso*/
+.poison{
+    background-image:url(https://i.imgur.com/1JzifyU.jpeg);
+    background-color:#d78ada !important;
+}
+/*Terra*/
+.ground{
+    background-image:url(https://i.imgur.com/KfGtoFj.jpeg);
+    background-color:#eda881 !important;
+}
+/*Pedra*/
+.rock{
+    background-image:url(https://i.imgur.com/LneeZPw.jpeg);
+    background-color:#cdba8f !important;
+}
+/*Inseto*/
+.bug{
+    background-image:url(https://i.pinimg.com/564x/44/e2/0d/44e20d09b7092e7247ec81d51af8a696.jpg);
+    background-color:#a5cc55 !important;
+}
+/*Fantasma*/
+.ghost{
+    background-image:url(https://i.imgur.com/sF6RSGd.jpeg);
+    background-color:#8191cb !important;
+}
+/*Aço*/
+.steel{
+    background-image:url(https://i.imgur.com/SeSjqoj.jpeg);
+    background-color:#41a7ac !important;
+}
+/*Fogo*/
+.fire{
+    background-image:url(https://i.imgur.com/g0GOMzQ.jpeg);
+    background-color:#fcaf5f !important;
+}
+/*Água*/
+.water{
+    background-image:url(https://i.imgur.com/DYmXpf7.jpeg);
+    background-color:#4aadcc !important;
+}
+/*Grama*/
+.grass{
+    background-image:url(https://i.imgur.com/NCKpNaF.jpeg);
+    background-color:#4cc987 !important;
+}
+/*Elétrico*/
+.electric{
+    background-image:url(https://i.imgur.com/uFL3HJU.jpeg);
+    background-color:#f0d465 !important;
+}
+/*Psíquico*/
+.psychic{
+    background-image:url(https://i.imgur.com/QKp8ePf.jpeg);
+    background-color:#fca2a1 !important;
+}
+/*Gelo*/
+.ice{
+    background-image:url(https://i.imgur.com/f8sP7Sh.jpeg);
+    background-color:#6ce4da !important;
+}
+/*Dragão*/
+.dragon{
+    background-image:url(https://i.imgur.com/4dQdxyN.jpeg);
+    background-color:#4586b0 !important;
+}
+/*Dark*/
+.dark{
+    background-image:url(https://i.imgur.com/sWqq3cO.jpeg);
+    background-color:#717171 !important;
+}
+/*Fada*/
+.fairy{
+    background-color: #fabcec !important;
+    background-image:url(https://i.imgur.com/9JreAr0.jpeg);
+}
