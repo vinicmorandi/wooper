@@ -1,25 +1,37 @@
 // React
 import React, { useEffect, useState, initialState } from "react";
 
+// Material UI
+import { LinearProgress, Typography, Button } from "@mui/material";
+
 // CSS
 import './batalhas.css'
-import Button from '@mui/material/Button'
-import { LinearProgress, Typography } from "@mui/material";
+
+//// IMPORTANTE ////
+
+// Praticamente tudo que tá aqui é inútil por enquanto
+// Não vale nem a pena olhar
+// Funções, CSS, etc.
+// Eu vou refazer tudo quando integrar o socket e uma api decente
+// Só fiz isso pq não tinha mais nada pra fazer durante a aula
 
 const Batalha = () => {
-    const [pokemon, setpokemon, currentPokemon, setCurrentPokemon, data, setData] = useState(initialState)
+    // Seta os states - só vou começar a usar isso quando integrar o socket.io
+    const [pokemon, setpokemon] = useState(initialState)
+    // const [currentPokemon, setCurrentPokemon, data, setData] = useState(initialState)
 
     useEffect(() => {
         document.title = 'Batalha | Sussy'
-        carregaDadosSocket()
+        // carregaDadosSocket()
         importaPokemon()
     })
 
-    const carregaDadosSocket = async () => {
-        var result = await fetch("../../api/index.js")
-        var res = result.json()
-        console.log(res)
-    }
+    // Função de teste
+    // const carregaDadosSocket = async () => {
+    //     var result = await fetch("../../api/index.js")
+    //     var res = result.json()
+    //     console.log(res)
+    // }
 
     const importaPokemon = async () => {
         // Variáveis
@@ -60,15 +72,15 @@ const Batalha = () => {
 
     return (
         <div id='batalhaMaster'>
-            <div>
+            {/* <div>
                 {(data) ? data : "AAAA"}
-            </div>
+            </div> */}
             <div id='telaBatalha'>
                 <div id='self'>
                     <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
                     <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
                     <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
-                    <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" :""}></img></div>
+                    <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" : ""}></img></div>
                 </div>
                 <div id='enemy'>
 

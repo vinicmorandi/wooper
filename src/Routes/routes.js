@@ -10,8 +10,7 @@ import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
 import { IconButton, Drawer, Divider, List, ListItem, ListItemText, ListItemIcon, Tooltip } from "@mui/material";
 import { AccountCircle, Home as HomeIcon, Menu, ChevronLeft, AllOut, ListAlt, Settings, HeadsetMic } from "@material-ui/icons";
-import { AlignHorizontalLeft } from "@mui/icons-material";
-import CatchingPokemonTwoToneIcon from '@mui/icons-material/CatchingPokemonTwoTone';
+import { AlignHorizontalLeft, CatchingPokemonTwoTone } from "@mui/icons-material";
 
 // Páginas
 import Home from "../Pages/Home"
@@ -56,7 +55,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
@@ -115,7 +113,7 @@ export default function Routes() {
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Pokedex">
                                 <ListItemIcon>
                                     <Tooltip title="Pokédex" placement="right-start">
-                                        <CatchingPokemonTwoToneIcon />
+                                        <CatchingPokemonTwoTone />
                                     </Tooltip>
                                 </ListItemIcon>
                                 <ListItemText primary="Pokédex" />

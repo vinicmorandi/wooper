@@ -2,45 +2,40 @@
 import React, { useEffect } from "react";
 
 // Material UI
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper } from '@mui/material/';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Typography } from '@mui/material';
 
 // CSS
 import "./ranking.css"
-import { Typography } from "@material-ui/core";
 
 const Ranking = () => {
+    // Define estados para a paginação
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    // Muda a página
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
+    // Quantidade de usuários por página
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
-    // const rows = pegaInfoUsuarios();
-
-    // Pega todos os usuários e retorna os 100 usuários com o maior elo
-    // pegaInfoUsuarios = () => {
-    //     var usuarios = fetch('aaaa');
-    //     var retorno = [];
-    //     for(let i = 0; i<10; i++){
-    //         retorno[i] = usuarios[i];
-    //     }
-    //     return retorno;
-    // }
-
+    // Título
     useEffect(() => {
         document.title = 'Ranking | Sussy'
     })
 
+    // const rows = pegaInfoUsuarios()
+
+    // Placeholders
     function createData(usuario, elo, vitorias, derrotas) {
         return { usuario, elo, vitorias, derrotas };
     }
 
+    // Placeholders
     const rows = [
         createData('India', 'IN', 1324171354, 3287263),
         createData('China', 'CN', 1403500365, 9596961),
