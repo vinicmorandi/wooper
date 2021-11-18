@@ -85,6 +85,12 @@ export default function Routes() {
         setOpen(!open);
     };
 
+    const [token,setToken] = React.useState()
+
+    if(!token){
+        return(<Login setToken={setToken}></Login>)
+    }
+
     return (
         <Router>
             {/* Sidebar */}

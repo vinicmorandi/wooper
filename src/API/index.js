@@ -1,22 +1,67 @@
-//Setup do Express
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const PORT = 3001;
+const { ApolloServer } = require('apollo-server');
 
-//Setup do Socket.IO
-const { Server } = require("socket.io");
-const io = new Server(server);
+// Tipos
+const typeDefs = `
+  type Query {
+    info: String!
+  }
+`
 
-app.get('/api', (req, res) => {
-    res.json({ message: "Hello from server!" });
-});
+// Resolvers
+const resolvers = {
+    Query: {
+        info: () => `This is the API of a Hackernews Clone`
+    }
+}
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-});
+// Servidor
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+})
 
-server.listen(PORT, () => {
-    console.log('listening on *:3001');
-});
+server
+    .listen()
+    .then(({ url }) =>
+        console.log(`Server is running on ${url}`)
+    );
+
+
+
+// var app = require('express')();
+// var http = require('http').createServer(app);
+// var crypto = require('crypto')
+// const cors = require('cors')
+// const PORT = 3001;
+
+// app.use(cors())
+
+// const io = require("socket.io")(http, {
+//     cors: {
+//         origin: "https://localhost:3000",
+//         methods: ["GET", "POST"]
+//     }
+// });
+
+// app.use('/login', (req, res) => {
+//     var email = req.params.email
+//     var senha = req.params.senha
+
+//     var token = crypto.randomBytes(64).toString('hex');
+//     res.send({
+//         token: token
+//     });
+// });
+
+// http.listen(PORT, () => {
+//     console.log(`listening on *:${PORT}`);
+// });
+
+// io.on('connection', (socket) => {
+//     const username = "Sussy Baka"
+//     socket.emit('connection', username);
+// });
+
+// io.on('disconnect', () => {
+//     socket.removeAllListeners();
+// });
