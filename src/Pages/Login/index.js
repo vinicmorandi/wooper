@@ -1,6 +1,5 @@
 // React
 import React, { useEffect, useState } from "react";
-import { PropTypes } from "prop-types";
 
 // Material UI
 import { Box } from "@mui/system";
@@ -10,26 +9,32 @@ import { Send } from "@mui/icons-material";
 // CSS
 import "./login.css"
 
+// Apollo Client
+import { useQuery, gql } from '@apollo/client';
+
+const usuarios_query = gql`
+    query usuariosEmail ($email: String!, $senha: String!){
+        usuariosEmail (email: $email, senha: $senha) {
+            id
+            nome
+        }
+    }
+`;
+
+//Login
 const Login = ({ setToken }) => {
     const [email,setEmail] = useState()
     const [senha,setSenha] = useState()
-
-    const login = (credentials) => {
-        return fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials)
-        })
-            .then(data => data.json())
-    }
+    var usuarios = useQuery(usuarios_query,{variables:{email,senha}})
 
     const handleLogin = async e => {
         e.preventDefault()
-        const token = await login({email,senha})
-        setToken(token)
-        sessionStorage.setItem('token', JSON.stringify(token));
+        if(usuarios.data.usuariosEmail[0].id){
+            const token = usuarios.data.usuariosEmail[0].id
+            setToken(token)
+            console.log(token)
+            sessionStorage.setItem('token', JSON.stringify(token));
+        }
     }
 
     useEffect(() => {
