@@ -1,7 +1,7 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Usuarios extends Model {
-        // Isso aqui a gente vê dps
+        // 
     }
     Usuarios.init(
         {
@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
             // Opções
             sequelize,
             modelName: 'Usuarios',
-            tableName: 'usuarios'
+            tableName: 'usuarios',
+            timestamps: false
         },
     );
     return Usuarios;

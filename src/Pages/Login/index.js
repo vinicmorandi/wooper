@@ -12,6 +12,7 @@ import "./login.css"
 // Apollo Client
 import { useQuery, gql } from '@apollo/client';
 
+// Query
 const usuarios_query = gql`
     query usuariosEmail ($email: String!, $senha: String!){
         usuariosEmail (email: $email, senha: $senha) {
@@ -23,20 +24,26 @@ const usuarios_query = gql`
 
 //Login
 const Login = ({ setToken }) => {
-    const [email,setEmail] = useState()
-    const [senha,setSenha] = useState()
-    var usuarios = useQuery(usuarios_query,{variables:{email,senha}})
+    // Define os estados
+    const [email, setEmail] = useState()
+    const [senha, setSenha] = useState()
+    const { error, data } = useQuery(usuarios_query, { variables: { email, senha } })
 
+    // Função chamada para cuidar do login
     const handleLogin = async e => {
         e.preventDefault()
-        if(usuarios.data.usuariosEmail[0].id){
-            const token = usuarios.data.usuariosEmail[0].id
-            setToken(token)
-            console.log(token)
-            sessionStorage.setItem('token', JSON.stringify(token));
+        if(!error){
+            console.log(data)
+            if (data.usuariosEmail[0]) {
+                const token = data.usuariosEmail[0].nome
+                setToken(token)
+                console.log(token)
+                sessionStorage.setItem('token', JSON.stringify(token));
+            }
         }
     }
 
+    // Definindo o título
     useEffect(() => {
         document.title = 'Login | Sussy'
     })

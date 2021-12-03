@@ -17,6 +17,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "apollo-client": "^2.6.10",
+    "apollo-link-error": "^1.1.13",
     "apollo-server": "^2.25.3",
     "axios": "^0.24.0",
     "cors": "^2.8.5",

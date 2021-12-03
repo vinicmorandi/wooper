@@ -1,14 +1,20 @@
+// ESM
 require = require('esm')(module)
+
+// Express
 const express = require('express')
 const { createServer } = require('http')
-const { ApolloServer, gql } = require('apollo-server-express')
-const cors = require('cors')
-const db = require('./models')
 const app = express()
-var crypto = require('crypto')
 
+// Apollo
+const { ApolloServer, gql } = require('apollo-server-express')
+
+// Cors
+const cors = require('cors')
 app.use(cors())
 
+// Modelos
+const db = require('./models')
 
 // Schema
 const typedefs = gql`
@@ -32,21 +38,27 @@ const typedefs = gql`
 
 // Resolvers
 const resolvers = {
+    // Queries
     Query: {
-        usuarios: async(root,args,{db},info) => {
+        // Pega todos os usuários
+        usuarios: async (root, args, { db }, info) => {
             const users = await db.Usuarios.findAll()
             return users
         },
-        usuariosEmail: async(root,args,{db},info) => {
+        // Pega o usuário que tiver o email e a senha que forem passados
+        usuariosEmail: async (root, args, { db }, info) => {
             const users = await db.Usuarios.findAll({
-                where:{
+                where: {
                     email: args.email,
                     senha: args.senha
                 }
+            }).catch((err)=>{
+                var msgErro = "Erro! " + err
             })
-            return users
+            return (users) ? users : msgErro
         }
     },
+    // Define o modelo do usuário
     Usuario: {
         id: (parent) => parent.id,
         nome: (parent) => parent.nome,
@@ -64,8 +76,8 @@ const apolloServer = new ApolloServer({
     playground: true,
     typeDefs: typedefs,
     resolvers: resolvers,
-    context: async ({req, res, connection}) => {
-        return{
+    context: async ({ req, res, connection }) => {
+        return {
             db
         }
     }
@@ -73,10 +85,12 @@ const apolloServer = new ApolloServer({
 apolloServer.applyMiddleware({ app, path: '/api' })
 const server = createServer(app)
 
-db.sequelize.sync({force:false}).then(async()=>{
+// Sincroniza o banco de dados (cria uma tabela de usuários caso ela não exista)
+db.sequelize.sync({ force: false }).then(async () => {
     console.log('Banco Sincronizado!')
 })
 
+// Conexão com o socketIO
 const io = require("socket.io")(server, {
     cors: {
         origin: "https://localhost:3000",
@@ -84,26 +98,18 @@ const io = require("socket.io")(server, {
     }
 });
 
-app.use('/login', (req, res) => {
-    var email = req.params.email
-    var senha = req.params.senha
-
-    var token = crypto.randomBytes(64).toString('hex');
-    res.send({
-        token: token
-    });
-});
-
+// Evento chamado quando o usuário conecta com o socketIO
 io.on('connection', (socket) => {
     const username = "Sussy Baka"
     socket.emit('connection', username);
 });
 
+// Evento chamado quando o usuário desconecta do socketIO
 io.on('disconnect', () => {
     socket.removeAllListeners();
 });
 
-
+// Aviso quando o servidor for iniciado
 server.listen(3001, () => console.log(
-    `Deu bom.`,
+    `Servidor Funcionando!`,
 ));

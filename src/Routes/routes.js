@@ -85,10 +85,13 @@ export default function Routes() {
         setOpen(!open);
     };
 
-    const [token,setToken] = React.useState()
+    // Seta o state do usuário
+    const [token, setToken] = React.useState(false)
 
-    if(!token){
-        return(<Login setToken={setToken}></Login>)
+
+    // Se o usuário estiver logado, vai aparecer a página normal, senão, vai aparecer a tela de login
+    if (token === false) {
+        return (<Login setToken={setToken}></Login>)
     }
 
     return (
@@ -149,7 +152,7 @@ export default function Routes() {
                     <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
                     <List>
                         <NavLink className='iconesSidebar' to="/configuracoes">
-                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Configuracoes">
                                 <ListItemIcon>
                                     <Tooltip title="Configurações" placement="right-start">
                                         <Settings />
@@ -159,7 +162,7 @@ export default function Routes() {
                             </ListItem>
                         </NavLink>
                         <NavLink className='iconesSidebar' to="/contato">
-                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Contato">
                                 <ListItemIcon>
                                     <Tooltip title="SAC" placement="right-start">
                                         <HeadsetMic />
@@ -172,7 +175,7 @@ export default function Routes() {
                     <Divider sx={{ 'borderColor': "rgba(255, 255, 255, 0.3)" }} />
                     <List>
                         <NavLink className='iconesSidebar' to="/times">
-                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
+                            <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Times">
                                 <ListItemIcon>
                                     <Tooltip title="Times" placement="right-start">
                                         <ListAlt />
@@ -181,14 +184,15 @@ export default function Routes() {
                                 <ListItemText primary="Times" />
                             </ListItem>
                         </NavLink>
+                        {/* Se o usuário estiver logado, vai aparecer o nome dele, senão, vai aparecer "Login" */}
                         <NavLink className='iconesSidebar' to="/Login">
                             <ListItem button className={open === true ? "a" : "iconesSidebarAtivos"} key="Login">
                                 <ListItemIcon>
-                                    <Tooltip title="Login" placement="right-start">
+                                    <Tooltip title={(sessionStorage.token) ? sessionStorage.token : "Login"} placement="right-start">
                                         <AccountCircle />
                                     </Tooltip>
                                 </ListItemIcon>
-                                <ListItemText primary="Login" />
+                                <ListItemText primary={(sessionStorage.token) ? sessionStorage.token : "Login"} />
                             </ListItem>
                         </NavLink>
                     </List>
