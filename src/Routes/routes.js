@@ -19,6 +19,7 @@ import Pokedex from '../Pages/Pokedex'
 import Signup from '../Pages/Signup'
 import Ranking from '../Pages/Ranking'
 import Batalha from '../Pages/Batalhas'
+import Times from '../Pages/Times'
 
 // CSS
 import "./navbar.css"
@@ -214,6 +215,9 @@ export default function Routes() {
                         </Route>
                         <Route path='/pokedex'>
                             <Pokedex></Pokedex>
+                        </Route>
+                        <Route path='/times'>
+                            <Times></Times>
                         </Route>
                         <Route path='/'>
                             <Home></Home>
