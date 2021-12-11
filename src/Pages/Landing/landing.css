@@ -46,10 +46,7 @@ a:active {
     display: flex;
     justify-content: space-between;
     height:100vh;
-}
-
-main{
-    padding: 20px 40px 0px
+    padding: 20px 40px 0px;
 }
 
 #leftMain{
@@ -88,7 +85,7 @@ main{
     display: block;
     height: 2px;
     left: 50%;
-    top:20px;
+    top:33px;
     position: absolute;
     background: #1976d2;
     transition: width 0.3s ease 0s, left 0.3s ease 0s;

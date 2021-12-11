@@ -7,7 +7,8 @@ import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-do
 // Material UI
 import { Box } from "@mui/system";
 import { CssBaseline } from "@material-ui/core";
-import { Button } from "@mui/material";
+import { Button, Menu, MenuItem, Divider } from "@mui/material";
+import { KeyboardArrowDown, Logout, CatchingPokemon, Settings } from "@mui/icons-material";
 
 // Páginas
 import Landing from "../Pages/Landing"
@@ -21,8 +22,22 @@ import Times from '../Pages/Times'
 // CSS
 import "./navbar.css"
 
-// Exportando a Sidebar
 export default function Routes() {
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        if(localStorage.getItem('token')){ 
+            setAnchorEl(event.currentTarget);
+        }
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const logout = () => {
+        localStorage.removeItem('token');
+        handleClose()
+    }
 
     return (
         <Router>
@@ -38,9 +53,15 @@ export default function Routes() {
                         <p className='optLanding'><NavLink to='/'>Baka</NavLink></p>
                     </div>
                     <div id='rightLanding'>
-                        <p id='botaoMain'>
-                            {(localStorage.getItem('token')) ? localStorage.getItem('token').replace(/"/g,'').toUpperCase() : <NavLink to='/login'><Button size="large" variant="outlined">Entrar</Button></NavLink>}
+                        <p id='botaoMain' onClick={handleClick}>
+                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <NavLink to='/login'><Button size="large" variant="outlined">Entrar</Button></NavLink>}
                         </p>
+                        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
+                            <MenuItem onClick={handleClose}><CatchingPokemon sx={{marginRight:'10px'}}/> <NavLink to='/times'>Meu Time</NavLink></MenuItem>
+                            <MenuItem onClick={handleClose}><Settings sx={{marginRight:'10px'}}/> Configurações</MenuItem>
+                            <Divider />
+                            <MenuItem onClick={logout}><Logout sx={{marginRight:'10px'}}/> Sair</MenuItem>
+                        </Menu>
                     </div>
                 </header>
                 <Box component="main">

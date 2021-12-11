@@ -146,8 +146,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    width:85%;
-    margin:auto;
+    width:80%;
+    margin:60px auto;
 }
 
 #pokedex>img{
@@ -157,7 +157,11 @@
 #headerPokedex>*:nth-child(2){
     margin: 0px auto 30px auto;
     display:flex;
-    width:85%;
+    width:80%;
+}
+
+#headerPokedex{
+    margin-top:60px;
 }
 
 .nomePoke{

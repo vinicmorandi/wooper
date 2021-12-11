@@ -29,50 +29,6 @@ body{
     margin-bottom:5px;
 }
 
-
-.principal{
-    padding:10px;
-}
-
-.desativado{
-    display: none;
-}
-
 a{
     text-decoration: none;
-}
-
-.ativo{
-    text-decoration: none;
-    color:white !important;
-}
-
-.iconesSidebar *{
-    color: #FFF;
-}
-
-.iconesSidebarAtivos{
-    padding-left: 33% !important;
-}
-
-#iconeMenu{
-    justify-content: center;
-    color:#FFF;
-}
-
-#iconeMenu *{
-    color:#FFF;
-}
-
-.drawer>*{
-    background-color: #333 !important;
-}
-
-.titulo{
-    font-size:40px;
-    margin:0px;
-}
-
-.ativo{
-    display:inline;
 }

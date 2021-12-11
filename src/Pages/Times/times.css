@@ -1,0 +1,21 @@
+#pokedexTimes{
+    max-width: 80%;
+    margin: auto;
+}
+
+.accordionPokemon{
+    box-shadow: 0px 0px 1px #CCC;
+    margin:25px;
+    line-height:85px;
+}
+
+.accordionPokemon .tipo{
+    height:40px !important;
+    width:50px !important;
+}
+
+.pokemonDesc{
+    width: 60%;
+    display: flex;
+    justify-content: space-evenly;
+}

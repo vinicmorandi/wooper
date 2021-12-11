@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 
 // Material UI
-import { Typography, CircularProgress, TextField, Fab } from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
+import { Typography, CircularProgress, TextField, Fab, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Add, Remove, ExpandMore } from "@mui/icons-material";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
 // CSS
@@ -22,21 +22,21 @@ const Times = () => {
     const { enqueueSnackbar } = useSnackbar();
     const handleClick = (nome) => {
         console.log(time)
-        if(time.length<6){
+        if (time.length < 6) {
             if (time.includes(nome)) {
                 timeArray = time.filter((value, index, arr) => { return value !== nome })
                 setTime(timeArray)
                 setOperacao("rem")
-                enqueueSnackbar("Pokémon Removido!", {'variant':'error', 'autoHideDuration':1000})
+                enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 10 })
             } else {
                 timeArray.push(nome)
                 setTime(timeArray)
                 setOperacao("add")
-                enqueueSnackbar("Pokémon Adicionado!", {'variant':'success', 'autoHideDuration':1000})
+                enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 10 })
             }
         }
-        else{
-            enqueueSnackbar("Limite de Pokémons Atingido!", {'variant':'warning', 'autoHideDuration':1000})
+        else {
+            enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 10 })
         }
     }
 
@@ -47,25 +47,28 @@ const Times = () => {
     // Renderiza os Pokemon Individualmente
     const renderPoke = (poke) => {
         return (
-            // Retorna uma div com a classe do primeiro elemento do pokemon, pra mudar o background
-            <div className={"pokemon " + poke.types[0].type.name} key={poke.id}>
-                <div>
-                    {/* Id e Nome do pokemon */}
-                    <p>#{poke.id}</p>
-                    <p className='nomePoke'>{poke.species.name}</p>
-
-                    {/* Elementos */}
-                    <p>
-                        <img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[0].type.name + ".svg"}></img>
-                        {/* Se o segundo elemento existir, ele também vai ser exibido */}
-                        {(poke.types[1]) ? (<img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[1].type.name + ".svg"}></img>) : ""}
-                        <Fab onClick={() => handleClick(poke.species.name)} size="small" aria-label="add">
-                            {(timeArray.includes(poke.species.name)) ? <Remove /> : <Add />}
-                        </Fab>
-                    </p>
-                </div>
-                {/* Imagem do pokemon */}
-                <div><img loading='lazy' alt={poke.species.name} src={"./Assets/Images/pokemons/" + poke.id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + poke.species.name + ".png"}></img></div>
+            <div key={poke.id}>
+                <Accordion className='accordionPokemon'>
+                    <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+                        <div className='pokemonDesc'>
+                            <div>#{poke.id}</div> 
+                            |
+                            <div><img height='30px' loading='lazy' alt={poke.species.name} src={"./Assets/Images/pokemons/" + poke.id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + poke.species.name + ".png"}></img></div>
+                            |
+                            <div>{poke.species.name}</div>
+                            |
+                            <div><img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[0].type.name + ".svg"}></img></div>
+                            |
+                            {(poke.types[1]) ? (<div><img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[1].type.name + ".svg"}></img></div>) : ""}
+                        </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                            malesuada lacus ex, sit amet blandit leo lobortis eget.
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
             </div>
         )
     }
@@ -114,7 +117,7 @@ const Times = () => {
                     <Typography variant='h2' align='center' gutterBottom={true}>Pokédex</Typography>
                     <TextField label="Pesquisar" variant='outlined' onChange={event => pesquisaPokemon(event.target.value)} />
                 </div>
-                <div id='pokedex'>
+                <div id='pokedexTimes'>
                     {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
                     {(pokemon) ? pokemon.map(renderPoke) : (<CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='100px' color='inherit' />)}
                 </div>
