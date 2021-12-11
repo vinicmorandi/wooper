@@ -12,7 +12,7 @@ import "./signup.css"
 const Login = () => {
 
     useEffect(()=>{
-        document.title = 'Cadastro | Sussy'
+        document.title = 'Cadastro | Wooper'
     })
 
     return (

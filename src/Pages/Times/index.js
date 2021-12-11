@@ -72,7 +72,7 @@ const Times = () => {
 
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     useEffect(() => {
-        document.title = 'Pokédex | Sussy'
+        document.title = 'Pokédex | Wooper'
         if (pokemon === "") {
             carregaPokemon()
         }

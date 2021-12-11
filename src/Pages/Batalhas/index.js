@@ -26,7 +26,7 @@ const Batalha = () => {
     const [user, setUser] = useState(initialState)
 
     useEffect(() => {
-        document.title = 'Batalha | Sussy'
+        document.title = 'Batalha | Wooper'
         importaPokemon()
     })
 

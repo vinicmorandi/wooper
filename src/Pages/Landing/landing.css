@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+header{
+    height:40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 40px;
+    line-height: 40px;
+}
+
+#leftLanding{
+    display: flex;
+    font-size:20px;
+    font-weight: 300;
+}
+
+#leftLanding img{
+    margin-top:15px;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+  
+a:active {
+    color: black;
+}
+
+#tituloLanding{
+    font-size:30px;
+    font-weight: 700;
+    color:#1976d2 !important;
+}
+
+#main{
+    display: flex;
+    justify-content: space-between;
+    height:100vh;
+}
+
+main{
+    padding: 20px 40px 0px
+}
+
+#leftMain{
+    width:50%;
+    margin-top:13%;
+}
+
+#tituloMain{
+    font-size:50px;
+}
+
+#textoMain{
+    font-weight: 300;
+    font-size:30px;
+}
+
+#rightMain{
+    width:50%;
+    text-align: center;
+}
+
+#rightMain img{
+    width:700px;
+    margin-top:7.5%
+}
+
+.optLanding{
+    position: relative;
+    background-color: red;
+}
+
+.optLanding:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    top:20px;
+    position: absolute;
+    background: #1976d2;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+
+.optLanding:hover:after { 
+    width: 100%; 
+    left: 0; 
+}
+
+.divCards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#headerHome{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.cardHome{
+    width:438px;
+    height:284px;
+    box-shadow: 0px 0px 2px #1976d2;
+    margin:20px;
+    padding:30px;
+    border-radius: 33px;
+}
+
+.cardTop{
+
+}
+
+.cardImg{
+
+}
+
+.imgCard{
+    
+}
+
+.cardTitle{
+    font-size:30px
+}
+
+.cardContent{
+
+}
+
+.cardText{
+    font-size:20px;
+}
+
+.cardButton{
+    margin-top:15px;
+    text-align: right;
+}
+
+#scrollCards{
+    min-height:100vh;
+    padding: 50px 30px 30px;
+}
+
+#imgCopyright{
+    height:500px;
+    margin-right: 30px;
+}
+
+#contato{
+    text-align: center;
+}
+
+#contentContato{
+    display: flex;
+    justify-content: space-between;
+    margin-top:50px
+}
+
+#scrollContato{
+    padding:5% 23% 10%;
+}
+
+#rightContato div{
+    margin-bottom:50px;
+}

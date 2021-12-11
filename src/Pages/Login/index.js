@@ -23,7 +23,7 @@ const usuarios_query = gql`
 `;
 
 //Login
-const Login = ({ setToken }) => {
+const Login = () => {
     // Define os estados
     const [email, setEmail] = useState()
     const [senha, setSenha] = useState()
@@ -35,17 +35,16 @@ const Login = ({ setToken }) => {
         if(!error){
             console.log(data)
             if (data.usuariosEmail[0]) {
-                const token = data.usuariosEmail[0].nome
-                setToken(token)
-                console.log(token)
-                sessionStorage.setItem('token', JSON.stringify(token));
+                const tokenC = data.usuariosEmail[0].nome
+                localStorage.setItem('token', JSON.stringify(tokenC));
+                window.location.href = "/home"
             }
         }
     }
 
     // Definindo o título
     useEffect(() => {
-        document.title = 'Login | Sussy'
+        document.title = 'Login | Wooper'
     })
 
     return (

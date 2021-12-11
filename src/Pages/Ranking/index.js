@@ -25,7 +25,7 @@ const Ranking = () => {
 
     // Título
     useEffect(() => {
-        document.title = 'Ranking | Sussy'
+        document.title = 'Ranking | Wooper'
     })
 
     // const rows = pegaInfoUsuarios()
