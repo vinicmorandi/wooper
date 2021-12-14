@@ -1,3 +1,7 @@
+## Sobre o Wooper (WIP)
+
+O Wooper é um Simulador de Batalhas Pokémon baseado em ReactJS, NodeJS, e SocketIO. 
+
 ## Para iniciar o projeto
 
 Crie, em seu banco de dados, uma database chamada `pokemon`
