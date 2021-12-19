@@ -34,6 +34,11 @@ const typedefs = gql`
         usuarios: [Usuario!],
         usuariosEmail(email:String!, senha:String!): [Usuario]
     }
+
+    type Mutation {
+        criarUsuario(nome:String!, email:String!, senha: String!):[Usuario],
+        loginUsu(email:String!, senha:String!): [Usuario]
+    }
 `
 
 // Resolvers
@@ -52,7 +57,26 @@ const resolvers = {
                     email: args.email,
                     senha: args.senha
                 }
-            }).catch((err)=>{
+            }).catch((err) => {
+                var msgErro = "Erro! " + err
+            })
+            return (users) ? users : msgErro
+        }
+    },
+    Mutation: {
+        criarUsuario: async (root, args, { db }, info) => {
+            console.log('a')
+            if (args.nome != '' && args.email != '' && args.senha != '') {
+                db.Usuarios.create({ nome: args.nome, email: args.email, senha: args.senha, times: '', recorde: '0/0', elo: '1000', tipo: 1 })
+            }
+        },
+        loginUsu: async (root, args, { db }, info) => {
+            const users = await db.Usuarios.findAll({
+                where: {
+                    email: args.email,
+                    senha: args.senha
+                }
+            }).catch((err) => {
                 var msgErro = "Erro! " + err
             })
             return (users) ? users : msgErro

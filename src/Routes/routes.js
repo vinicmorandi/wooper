@@ -57,7 +57,7 @@ export default function Routes() {
                     </div>
                     <div id='rightLanding'>
                         <p id='botaoMain' onClick={handleClick}>
-                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink>}
+                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <><NavLink to='/signup'><Button size="large" variant="outlined" sx={{marginRight: '10px'}}>Cadastro</Button></NavLink><NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink></>}
                         </p>
                         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
                             <MenuItem onClick={handleClose}><CatchingPokemon sx={{marginRight:'10px'}}/> <NavLink to='/times'>Meu Time</NavLink></MenuItem>

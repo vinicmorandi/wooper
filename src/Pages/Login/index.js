@@ -10,35 +10,34 @@ import { Send } from "@mui/icons-material";
 import "./login.css"
 
 // Apollo Client
-import { useQuery, gql } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 
 // Query
 const usuarios_query = gql`
-    query usuariosEmail ($email: String!, $senha: String!){
-        usuariosEmail (email: $email, senha: $senha) {
-            id
+    mutation LoginUsu ($email : String!, $senha: String!){
+        loginUsu(email:$email,senha:$senha){
+            id,
             nome
         }
     }
-`;
+    `;
 
 //Login
 const Login = () => {
     // Define os estados
     const [email, setEmail] = useState()
     const [senha, setSenha] = useState()
-    const { error, data } = useQuery(usuarios_query, { variables: { email, senha } })
+    const [loginGQL, { error, data }] = useMutation(usuarios_query)
 
     // Função chamada para cuidar do login
     const handleLogin = async e => {
         e.preventDefault()
-        if(!error){
-            console.log(data)
-            if (data.usuariosEmail[0]) {
-                const tokenC = data.usuariosEmail[0].nome
-                localStorage.setItem('token', JSON.stringify(tokenC));
-                window.location.href = "/home"
-            }
+        var a = await loginGQL({variables: {email: email, senha: senha }})
+        if (a.data.loginUsu[0]) {
+            console.log(a.data.loginUsu[0])
+            const tokenC = a.data.loginUsu[0].nome
+            localStorage.setItem('token', JSON.stringify(tokenC));
+            window.location.href = "/home"
         }
     }
 
