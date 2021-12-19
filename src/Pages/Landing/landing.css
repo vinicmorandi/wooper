@@ -51,7 +51,7 @@ a:active {
 
 #leftMain{
     width:50%;
-    margin-top:13%;
+    margin-top:10%;
 }
 
 #tituloMain{
@@ -61,6 +61,7 @@ a:active {
 #textoMain{
     font-weight: 300;
     font-size:30px;
+    margin-bottom:30px;
 }
 
 #rightMain{
@@ -75,7 +76,6 @@ a:active {
 
 .optLanding{
     position: relative;
-    background-color: red;
 }
 
 .optLanding:after {    
@@ -95,6 +95,26 @@ a:active {
 .optLanding:hover:after { 
     width: 100%; 
     left: 0; 
+}
+
+.destaque{
+    color: #1976d2;
+}
+
+.ativo{
+    position: relative;
+}
+
+.ativo:after {    
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 0;
+    top:33px;
+    position: absolute;
+    background: none repeat scroll 0 0 #1976d2;
+    width: 100%;
 }
 
 .divCards{
@@ -160,8 +180,8 @@ a:active {
 }
 
 #imgCopyright{
-    height:500px;
-    margin-right: 30px;
+    height:350px;
+    margin-right: 70px;
 }
 
 #contato{

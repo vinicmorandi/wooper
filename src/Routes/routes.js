@@ -25,8 +25,10 @@ import "./navbar.css"
 export default function Routes() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [abaAtiva, setAbaAtiva] = React.useState('');
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
+        setAbaAtiva('')
         if(localStorage.getItem('token')){ 
             setAnchorEl(event.currentTarget);
         }
@@ -46,15 +48,16 @@ export default function Routes() {
                 <CssBaseline />
                 <header>
                     <div id='leftLanding'>
-                        <p id='tituloLanding'><NavLink to='/'>Wooper</NavLink></p>
-                        <p className='optLanding'><NavLink to='/pokedex'>Pokédex</NavLink></p>
-                        <p className='optLanding'><NavLink to='/rankin'>Ranking</NavLink></p>
-                        <p className='optLanding'><NavLink to='/'>Sussy</NavLink></p>
-                        <p className='optLanding'><NavLink to='/'>Baka</NavLink></p>
+                        <p id='tituloLanding'>Wooper</p>
+                        <p className={(abaAtiva==='home')? 'ativo' : 'optLanding'}><NavLink to='/' onClick={()=>{setAbaAtiva('home')}}>Home</NavLink></p>
+                        <p className={(abaAtiva==='poke')? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={()=>{setAbaAtiva('poke')}}>Pokédex</NavLink></p>
+                        <p className={(abaAtiva==='ranking')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('ranking')}}>Ranking</NavLink></p>
+                        <p className={(abaAtiva==='sussy')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('sussy')}}>Sussy</NavLink></p>
+                        <p className={(abaAtiva==='baka')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('baka')}}>Baka</NavLink></p>
                     </div>
                     <div id='rightLanding'>
                         <p id='botaoMain' onClick={handleClick}>
-                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <NavLink to='/login'><Button size="large" variant="outlined">Entrar</Button></NavLink>}
+                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink>}
                         </p>
                         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
                             <MenuItem onClick={handleClose}><CatchingPokemon sx={{marginRight:'10px'}}/> <NavLink to='/times'>Meu Time</NavLink></MenuItem>
