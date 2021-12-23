@@ -8,7 +8,7 @@ Crie, em seu banco de dados, uma database chamada `pokemon`
 
 Após isso, rode os seguintes comandos em seu prompt de comando:
 
-`npm dev`
+`npm run dev`
 
 `npm start`
 
