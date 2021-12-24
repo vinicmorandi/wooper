@@ -28,7 +28,7 @@ const Login = () => {
     // Define os estados
     const [email, setEmail] = useState()
     const [senha, setSenha] = useState()
-    const [loginGQL, { error, data }] = useMutation(usuarios_query)
+    const [loginGQL] = useMutation(usuarios_query)
 
     // Função chamada para cuidar do login
     const handleLogin = async e => {

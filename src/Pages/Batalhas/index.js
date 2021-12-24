@@ -40,25 +40,27 @@ const Batalha = () => {
     })
 
     socket.on('connection', (username) => {
+        setUser(username)
         console.log(usuario)
     })
 
     const importaPokemon = async () => {
 
-            // Variáveis
-            var pokemonA = [];
+        // Variáveis
+        var pokemonA = [];
 
-            // Básicos
-            let url = "https://pokeapi.co/api/v2/pokemon/1";
-            var resposta = await fetch(url);
-            pokemonA[0] = await resposta.json();
+        // Básicos
+        let url = "https://pokeapi.co/api/v2/pokemon/1";
+        var resposta = await fetch(url);
+        pokemonA[0] = await resposta.json();
 
-            // Stats
-            pokemonA[0].currentHP = pokemonA[0].stats[0].base_stat
+        // Stats
+        pokemonA[0].currentHP = pokemonA[0].stats[0].base_stat
 
-        if(pokemon=='' || pokemon == undefined){
+        if (pokemon === '' || pokemon === undefined) {
             await defineMoves(pokemonA[0])
             setPoke1(pokemonA[0]);
+            setPoke2('a')
             setPokemon(pokemonA);
         }
     }
@@ -77,7 +79,7 @@ const Batalha = () => {
 
     const turno = (ataque1, ataque2, poke1, poke2) => {
         poke1.currentHP -= ataque2
-        if(poke1.currentHP <=0){
+        if (poke1.currentHP <= 0) {
             setBloqueado(true);
             poke1.currentHP = 0;
             alert('O seu pokemon foi derrotado! Selecione outro!')

@@ -40,7 +40,7 @@ const Pokedex = () => {
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     useEffect(() => {
         document.title = 'Pokédex | Wooper'
-        if(onlyOnce==0) carregaPokemon()
+        if (onlyOnce === 0) carregaPokemon()
     })
 
     const carregaPokemon = async () => {
@@ -62,7 +62,7 @@ const Pokedex = () => {
         } else {
             // Senão, vai comparar com os pokemons já cadastrados
             for (let i = 0; i < todosPokemon.length; i++) {
-                if(todosPokemon[i]){
+                if (todosPokemon[i]) {
                     // Se o nome incluir o valor da pesquisa, vai adicionar o pokemon ao array
                     if (todosPokemon[i].species.name.includes(e)) {
                         pokemonArray[i] = todosPokemon[i]

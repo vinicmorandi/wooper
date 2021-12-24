@@ -5,9 +5,6 @@ import { Button, Typography } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { Twitter, Groups } from '@mui/icons-material'
 
-// Componentes
-import Card from "../../Components/Card"
-
 import './landing.css'
 
 const Landing = () => {
@@ -21,7 +18,7 @@ const Landing = () => {
                     <p id='botaoMain'><NavLink to='/login'><Button size="large" variant="contained">Comece Agora</Button></NavLink></p>
                 </div>
                 <div id='rightMain'>
-                    <img src='Assets/Images/unDraw/prog.svg' height='700px'></img>
+                    <img src='Assets/Images/unDraw/prog.svg' alt='' height='700px'></img>
                 </div>
             </div>
             {/* <div id='scrollCards'>
@@ -45,7 +42,7 @@ const Landing = () => {
                 </div>
                 <div id='contentContato'>
                     <div id='leftContato'>
-                        <img src='Assets/Images/unDraw/time.svg' id='imgCopyright'></img>
+                        <img src='Assets/Images/unDraw/time.svg' alt='' id='imgCopyright'></img>
                     </div>
                     <div id='rightContato'>
                         <div>

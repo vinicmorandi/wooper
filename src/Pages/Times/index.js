@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 
 // Material UI
-import { Typography, CircularProgress, TextField, Fab, Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material";
-import { Add, Remove, ExpandMore } from "@mui/icons-material";
+import { Typography, CircularProgress, TextField, Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
 // CSS
@@ -16,7 +16,6 @@ var timeArrayNomes = []
 const Times = () => {
     // Define os states
     const [pokemon, setPokemon] = React.useState("");
-    const [operacao, setOperacao] = React.useState("");
     const [time, setTime] = React.useState("");
     const [timeNomes, setTimeNomes] = React.useState("");
 
@@ -29,14 +28,12 @@ const Times = () => {
                 timeArrayNomes = timeNomes.filter((value, index, arr) => { return value !== poke.species.name })
                 setTime(timeArray)
                 setTimeNomes(timeArrayNomes)
-                setOperacao("rem")
                 enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 600 })
             } else {
                 timeArray.push(poke)
                 timeArrayNomes.push(poke.species.name)
                 setTime(timeArray)
                 setTimeNomes(timeArrayNomes)
-                setOperacao("add")
                 enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 600 })
             }
         }
@@ -44,10 +41,6 @@ const Times = () => {
             enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 })
         }
     }
-
-    const handleCloseSnack = (event, reason) => {
-        if (reason === 'clickaway') { return }
-    };
 
     // Renderiza os Pokemon Individualmente
     const renderPokeTime = (poke) => {
@@ -101,7 +94,7 @@ const Times = () => {
     const pesquisaPokemon = (e) => {
         var pokemonArray = [];
         // Se a pesquisa estiver vazia, pega todos
-        if (e === '' && time == '') {
+        if (e === '' && time === '') {
             pokemonArray = todosPokemon
         } else {
             // Senão, vai comparar com os pokemons já cadastrados

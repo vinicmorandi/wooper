@@ -12,9 +12,6 @@ import "./signup.css"
 
 const Login = () => {
 
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
     const cadastro_query = gql`
         mutation CriarUsuario ($nome:String!, $email:String!, $senha:String!){
             criarUsuario(nome:$nome, email:$email, senha:$senha){
@@ -24,7 +21,7 @@ const Login = () => {
             }
         }      
     `
-    const [cadastro, { error, data }] = useMutation(cadastro_query)
+    const [cadastro] = useMutation(cadastro_query)
 
     useEffect(() => {
         document.title = 'Cadastro | Wooper'
@@ -32,8 +29,8 @@ const Login = () => {
 
     const submitForm = async (e) => {
         e.preventDefault()
-        await cadastro({variables: {nome:e.target.form[0].value,email:e.target.form[2].value,senha:e.target.form[4].value}})
-        window.location.href="/login"
+        await cadastro({ variables: { nome: e.target.form[0].value, email: e.target.form[2].value, senha: e.target.form[4].value } })
+        window.location.href = "/login"
     }
 
     return (
