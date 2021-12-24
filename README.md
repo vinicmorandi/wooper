@@ -6,12 +6,11 @@ O Wooper é um Simulador de Batalhas Pokémon baseado em ReactJS, NodeJS, e Sock
 
 Crie, em seu banco de dados, uma database chamada `pokemon`
 
-Vá para `src/API` e rode no cmd o seguinte comando:
+Após isso, rode os seguintes comandos em seu prompt de comando:
 
-#### `node index.js`
+`npm run dev`
 
-Após isso, volte à pasta inicial e rode o seguinte comando:
-#### `npm start`
+`npm start`
 
 ---
 
