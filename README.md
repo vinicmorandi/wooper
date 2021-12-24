@@ -1,6 +1,6 @@
 ## About Wooper (WIP)
 
-Wooper is a Pokémon Battle Simulator created using ReactJS, NodeJS, e SocketIO. 
+Wooper is a Pokémon Battle Simulator made using ReactJS, NodeJS, and SocketIO. 
 
 ## How to start the project
 
