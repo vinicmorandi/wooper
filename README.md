@@ -12,7 +12,7 @@ Run the following commands in your Command Prompt:
 
 `npm start`
 
-After that, you *should* be good to go.
+After that, you *should* be good to go. If something's not working, just hmu and I'll help you get it started.
 
 ---
 
