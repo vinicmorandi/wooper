@@ -46,12 +46,12 @@ const Landing = () => {
                     </div>
                     <div id='rightContato'>
                         <div>
-                            <Twitter color='primary' fontSize='large'/>
+                            <Twitter color='primary' fontSize='large' />
                             <Typography variant='h4'>Siga-nos!</Typography>
                             <div>Siga <span className='destaque'>@wooperBattles</span> no Twitter e Instragram para receber atualizações, notícias, promoções, e muito mais.</div>
                         </div>
                         <div>
-                            <Groups color='primary' fontSize='large'/>
+                            <Groups color='primary' fontSize='large' />
                             <Typography variant='h4'>Criado por SussyBaka</Typography>
                             <div>Uma equipe de progradores brasileiros, responsável por sites como <span className='destaque'>Aprenda™</span>, <span className='destaque'>Curriculum™</span>, e <span className='destaque'>NotTwitter™</span></div>
                         </div>

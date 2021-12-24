@@ -1,41 +1,41 @@
-#pokedexTimes{
-    margin-top:20px;
-    height:80vh;
-    width:40vw;
+#pokedexTimes {
+    margin-top: 20px;
+    height: 80vh;
+    width: 40vw;
     overflow: auto;
 }
 
-#pokedexTime{
-    height:80vh;
-    width:40vw;
+#pokedexTime {
+    height: 80vh;
+    width: 40vw;
     overflow: auto;
 }
 
-.accordionPokemon{
+.accordionPokemon {
     box-shadow: 0px 0px 1px #CCC;
-    margin:0px 0px 30px 0px;
-    line-height:85px;
+    margin: 0px 0px 30px 0px;
+    line-height: 85px;
 }
 
-.accordionPokemon .tipo{
-    height:40px !important;
-    width:50px !important;
+.accordionPokemon .tipo {
+    height: 40px !important;
+    width: 50px !important;
 }
 
-.pokemonDesc{
+.pokemonDesc {
     width: 60%;
     display: flex;
     justify-content: space-evenly;
 }
 
-#timesConteudo{
+#timesConteudo {
     display: flex;
     justify-content: space-evenly;
 }
 
-#pesquisaTime{
+#pesquisaTime {
     width: 38vw;
-    margin:0px auto;
+    margin: 0px auto;
 }
 
 #pokedexTimes::-webkit-scrollbar {
@@ -49,5 +49,5 @@
 #pokedexTimes::-webkit-scrollbar-thumb {
     background-color: #1976d2;
     border-radius: 20px;
-    border:1px solid white
+    border: 1px solid white
 }

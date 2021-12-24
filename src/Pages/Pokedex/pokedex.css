@@ -1,173 +1,190 @@
-.pokemon{
-    width:450px;
-    height:250px;
+.pokemon {
+    width: 450px;
+    height: 250px;
     display: flex;
     border-radius: 25px;
     margin-bottom: 30px;
     background-position: -25% 35%;
-    filter:drop-shadow(0px 0px 1px rgb(94, 93, 93));
-    color:white !important;
-    font-size:30px;
+    filter: drop-shadow(0px 0px 1px rgb(94, 93, 93));
+    color: white !important;
+    font-size: 30px;
     font-weight: bold;
     transition: 0.5s;
     overflow: hidden;
 }
 
-.pokemon>div{
-    width:50%;
+.pokemon>div {
+    width: 50%;
     overflow: hidden;
 }
 
-.tipo{
-    width:75px;
+.tipo {
+    width: 75px;
     margin-top: 15px;
-    margin-left:-8px;
-    margin-right:-8px;
+    margin-left: -8px;
+    margin-right: -8px;
 }
 
-.pokemon>div>p{
+.pokemon>div>p {
     filter: drop-shadow(1px 1px 1px black);
 }
 
-.pokemon>div:nth-child(1){
-    padding:10px;
+.pokemon>div:nth-child(1) {
+    padding: 10px;
     overflow: visible;
 }
 
-.pokemon>div:nth-child(2){
+.pokemon>div:nth-child(2) {
     text-align: center;
     overflow: visible
 }
 
-.pokemon>div>img{
-    height:auto;
-    width:100%;
-    margin:auto;
-    margin-top:50px;
+.pokemon>div>img {
+    height: auto;
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
 }
 
-.pokemon:hover{
+.pokemon:hover {
     transform: scale(1.1);
-    z-index:1;
+    z-index: 1;
     transition: 0.5s;
 }
 
-.normal{
-    background-image:url(https://i.imgur.com/Q9AZAUE.jpeg);
-}
-/*Lutador*/
-.fighting{
-    background-image:url(https://i.imgur.com/E9rvCDD.jpeg);
-    color:#f9a792;
-}
-/*Voador*/
-.flying{
-    background-image:url(https://i.imgur.com/Nc54VQe.jpeg);
-    color:#ebeef5;
-}
-/*Venenoso*/
-.poison{
-    background-image:url(https://i.imgur.com/1JzifyU.jpeg);
-    color:#cfb3ce;
-}
-/*Terra*/
-.ground{
-    background-image:url(https://i.imgur.com/KfGtoFj.jpeg);
-    color:#efb180;
-}
-/*Pedra*/
-.rock{
-    background-image:url(https://i.imgur.com/LneeZPw.jpeg);
-    color:#cdd3c6;
-}
-/*Inseto*/
-.bug{
-    background-image:url(https://i.pinimg.com/564x/44/e2/0d/44e20d09b7092e7247ec81d51af8a696.jpg);
-    color:#f1FF81;
-}
-/*Fantasma*/
-.ghost{
-    background-image:url(https://i.imgur.com/sF6RSGd.jpeg);
-    color:#a398b8;
-}
-/*Aço*/
-.steel{
-    background-image:url(https://i.imgur.com/SeSjqoj.jpeg);
-    color:#a3bacb;
-}
-/*Fogo*/
-.fire{
-    background-image:url(https://i.imgur.com/g0GOMzQ.jpeg);
-    color:#f5ccb1;
-}
-/*Água*/
-.water{
-    background-image:url(https://i.imgur.com/DYmXpf7.jpeg);
-    color:#afdeea;
-}
-/*Grama*/
-.grass{
-    background-image:url(https://i.imgur.com/NCKpNaF.jpeg);
-    color:#b3dec9;
-}
-/*Elétrico*/
-.electric{
-    background-image:url(https://i.imgur.com/uFL3HJU.jpeg);
-    color:#f5e1a6;
-}
-/*Psíquico*/
-.psychic{
-    background-image:url(https://i.imgur.com/QKp8ePf.jpeg);
-    color:#c1e0e3;
-}
-/*Gelo*/
-.ice{
-    background-image:url(https://i.imgur.com/f8sP7Sh.jpeg);
-    color:#a0bce2;
-}
-/*Dragão*/
-.dragon{
-    background-image:url(https://i.imgur.com/4dQdxyN.jpeg);
-    color:#f6c8d4;
-}
-/*Dark*/
-.dark{
-    background-image:url(https://i.imgur.com/sWqq3cO.jpeg);
-    color:#9F968F;
-}
-/*Fada*/
-.fairy{
-    background-image:url(https://i.imgur.com/9JreAr0.jpeg);
-    color:#f9e1e4;
+.normal {
+    background-image: url(https://i.imgur.com/Q9AZAUE.jpeg);
 }
 
-#pokedex{
+/*Lutador*/
+.fighting {
+    background-image: url(https://i.imgur.com/E9rvCDD.jpeg);
+    color: #f9a792;
+}
+
+/*Voador*/
+.flying {
+    background-image: url(https://i.imgur.com/Nc54VQe.jpeg);
+    color: #ebeef5;
+}
+
+/*Venenoso*/
+.poison {
+    background-image: url(https://i.imgur.com/1JzifyU.jpeg);
+    color: #cfb3ce;
+}
+
+/*Terra*/
+.ground {
+    background-image: url(https://i.imgur.com/KfGtoFj.jpeg);
+    color: #efb180;
+}
+
+/*Pedra*/
+.rock {
+    background-image: url(https://i.imgur.com/LneeZPw.jpeg);
+    color: #cdd3c6;
+}
+
+/*Inseto*/
+.bug {
+    background-image: url(https://i.pinimg.com/564x/44/e2/0d/44e20d09b7092e7247ec81d51af8a696.jpg);
+    color: #f1FF81;
+}
+
+/*Fantasma*/
+.ghost {
+    background-image: url(https://i.imgur.com/sF6RSGd.jpeg);
+    color: #a398b8;
+}
+
+/*Aço*/
+.steel {
+    background-image: url(https://i.imgur.com/SeSjqoj.jpeg);
+    color: #a3bacb;
+}
+
+/*Fogo*/
+.fire {
+    background-image: url(https://i.imgur.com/g0GOMzQ.jpeg);
+    color: #f5ccb1;
+}
+
+/*Água*/
+.water {
+    background-image: url(https://i.imgur.com/DYmXpf7.jpeg);
+    color: #afdeea;
+}
+
+/*Grama*/
+.grass {
+    background-image: url(https://i.imgur.com/NCKpNaF.jpeg);
+    color: #b3dec9;
+}
+
+/*Elétrico*/
+.electric {
+    background-image: url(https://i.imgur.com/uFL3HJU.jpeg);
+    color: #f5e1a6;
+}
+
+/*Psíquico*/
+.psychic {
+    background-image: url(https://i.imgur.com/QKp8ePf.jpeg);
+    color: #c1e0e3;
+}
+
+/*Gelo*/
+.ice {
+    background-image: url(https://i.imgur.com/f8sP7Sh.jpeg);
+    color: #a0bce2;
+}
+
+/*Dragão*/
+.dragon {
+    background-image: url(https://i.imgur.com/4dQdxyN.jpeg);
+    color: #f6c8d4;
+}
+
+/*Dark*/
+.dark {
+    background-image: url(https://i.imgur.com/sWqq3cO.jpeg);
+    color: #9F968F;
+}
+
+/*Fada*/
+.fairy {
+    background-image: url(https://i.imgur.com/9JreAr0.jpeg);
+    color: #f9e1e4;
+}
+
+#pokedex {
     display: flex !important;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    width:80%;
-    margin:60px auto;
+    width: 80%;
+    margin: 60px auto;
 }
 
-#pokedex>img{
-    margin:auto;
+#pokedex>img {
+    margin: auto;
 }
 
-#headerPokedex>*:nth-child(2){
+#headerPokedex>*:nth-child(2) {
     margin: 0px auto 30px auto;
-    display:flex;
-    width:80%;
+    display: flex;
+    width: 80%;
 }
 
-#headerPokedex{
-    margin-top:60px;
+#headerPokedex {
+    margin-top: 60px;
 }
 
-.nomePoke{
+.nomePoke {
     text-transform: capitalize;
 }
 
-p{
-    margin:10px;
+p {
+    margin: 10px;
 }

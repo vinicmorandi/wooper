@@ -29,7 +29,7 @@ export default function Routes() {
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAbaAtiva('')
-        if(localStorage.getItem('usuario')){ 
+        if (localStorage.getItem('usuario')) {
             setAnchorEl(event.currentTarget);
         }
     };
@@ -52,21 +52,21 @@ export default function Routes() {
                 <header>
                     <div id='leftLanding'>
                         <p id='tituloLanding'>Wooper</p>
-                        <p className={(abaAtiva==='home')? 'ativo' : 'optLanding'}><NavLink to='/' onClick={()=>{setAbaAtiva('home')}}>Home</NavLink></p>
-                        <p className={(abaAtiva==='poke')? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={()=>{setAbaAtiva('poke')}}>Pokédex</NavLink></p>
-                        <p className={(abaAtiva==='ranking')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('ranking')}}>Ranking</NavLink></p>
-                        <p className={(abaAtiva==='sussy')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('sussy')}}>Sussy</NavLink></p>
-                        <p className={(abaAtiva==='baka')? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={()=>{setAbaAtiva('baka')}}>Baka</NavLink></p>
+                        <p className={(abaAtiva === 'home') ? 'ativo' : 'optLanding'}><NavLink to='/' onClick={() => { setAbaAtiva('home') }}>Home</NavLink></p>
+                        <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke') }}>Pokédex</NavLink></p>
+                        <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking') }}>Ranking</NavLink></p>
+                        <p className={(abaAtiva === 'sussy') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('sussy') }}>Sussy</NavLink></p>
+                        <p className={(abaAtiva === 'baka') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('baka') }}>Baka</NavLink></p>
                     </div>
                     <div id='rightLanding'>
                         <p id='botaoMain' onClick={handleClick}>
-                            {(usuario) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{usuario.nome.toUpperCase()}</Button> : <><NavLink to='/signup'><Button size="large" variant="outlined" sx={{marginRight: '10px'}}>Cadastro</Button></NavLink><NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink></>}
+                            {(usuario) ? <Button size='large' endIcon={<KeyboardArrowDown />}>{usuario.nome.toUpperCase()}</Button> : <><NavLink to='/signup'><Button size="large" variant="outlined" sx={{ marginRight: '10px' }}>Cadastro</Button></NavLink><NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink></>}
                         </p>
                         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
-                            <MenuItem onClick={handleClose}><CatchingPokemon sx={{marginRight:'10px'}}/> <NavLink to='/times'>Meu Time</NavLink></MenuItem>
-                            <MenuItem onClick={handleClose}><Settings sx={{marginRight:'10px'}}/> Configurações</MenuItem>
+                            <MenuItem onClick={handleClose}><CatchingPokemon sx={{ marginRight: '10px' }} /> <NavLink to='/times'>Meu Time</NavLink></MenuItem>
+                            <MenuItem onClick={handleClose}><Settings sx={{ marginRight: '10px' }} /> Configurações</MenuItem>
                             <Divider />
-                            <MenuItem onClick={logout}><Logout sx={{marginRight:'10px'}}/> Sair</MenuItem>
+                            <MenuItem onClick={logout}><Logout sx={{ marginRight: '10px' }} /> Sair</MenuItem>
                         </Menu>
                     </div>
                 </header>

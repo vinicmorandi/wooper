@@ -23,7 +23,7 @@ const client = new ApolloClient({
 
 // Renderização do documento
 reactDom.render(
-    <ApolloProvider client = {client}>
+    <ApolloProvider client={client}>
         <GlobalContext>
             <Routes />
         </GlobalContext>

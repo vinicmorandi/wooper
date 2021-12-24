@@ -131,8 +131,8 @@ const Times = () => {
                     </div>
                     <div id='pokedexTime'>
                         <Typography variant='h4' align='center' gutterBottom={true}>Time</Typography>
-                        {(time.length>0) ? time.map(renderPokeTime) : <div>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></div>}
-                        {(time.length>0) ? <Button onClick={salvarTime}>Salvar</Button> : '' }
+                        {(time.length > 0) ? time.map(renderPokeTime) : <div>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></div>}
+                        {(time.length > 0) ? <Button onClick={salvarTime}>Salvar</Button> : ''}
                     </div>
                 </div>
             </>

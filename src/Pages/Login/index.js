@@ -33,7 +33,7 @@ const Login = () => {
     // Função chamada para cuidar do login
     const handleLogin = async e => {
         e.preventDefault()
-        var a = await loginGQL({variables: {email: email, senha: senha }})
+        var a = await loginGQL({ variables: { email: email, senha: senha } })
         if (a.data.loginUsu[0]) {
             console.log(a.data.loginUsu[0])
             const usuario = a.data.loginUsu[0]
