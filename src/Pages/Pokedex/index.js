@@ -8,6 +8,7 @@ import { Typography, CircularProgress, TextField } from "@mui/material";
 import './pokedex.css'
 
 var todosPokemon = []
+var onlyOnce = 0;
 
 const Pokedex = () => {
     // Define os states
@@ -39,7 +40,7 @@ const Pokedex = () => {
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     useEffect(() => {
         document.title = 'Pokédex | Wooper'
-        carregaPokemon()
+        if(onlyOnce==0) carregaPokemon()
     })
 
     const carregaPokemon = async () => {
@@ -49,6 +50,7 @@ const Pokedex = () => {
             var resposta = await fetch(url);
             todosPokemon[i] = await resposta.json();
         }
+        onlyOnce++
         setPokemon(todosPokemon)
     }
 

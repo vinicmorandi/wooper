@@ -17,7 +17,8 @@ const usuarios_query = gql`
     mutation LoginUsu ($email : String!, $senha: String!){
         loginUsu(email:$email,senha:$senha){
             id,
-            nome
+            nome,
+            times,
         }
     }
     `;
@@ -35,8 +36,8 @@ const Login = () => {
         var a = await loginGQL({variables: {email: email, senha: senha }})
         if (a.data.loginUsu[0]) {
             console.log(a.data.loginUsu[0])
-            const tokenC = a.data.loginUsu[0].nome
-            localStorage.setItem('token', JSON.stringify(tokenC));
+            const usuario = a.data.loginUsu[0]
+            localStorage.setItem('usuario', JSON.stringify(usuario));
             window.location.href = "/home"
         }
     }

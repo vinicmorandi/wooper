@@ -29,7 +29,7 @@ export default function Routes() {
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAbaAtiva('')
-        if(localStorage.getItem('token')){ 
+        if(localStorage.getItem('usuario')){ 
             setAnchorEl(event.currentTarget);
         }
     };
@@ -37,9 +37,12 @@ export default function Routes() {
         setAnchorEl(null);
     };
     const logout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
         handleClose()
     }
+
+    var usuario = JSON.parse(localStorage.getItem('usuario'))
+    console.log(usuario)
 
     return (
         <Router>
@@ -57,7 +60,7 @@ export default function Routes() {
                     </div>
                     <div id='rightLanding'>
                         <p id='botaoMain' onClick={handleClick}>
-                            {(localStorage.getItem('token')) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{localStorage.getItem('token').replace(/"/g, '').toUpperCase()}</Button> : <><NavLink to='/signup'><Button size="large" variant="outlined" sx={{marginRight: '10px'}}>Cadastro</Button></NavLink><NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink></>}
+                            {(usuario) ? <Button size='large' endIcon={<KeyboardArrowDown/>}>{usuario.nome.toUpperCase()}</Button> : <><NavLink to='/signup'><Button size="large" variant="outlined" sx={{marginRight: '10px'}}>Cadastro</Button></NavLink><NavLink to='/login'><Button size="large" variant="contained">Entrar</Button></NavLink></>}
                         </p>
                         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
                             <MenuItem onClick={handleClose}><CatchingPokemon sx={{marginRight:'10px'}}/> <NavLink to='/times'>Meu Time</NavLink></MenuItem>

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 
 // Material UI
-import { Typography, CircularProgress, TextField, Fab, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Typography, CircularProgress, TextField, Fab, Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material";
 import { Add, Remove, ExpandMore } from "@mui/icons-material";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
@@ -11,32 +11,37 @@ import './times.css'
 
 var todosPokemon = []
 var timeArray = []
+var timeArrayNomes = []
 
 const Times = () => {
     // Define os states
     const [pokemon, setPokemon] = React.useState("");
     const [operacao, setOperacao] = React.useState("");
     const [time, setTime] = React.useState("");
+    const [timeNomes, setTimeNomes] = React.useState("");
 
     // Snackbar
     const { enqueueSnackbar } = useSnackbar();
-    const handleClick = (nome) => {
-        console.log(time)
+    const handleClick = (poke) => {
         if (time.length < 6) {
-            if (time.includes(nome)) {
-                timeArray = time.filter((value, index, arr) => { return value !== nome })
+            if (time.includes(poke)) {
+                timeArray = time.filter((value, index, arr) => { return value !== poke })
+                timeArrayNomes = timeNomes.filter((value, index, arr) => { return value !== poke.species.name })
                 setTime(timeArray)
+                setTimeNomes(timeArrayNomes)
                 setOperacao("rem")
-                enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 10 })
+                enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 600 })
             } else {
-                timeArray.push(nome)
+                timeArray.push(poke)
+                timeArrayNomes.push(poke.species.name)
                 setTime(timeArray)
+                setTimeNomes(timeArrayNomes)
                 setOperacao("add")
-                enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 10 })
+                enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 600 })
             }
         }
         else {
-            enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 10 })
+            enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 })
         }
     }
 
@@ -45,13 +50,13 @@ const Times = () => {
     };
 
     // Renderiza os Pokemon Individualmente
-    const renderPoke = (poke) => {
+    const renderPokeTime = (poke) => {
         return (
             <div key={poke.id}>
                 <Accordion className='accordionPokemon'>
                     <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
                         <div className='pokemonDesc'>
-                            <div>#{poke.id}</div> 
+                            <div>#{poke.id}</div>
                             |
                             <div><img height='30px' loading='lazy' alt={poke.species.name} src={"./Assets/Images/pokemons/" + poke.id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + poke.species.name + ".png"}></img></div>
                             |
@@ -60,6 +65,8 @@ const Times = () => {
                             <div><img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[0].type.name + ".svg"}></img></div>
                             |
                             {(poke.types[1]) ? (<div><img loading="lazy" alt="" className='tipo' src={"./Assets/Images/tipos/" + poke.types[1].type.name + ".svg"}></img></div>) : ""}
+                            |
+                            <Button onClick={() => { handleClick(poke) }}> {(timeNomes.includes(poke.species.name) ? '-' : '+')}</Button>
                         </div>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -77,11 +84,11 @@ const Times = () => {
     useEffect(() => {
         document.title = 'Pokédex | Wooper'
         if (pokemon === "") {
-            carregaPokemon()
+            carregaPokemonTime()
         }
     })
 
-    const carregaPokemon = async () => {
+    const carregaPokemonTime = async () => {
         // Pega os primeiros 150 primeiros pokemon e adiciona no array geral - a API que eu to usando é BEM ineficiente, então eu vou usar isso por enquanto, mas vou mudar dps
         for (let i = 1; i < 150; i++) {
             let url = "https://pokeapi.co/api/v2/pokemon/" + i;
@@ -94,7 +101,7 @@ const Times = () => {
     const pesquisaPokemon = (e) => {
         var pokemonArray = [];
         // Se a pesquisa estiver vazia, pega todos
-        if (e === '') {
+        if (e === '' && time == '') {
             pokemonArray = todosPokemon
         } else {
             // Senão, vai comparar com os pokemons já cadastrados
@@ -110,16 +117,30 @@ const Times = () => {
         setPokemon(pokemonArray)
     }
 
+    const salvarTime = () => {
+        console.log('')
+    }
+
     return (
         <>
             <>
                 <div id='headerPokedex'>
-                    <Typography variant='h2' align='center' gutterBottom={true}>Pokédex</Typography>
-                    <TextField label="Pesquisar" variant='outlined' onChange={event => pesquisaPokemon(event.target.value)} />
+                    <Typography variant='h2' align='center' gutterBottom={true}>Escolha de Time</Typography>
                 </div>
-                <div id='pokedexTimes'>
-                    {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
-                    {(pokemon) ? pokemon.map(renderPoke) : (<CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='100px' color='inherit' />)}
+                <div id='timesConteudo'>
+                    <div id='leftTimes'>
+                        <Typography variant='h4' align='center' gutterBottom={true}>Pokédex</Typography>
+                        <TextField label="Pesquisar" variant='outlined' id='pesquisaTime' onChange={event => pesquisaPokemon(event.target.value)} />
+                        <div id='pokedexTimes'>
+                            {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
+                            {(pokemon) ? pokemon.map(renderPokeTime) : (<CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='100px' color='inherit' />)}
+                        </div>
+                    </div>
+                    <div id='pokedexTime'>
+                        <Typography variant='h4' align='center' gutterBottom={true}>Time</Typography>
+                        {(time.length>0) ? time.map(renderPokeTime) : <div>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></div>}
+                        {(time.length>0) ? <Button onClick={salvarTime}>Salvar</Button> : '' }
+                    </div>
                 </div>
             </>
         </>
