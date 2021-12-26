@@ -1,16 +1,18 @@
-## Sobre o Wooper (WIP)
+## About Wooper (WIP)
 
-O Wooper é um Simulador de Batalhas Pokémon baseado em ReactJS, NodeJS, e SocketIO. 
+Wooper is a Pokémon Battle Simulator made using ReactJS, NodeJS, GraphQL and SocketIO. 
 
-## Para iniciar o projeto
+## How to start the project
 
-Crie, em seu banco de dados, uma database chamada `pokemon`
+Create a MySQL database called `pokemon`
 
-Após isso, rode os seguintes comandos em seu prompt de comando:
+Run the following commands in your Command Prompt:
 
 `npm run dev`
 
 `npm start`
+
+After that, you *should* be good to go. If something's not working, just hmu and I'll help you get it started.
 
 ---
 
