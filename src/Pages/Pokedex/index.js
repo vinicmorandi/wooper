@@ -16,13 +16,14 @@ const Pokedex = () => {
 
     // Renderiza os Pokemon Individualmente
     const renderPoke = (poke) => {
+        console.log(poke)
         return (
             // Retorna uma div com a classe do primeiro elemento do pokemon, pra mudar o background
             <div className={"pokemon " + poke.types[0].type.name} key={poke.id}>
                 <div>
                     {/* Id e Nome do pokemon */}
                     <p>#{poke.id}</p>
-                    <p className='nomePoke'>{poke.species.name}</p>
+                    <p className='nomePoke'>{poke.name}</p>
 
                     {/* Elementos */}
                     <p>
@@ -32,7 +33,7 @@ const Pokedex = () => {
                     </p>
                 </div>
                 {/* Imagem do pokemon */}
-                <div><img loading='lazy' alt={poke.species.name} src={"./Assets/Images/pokemons/" + poke.id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + poke.species.name + ".png"}></img></div>
+                <div><img loading='lazy' alt={poke.name} src={poke.artwork}></img></div>
             </div>
         )
     }
@@ -44,14 +45,53 @@ const Pokedex = () => {
     })
 
     const carregaPokemon = async () => {
-        // Pega os primeiros 150 primeiros pokemon e adiciona no array geral - a API que eu to usando é BEM ineficiente, então eu vou usar isso por enquanto, mas vou mudar dps
-        for (let i = 1; i < 150; i++) {
-            let url = "https://pokeapi.co/api/v2/pokemon/" + i;
-            var resposta = await fetch(url);
-            todosPokemon[i] = await resposta.json();
+        var pokemonArrayA = []
+        await fetch('https://graphql-pokeapi.graphcdn.app/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                    query pokemons{
+                        pokemons(limit:897,offset:0){
+                            results{
+                                id,
+                                name,
+                                artwork
+                            }
+                        }
+                    }
+            `
+            }),
+        }).then((res) => res.json())
+            .then((result) => pokemonArrayA = (result.data.pokemons.results));
+
+        for (let i = 0; i < pokemonArrayA.length; i++) {
+            await fetch('https://graphql-pokeapi.graphcdn.app/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    query pokemon($name: String!){
+                        pokemon(name:$name){
+                                types{
+                                    type{
+                                        name
+                                    }
+                                }
+                        }
+                    }
+            `, variables: {
+                        name: pokemonArrayA[i].name
+                    }
+                }),
+            }).then((res) => res.json())
+                .then((result) => pokemonArrayA[i].types = result.data.pokemon.types);
         }
-        onlyOnce++
-        setPokemon(todosPokemon)
+        setPokemon(pokemonArrayA)
     }
 
     const pesquisaPokemon = (e) => {

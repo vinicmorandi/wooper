@@ -9,7 +9,7 @@
             "port": 3306,
             "driver": "MariaDB",
             "name": "pokemon",
-            "database": "pokemondb",
+            "database": "pokemon",
             "username": "root",
             "password": ""
         }

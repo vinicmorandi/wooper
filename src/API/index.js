@@ -37,7 +37,8 @@ const typedefs = gql`
 
     type Mutation {
         criarUsuario(nome:String!, email:String!, senha: String!):[Usuario],
-        loginUsu(email:String!, senha:String!): [Usuario]
+        loginUsu(email:String!, senha:String!): [Usuario],
+        salvarTime(id: String!,time: String! ): [Usuario]
     }
 `
 
@@ -65,7 +66,6 @@ const resolvers = {
     },
     Mutation: {
         criarUsuario: async (root, args, { db }, info) => {
-            console.log('a')
             if (args.nome != '' && args.email != '' && args.senha != '') {
                 db.Usuarios.create({ nome: args.nome, email: args.email, senha: args.senha, times: '', recorde: '0/0', elo: '1000', tipo: 1 })
             }
@@ -80,6 +80,9 @@ const resolvers = {
                 var msgErro = "Erro! " + err
             })
             return (users) ? users : msgErro
+        },
+        salvarTime: async (root, args, { db }, info) => {
+            db.Usuarios.update({ times: args.time }, { where: { id: args.id } })
         }
     },
     // Define o modelo do usuário

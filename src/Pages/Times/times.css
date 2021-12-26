@@ -5,12 +5,6 @@
     overflow: auto;
 }
 
-#pokedexTime {
-    height: 80vh;
-    width: 40vw;
-    overflow: auto;
-}
-
 .accordionPokemon {
     box-shadow: 0px 0px 1px #CCC;
     margin: 0px 0px 30px 0px;
