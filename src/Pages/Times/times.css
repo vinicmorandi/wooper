@@ -1,8 +1,5 @@
-#pokedexTimes {
-    margin-top: 20px;
-    height: 80vh;
-    width: 40vw;
-    overflow: auto;
+#leftTimes {
+    margin: 0px 0px 60px 0px
 }
 
 .accordionPokemon {
@@ -24,6 +21,7 @@
 
 #timesConteudo {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
 }
 

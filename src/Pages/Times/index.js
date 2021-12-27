@@ -16,9 +16,7 @@ var timeArrayNomes = []
 
 var salvar_query = gql`
     mutation salvarTime($id : String!, $Time : String!){
-        salvarTime(id:$id, time:$time){
-            id,
-        }
+        salvarTime(id:$id, time:$time)
     }
 
 `
@@ -35,13 +33,58 @@ const Times = () => {
 
     // Snackbar
     const { enqueueSnackbar } = useSnackbar();
+
+
+    // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
+    useEffect(() => {
+        if (pokemon === "") {
+            carregaPokemonTime()
+        }
+    })
+
+    const carregaPokemonTime = async () => {
+        // Pega os primeiros 150 primeiros pokemon e adiciona no array geral - a API que eu to usando é BEM ineficiente, então eu vou usar isso por enquanto, mas vou mudar dps
+        var pokemonArray = []
+        for (let i = 1; i < 150; i++) {
+            await fetch('https://graphql-pokeapi.graphcdn.app/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                        query pokemon($name: String!){
+                            pokemon(name:$name){
+                                id,
+                                name,
+                                moves{
+                                move{
+                                    name
+                                }
+                                },
+                                stats{
+                                    base_stat
+                                },
+                                sprites{
+                                    front_default
+                                }
+                            }
+                        }
+                    `,
+                    variables: { name: String(i) }
+                }),
+            }).then((res) => res.json())
+                .then((result) => setPokemon((pokemon) => [...pokemon, result.data.pokemon]));
+        }
+    }
+
     const handleClick = (poke) => {
         if (timeNomes.includes(poke.name)) {
             timeArray = time.filter((value, index, arr) => { return value.name !== poke.name })
             timeArrayNomes = timeNomes.filter((value, index, arr) => { return value !== poke.name })
             setTime(timeArray)
             setTimeNomes(timeArrayNomes)
-            enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 600 })
+            enqueueSnackbar("Pokémon Removido!", { 'variant': 'error', 'autoHideDuration': 1000 })
         } else {
             if (timeNomes.length < 6) {
 
@@ -55,7 +98,7 @@ const Times = () => {
                 timeArrayNomes.push(poke.name)
                 setTime(timeArray)
                 setTimeNomes(timeArrayNomes)
-                enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 600 })
+                enqueueSnackbar("Pokémon Adicionado!", { 'variant': 'success', 'autoHideDuration': 1000 })
             }
             else {
                 enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 })
@@ -65,67 +108,46 @@ const Times = () => {
     }
 
     // Renderiza os Pokemon Individualmente
-    const renderPokeTime = (poke) => {
+    const renderPokeTime = (poke, renderTime) => {
         return (
             <TableRow>
                 <TableCell align='center'>#{poke.id}</TableCell >
-                <TableCell align='center'><img height='30px' loading='lazy' alt={poke.name} src={poke.artwork}></img></TableCell >
-                <TableCell align='center'>{poke.name.toUpperCase()}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
-                <TableCell align='center'>{690}</TableCell>
+                <TableCell align='center'><img height='30px' loading='lazy' alt={poke.name} src={poke.sprites.front_default}></img></TableCell >
+                <TableCell align='center'>{(poke.name.charAt(0).toUpperCase() + poke.name.slice(1)).replace('-', ' ')}</TableCell>
+                {(renderTime)
+                    ? <>
+                        <TableCell align='center'>{(poke.moves[0].move.name.charAt(0).toUpperCase() + poke.moves[0].move.name.slice(1)).replace('-', ' ')}</TableCell>
+                        <TableCell align='center'>{(poke.moves[1].move.name.charAt(0).toUpperCase() + poke.moves[1].move.name.slice(1)).replace('-', ' ')}</TableCell>
+                        <TableCell align='center'>{(poke.moves[2].move.name.charAt(0).toUpperCase() + poke.moves[2].move.name.slice(1)).replace('-', ' ')}</TableCell>
+                        <TableCell align='center'>{(poke.moves[3].move.name.charAt(0).toUpperCase() + poke.moves[3].move.name.slice(1)).replace('-', ' ')}</TableCell>
+                    </>
+                    : <>
+                        <TableCell align='center'>{poke.stats[0].base_stat}</TableCell>
+                        <TableCell align='center'>{poke.stats[1].base_stat}</TableCell>
+                        <TableCell align='center'>{poke.stats[2].base_stat}</TableCell>
+                        <TableCell align='center'>{poke.stats[3].base_stat}</TableCell>
+                        <TableCell align='center'>{poke.stats[4].base_stat}</TableCell>
+                        <TableCell align='center'>{poke.stats[5].base_stat}</TableCell>
+                    </>}
                 <TableCell align='center'><Button onClick={() => { handleClick(poke) }}> {(timeNomes.includes(poke.name) ? '-' : '+')}</Button></TableCell >
             </TableRow>
         )
     }
 
-    // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
-    useEffect(() => {
-        if (pokemon === "") {
-            carregaPokemonTime()
-        }
-
-        console.log(time)
-    })
-
-    const carregaPokemonTime = async () => {
-        // Pega os primeiros 150 primeiros pokemon e adiciona no array geral - a API que eu to usando é BEM ineficiente, então eu vou usar isso por enquanto, mas vou mudar dps
-        await fetch('https://graphql-pokeapi.graphcdn.app/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query: `
-                    query pokemons{
-                        pokemons(limit:898,offset:0){
-                            results{
-                                id,
-                                name,
-                                artwork
-                            }
-                        }
-                    }
-            `
-            }),
-        }).then((res) => res.json())
-            .then((result) => setPokemon(result.data.pokemons.results));
-    }
-
     const salvarTime = () => {
         var usuario = JSON.parse(localStorage.getItem('usuario'))
-        console.log(usuario.id)
+        for (let i = 0; i < time.length; i++) {
+            time[i].moves = [time[i].moves[0].move.name, time[i].moves[1].move.name, time[i].moves[2].move.name, time[i].moves[3].move.name]
+            time[i].sprites = ''
+        }
         if (time != '') {
             var timeString = JSON.stringify(time)
-            salvarTimes({
-                variables: {
-                    id: String(usuario.id),
-                    time: timeString
-                }
-            })
+            // salvarTimes({
+            //     variables: {
+            //         id: String(usuario.id),
+            //         time: timeString
+            //     }
+            // })
         }
     }
 
@@ -145,20 +167,20 @@ const Times = () => {
                                     <TableCell align="center">Imagem</TableCell>
                                     <TableCell align="center">Nome</TableCell>
                                     <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
+                                    <TableCell align="center">ATK</TableCell>
+                                    <TableCell align="center">DEF</TableCell>
+                                    <TableCell align="center">SPA</TableCell>
+                                    <TableCell align="center">SPD</TableCell>
+                                    <TableCell align="center">SPE</TableCell>
                                     <TableCell align="center">Operações</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
-                                {(pokemon) ? pokemon.map(renderPokeTime) : (<TableCell colSpan={10}><CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='40px' color='inherit' /></TableCell>)}
+                                {(pokemon) ? pokemon.map((poke) => { return renderPokeTime(poke, false) }) : (<TableCell colSpan={10}><CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='20px' color='inherit' /></TableCell>)}
                             </TableBody>
                         </Table>
                     </TableContainer>
+
                 </div>
                 <div id='pokedexTime'>
                     <Typography variant='h4' align='center' gutterBottom={true}>Time</Typography>
@@ -169,17 +191,15 @@ const Times = () => {
                                     <TableCell align="center">ID</TableCell>
                                     <TableCell align="center">Imagem</TableCell>
                                     <TableCell align="center">Nome</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
-                                    <TableCell align="center">HP</TableCell>
+                                    <TableCell align="center">Move 1</TableCell>
+                                    <TableCell align="center">Move 2</TableCell>
+                                    <TableCell align="center">Move 3</TableCell>
+                                    <TableCell align="center">Move 4</TableCell>
                                     <TableCell align="center">Operações</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {(time) ? time.map(renderPokeTime) : <TableCell sx={{ padding: "10px" }} colSpan={5}>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></TableCell>}
+                                {(time) ? time.map((poke) => { return renderPokeTime(poke, true) }) : <TableCell sx={{ padding: "10px" }} colSpan={5}>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></TableCell>}
                                 {(time) ? <TableCell align="center" colSpan={10}><Button onClick={salvarTime}>Salvar</Button></TableCell> : ''}
                             </TableBody>
                         </Table>
