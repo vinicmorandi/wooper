@@ -2,15 +2,30 @@
 import React, { useEffect } from "react";
 
 // Material UI
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Typography, CircularProgress } from '@mui/material';
 
 // CSS
 import "./ranking.css"
+
+import { useMutation, gql } from "@apollo/client"
+
+const usuariosElo_query = gql`
+    mutation getElo{
+        usuariosElo{
+            nome
+            elo
+            vitorias
+            derrotas
+        }
+    }
+`
 
 const Ranking = () => {
     // Define estados para a paginação
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [usuariosGQL] = useMutation(usuariosElo_query)
+    const [rows, setRows] = React.useState('')
 
     // Muda a página
     const handleChangePage = (event, newPage) => {
@@ -26,33 +41,15 @@ const Ranking = () => {
     // Título
     useEffect(() => {
         document.title = 'Ranking | Wooper'
+        if (rows === "") {
+            pegaInfoUsuario()
+        }
     })
 
-    // const rows = pegaInfoUsuarios()
-
-    // Placeholders
-    function createData(usuario, elo, vitorias, derrotas) {
-        return { usuario, elo, vitorias, derrotas };
+    const pegaInfoUsuario = async () => {
+        const usuarios = await usuariosGQL()
+        setRows(usuarios.data.usuariosElo)
     }
-
-    // Placeholders
-    const rows = [
-        createData('India', 'IN', 1324171354, 3287263),
-        createData('China', 'CN', 1403500365, 9596961),
-        createData('Italy', 'IT', 60483973, 301340),
-        createData('United States', 'US', 327167434, 9833520),
-        createData('Canada', 'CA', 37602103, 9984670),
-        createData('Australia', 'AU', 25475400, 7692024),
-        createData('Germany', 'DE', 83019200, 357578),
-        createData('Ireland', 'IE', 4857000, 70273),
-        createData('Mexico', 'MX', 126577691, 1972550),
-        createData('Japan', 'JP', 126317000, 377973),
-        createData('France', 'FR', 67022000, 640679),
-        createData('United Kingdom', 'GB', 67545757, 242495),
-        createData('Russia', 'RU', 146793744, 17098246),
-        createData('Nigeria', 'NG', 200962417, 923768),
-        createData('Brazil', 'BR', 210147125, 8515767),
-    ];
 
     return (
         <>
@@ -72,18 +69,18 @@ const Ranking = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows
+                            {(rows) ? rows
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        <TableRow hover tabIndex={-1} key={row.code}>
-                                            <TableCell key='usu'>{row.usuario}</TableCell>
+                                        <TableRow hover tabIndex={-1} key={row.nome}>
+                                            <TableCell key='usu'>{row.nome}</TableCell>
                                             <TableCell key='el'>{row.elo}</TableCell>
                                             <TableCell key='vit'>{row.vitorias}</TableCell>
                                             <TableCell key='der'>{row.derrotas}</TableCell>
                                         </TableRow>
                                     );
-                                })}
+                                }) : <TableRow><TableCell colSpan={4}><CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='20px' color='inherit' /></TableCell></TableRow>}
                         </TableBody>
                     </Table>
                 </TableContainer>

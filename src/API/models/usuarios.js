@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
             email: DataTypes.STRING,
             senha: DataTypes.STRING,
             times: DataTypes.TEXT('medium'),
-            recorde: DataTypes.STRING,
             elo: DataTypes.INTEGER,
-            tipo: DataTypes.INTEGER
+            tipo: DataTypes.INTEGER,
+            vitorias: DataTypes.INTEGER,
+            derrotas: DataTypes.INTEGER
         },
         {
             // Opções

@@ -42,7 +42,6 @@ export default function Routes() {
     }
 
     var usuario = JSON.parse(localStorage.getItem('usuario'))
-    console.log(usuario)
 
     return (
         <Router>
@@ -51,8 +50,7 @@ export default function Routes() {
                 <CssBaseline />
                 <header>
                     <div id='leftLanding'>
-                        <p id='tituloLanding'>Wooper</p>
-                        <p className={(abaAtiva === 'home') ? 'ativo' : 'optLanding'}><NavLink to='/' onClick={() => { setAbaAtiva('home') }}>Home</NavLink></p>
+                        <p><NavLink id='tituloLanding' to='/'>Wooper</NavLink></p>
                         <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke') }}>Pokédex</NavLink></p>
                         <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking') }}>Ranking</NavLink></p>
                         <p className={(abaAtiva === 'sussy') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('sussy') }}>Sussy</NavLink></p>

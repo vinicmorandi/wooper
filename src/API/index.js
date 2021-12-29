@@ -25,9 +25,10 @@ const typedefs = gql`
         senha: String,
         email: String,
         times: String,
-        recorde: String,
         elo: Int,
-        tipo: Int
+        tipo: Int,
+        vitorias: Int,
+        derrotas: Int
     }
 
     type Query {
@@ -38,7 +39,8 @@ const typedefs = gql`
     type Mutation {
         criarUsuario(nome:String!, email:String!, senha: String!):[Usuario],
         loginUsu(email:String!, senha:String!): [Usuario],
-        salvarTime(id: String!,time: String! ): [Usuario]
+        salvarTime(id: String!,time: String! ): [Usuario],
+        usuariosElo: [Usuario!]
     }
 `
 
@@ -67,7 +69,7 @@ const resolvers = {
     Mutation: {
         criarUsuario: async (root, args, { db }, info) => {
             if (args.nome != '' && args.email != '' && args.senha != '') {
-                db.Usuarios.create({ nome: args.nome, email: args.email, senha: args.senha, times: '', recorde: '0/0', elo: '1000', tipo: 1 })
+                db.Usuarios.create({ nome: args.nome, email: args.email, senha: args.senha, times: '', elo: '1000', tipo: 1, vitorias: 0, derrotas: 0 })
             }
         },
         loginUsu: async (root, args, { db }, info) => {
@@ -82,9 +84,11 @@ const resolvers = {
             return (users) ? users : msgErro
         },
         salvarTime: async (root, args, { db }, info) => {
-            console.log(args.time)
-            console.log(args.id)
             db.Usuarios.update({ times: args.time }, { where: { id: args.id } })
+        },
+        usuariosElo: async (root, args, { db }, info) => {
+            const users = await db.Usuarios.findAll({ order: [['elo', 'DESC']], limit: 500 })
+            return users
         }
     },
     // Define o modelo do usuário
@@ -94,9 +98,10 @@ const resolvers = {
         senha: (parent) => parent.senha,
         email: (parent) => parent.email,
         times: (parent) => parent.times,
-        recorde: (parent) => parent.recorde,
         elo: (parent) => parent.elo,
         tipo: (parent) => parent.tipo,
+        vitorias: (parent) => parent.vitorias,
+        derrotas: (parent) => parent.derrotas,
     }
 }
 

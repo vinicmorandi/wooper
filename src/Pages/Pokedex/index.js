@@ -15,7 +15,6 @@ const Pokedex = () => {
 
     // Renderiza os Pokemon Individualmente
     const renderPoke = (poke) => {
-        console.log(poke)
         return (
             // Retorna uma div com a classe do primeiro elemento do pokemon, pra mudar o background
             <div className={"pokemon " + poke.types[0].type.name} key={poke.id}>
