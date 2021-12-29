@@ -82,6 +82,8 @@ const resolvers = {
             return (users) ? users : msgErro
         },
         salvarTime: async (root, args, { db }, info) => {
+            console.log(args.time)
+            console.log(args.id)
             db.Usuarios.update({ times: args.time }, { where: { id: args.id } })
         }
     },

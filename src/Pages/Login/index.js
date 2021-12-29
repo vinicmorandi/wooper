@@ -18,7 +18,7 @@ const usuarios_query = gql`
         loginUsu(email:$email,senha:$senha){
             id,
             nome,
-            times,
+            times
         }
     }
     `;

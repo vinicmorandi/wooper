@@ -8,7 +8,6 @@ import { Typography, CircularProgress, TextField } from "@mui/material";
 import './pokedex.css'
 
 var todosPokemon = []
-var onlyOnce = 0;
 
 const Pokedex = () => {
     // Define os states
@@ -41,11 +40,11 @@ const Pokedex = () => {
     // Assim que o componente for montado, chama uma API para pegar todos os pokemon e seta o state
     useEffect(() => {
         document.title = 'Pokédex | Wooper'
-        if (onlyOnce === 0) carregaPokemon()
+        if (pokemon === "") carregaPokemon()
     })
 
     const carregaPokemon = async () => {
-        var pokemonArrayA = []
+        var pokemonResult = []
         await fetch('https://graphql-pokeapi.graphcdn.app/', {
             method: 'POST',
             headers: {
@@ -64,10 +63,10 @@ const Pokedex = () => {
                     }
             `
             }),
-        }).then((res) => res.json())
-            .then((result) => pokemonArrayA = (result.data.pokemons.results));
+        }).then((res) => res.json()).then((result) => pokemonResult = (result.data.pokemons.results));
 
-        for (let i = 0; i < pokemonArrayA.length; i++) {
+        var arrayPoke = pokemonResult
+        for (let i = 0; i < pokemonResult.length; i++) {
             await fetch('https://graphql-pokeapi.graphcdn.app/', {
                 method: 'POST',
                 headers: {
@@ -85,13 +84,12 @@ const Pokedex = () => {
                         }
                     }
             `, variables: {
-                        name: pokemonArrayA[i].name
+                        name: pokemonResult[i].name
                     }
                 }),
-            }).then((res) => res.json())
-                .then((result) => pokemonArrayA[i].types = result.data.pokemon.types);
+            }).then((res) => res.json()).then((result) => arrayPoke[i].types = result.data.pokemon.types);
         }
-        setPokemon(pokemonArrayA)
+        setPokemon(arrayPoke)
     }
 
     const pesquisaPokemon = (e) => {
