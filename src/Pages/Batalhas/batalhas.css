@@ -1,31 +1,45 @@
-#batalhaMaster {
-    max-width: 70vw;
-    margin: auto;
-}
-
 #telaBatalha {
-    height: 700px;
-    box-shadow: 0px 0px 2px black;
-    margin-bottom: 10px;
+    width: 100vw;
+    height: calc(100vh - 70px);
+    margin-top: 30px;
     padding: 10px;
+    background-image: url("https://wallpaperaccess.com/full/446984.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 20% 53% 27%;
 }
 
 #ataquesBTL {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    position: relative;
 }
 
 .ATK {
-    background-size: 50%;
+    background-size: 25%;
     background-repeat: no-repeat;
-    background-position-y: 38%;
-    background-position-x: -40px;
-    width: 24%;
-    height: 75px;
-    color: white !important;
-    font-size: 25px !important;
-    text-shadow: 1px 1px 1px black;
+    background-position-y: 35%;
+    background-position-x: -18px;
+    height: 46px;
+    color: black !important;
+    text-align: left !important;
+    font-size: 16px !important;
+    font-weight: 300 !important;
+    text-transform: capitalize;
+    padding-left: 57px;
+    outline: 0;
+    border: 0;
+    margin: 5px;
+    border-radius: 60px;
+    box-shadow: 1px 1px 13px -4px black;
+    line-height: 46px;
+    cursor: pointer;
+}
+
+#selfBTL {
+    background-color: white;
+    padding: 10px;
+    height: 80px;
 }
 
 .normal {

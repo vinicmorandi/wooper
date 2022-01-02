@@ -12,16 +12,7 @@ import './batalhas.css'
 // Socket.IO
 var socket = socketClient();
 
-//// IMPORTANTE ////
-
-// Praticamente tudo que tá aqui é inútil por enquanto
-// Não vale nem a pena olhar
-// Funções, CSS, etc.
-// Eu vou refazer tudo quando integrar o socket e uma api decente
-// Só fiz isso pq não tinha mais nada pra fazer durante a aula
-
 const Batalha = () => {
-    // Seta os states - só vou começar a usar isso quando integrar o socket.io
     const [pokemon, setPokemon] = useState('')
     const [move1, setMove1] = useState('')
     const [move2, setMove2] = useState('')
@@ -91,37 +82,33 @@ const Batalha = () => {
     return (
         (pokemon) ?
             <>
-                <div id='batalhaMaster'>
-                    <div>
-                        {(user) ? user : "AAAA"}
+                <div id='telaBatalha'>
+                    <div id='enemyBTL'>
+                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
+                        <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
+                        <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
+                        <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" : ""}></img></div>
                     </div>
-                    <div id='telaBatalha'>
-                        <div id='self'>
-                            <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
-                            <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
-                            <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
-                            <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" : ""}></img></div>
-                        </div>
-                        <div id='enemy'>
-
-                        </div>
+                    <div>a</div>
+                    <div id='pokeEnemyBTL'>
+                        <div>b</div>
                     </div>
+                    <div>a</div>
+                    <div>b</div>
+                    <div>c</div>
+                    <div id='selfBTL'>
+                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
+                        <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
+                        <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
+                    </div>
+                    <div>a</div>
                     <div id='ataquesBTL'>
-                        <Button disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[0].name : ""}</Button>
-                        <Button disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[4].name : ""}</Button>
-                        <Button disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[17].name : ""}</Button>
-                        <Button disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[20].name : ""}</Button>
-                    </div>
-                    <div id='opcoesBTL'>
-                        <Button variant="text">Desistir</Button>
-                        <Button variant="text">Lorem</Button>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[0].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[4].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[17].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[20].name.replaceAll("-", " ") : ""}</div>
                     </div>
                 </div>
-
-                <Button disabled={bloqueado} onClick={() => { setMove2(pokemon[0].movesSelect[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[0].name : ""}</Button>
-                <Button disabled={bloqueado} onClick={() => { setMove2(pokemon[0].movesSelect[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[4].name : ""}</Button>
-                <Button disabled={bloqueado} onClick={() => { setMove2(pokemon[0].movesSelect[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[17].name : ""}</Button>
-                <Button disabled={bloqueado} onClick={() => { setMove2(pokemon[0].movesSelect[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'} variant="text">{(pokemon) ? pokemon[0].movesSelect[20].name : ""}</Button>
             </>
             : <CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='100px' color='inherit' />
     );

@@ -107,6 +107,7 @@ const Times = () => {
                 enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 })
             }
         }
+        console.log(time)
 
     }
 
@@ -206,8 +207,7 @@ const Times = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {(time) ? time.map((poke) => { return renderPokeTime(poke, true) }) : <TableRow><TableCell sx={{ padding: "10px" }} colSpan={5}>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></TableCell></TableRow>}
-                                    <TableRow><TableCell align="center" colSpan={10}><Button onClick={salvarTime}>Salvar</Button></TableCell></TableRow>
+                                    {(time.length !== 0) ? <> {time.map((poke) => { return renderPokeTime(poke, true) })}<TableRow><TableCell align="center" colSpan={10}><Button onClick={salvarTime}>Salvar</Button></TableCell></TableRow> </> : <TableRow><TableCell sx={{ padding: "10px" }} colSpan={5}>"Você não tem nenhum pokémon em seu time. Adicione um clicando no botão <span className="destaque">" + "</span></TableCell></TableRow>}
                                 </TableBody>
                             </Table>
                         </TableContainer>

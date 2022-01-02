@@ -69,7 +69,7 @@ const Ranking = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {(rows) ? rows
+                            {(rows.length !== 0) ? rows
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (

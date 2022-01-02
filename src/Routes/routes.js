@@ -53,7 +53,7 @@ export default function Routes() {
                         <p><NavLink id='tituloLanding' to='/'>Wooper</NavLink></p>
                         <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke') }}>Pokédex</NavLink></p>
                         <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking') }}>Ranking</NavLink></p>
-                        <p className={(abaAtiva === 'sussy') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('sussy') }}>Sussy</NavLink></p>
+                        <p className={(abaAtiva === 'batalhas') ? 'ativo' : 'optLanding'}><NavLink to='/batalha' onClick={() => { setAbaAtiva('batalhas') }}>Batalhas</NavLink></p>
                         <p className={(abaAtiva === 'baka') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('baka') }}>Baka</NavLink></p>
                     </div>
                     <div id='rightLanding'>

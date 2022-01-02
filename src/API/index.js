@@ -31,6 +31,25 @@ const typedefs = gql`
         derrotas: Int
     }
 
+    type Pokemon {
+        id: Int!,
+        nome: String,
+        tipo1: Int,
+        tipo2: Int,
+        move1: String,
+        move2: String,
+        move3: String,
+        move4: String,
+        statHp: Int,
+        statAtk: Int,
+        statDef: Int,
+        statSpa: Int,
+        statSpd: Int,
+        statSpe: Int,
+        spriteFrente: String,
+        spriteCostas: String
+    }
+
     type Query {
         usuarios: [Usuario!],
         usuariosEmail(email:String!, senha:String!): [Usuario]
@@ -102,6 +121,24 @@ const resolvers = {
         tipo: (parent) => parent.tipo,
         vitorias: (parent) => parent.vitorias,
         derrotas: (parent) => parent.derrotas,
+    },
+    Pokemon: {
+        id: (parent) => parent.id,
+        nome: (parent) => parent.nome,
+        tipo1: (parent) => parent.tipo1,
+        tipo2: (parent) => parent.tipo2,
+        move1: (parent) => parent.move1,
+        move2: (parent) => parent.move2,
+        move3: (parent) => parent.move3,
+        move4: (parent) => parent.move4,
+        statHp: (parent) => parent.statHp,
+        statAtk: (parent) => parent.statAtk,
+        statDef: (parent) => parent.statDef,
+        statSpa: (parent) => parent.statSpa,
+        statSpd: (parent) => parent.statSpd,
+        statSpe: (parent) => parent.statSpe,
+        spriteFrente: (parent) => parent.spriteFrente,
+        spriteCostas: (parent) => parent.spriteCostas,
     }
 }
 
