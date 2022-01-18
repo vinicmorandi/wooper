@@ -107,6 +107,8 @@ const Times = () => {
                 enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 })
             }
         }
+        console.log(time)
+
     }
 
     // Renderiza os Pokemon Individualmente

@@ -1,35 +1,58 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, initialState } from "react";
 
 // Material UI
-import { LinearProgress, Typography, CircularProgress } from "@mui/material";
+import { LinearProgress, Typography, Button, CircularProgress } from "@mui/material";
+
+import socketClient from "socket.io-client"
 
 // CSS
 import './batalhas.css'
 
+// Socket.IO
+var socket = socketClient();
+
 const Batalha = () => {
     const [pokemon, setPokemon] = useState('')
     const [move1, setMove1] = useState('')
+    const [move2, setMove2] = useState('')
     const [poke1, setPoke1] = useState('')
-    // const [bloqueado, setBloqueado] = useState('')
+    const [poke2, setPoke2] = useState('')
+    const [bloqueado, setBloqueado] = useState('')
+    const [user, setUser] = useState(initialState)
     var usuario = JSON.parse(localStorage.getItem('usuario'))
 
     useEffect(() => {
         document.title = 'Batalha | Wooper'
-        if (pokemon === "") importaPokemon()
-        if (move1) {
-            turno(move1, poke1);
+        importaPokemon()
+        if (move1 && move2) {
+            turno(move1, move2, poke1, poke2);
         }
     })
 
+    socket.on('connection', (username) => {
+        setUser(username)
+        console.log(usuario)
+    })
+
     const importaPokemon = async () => {
-        if (usuario.times) {
-            var timeUsu = JSON.parse(usuario.times.replaceAll("'", "\""))
-            for (let i = 0; i < timeUsu.length; i++) {
-                timeUsu[i].currentHP = timeUsu[i].stats[0].base_stat
-            }
-            setPokemon(timeUsu)
-            console.log(timeUsu)
+
+        // Variáveis
+        var pokemonA = [];
+
+        // Básicos
+        let url = "https://pokeapi.co/api/v2/pokemon/1";
+        var resposta = await fetch(url);
+        pokemonA[0] = await resposta.json();
+
+        // Stats
+        pokemonA[0].currentHP = pokemonA[0].stats[0].base_stat
+
+        if (pokemon === '' || pokemon === undefined) {
+            await defineMoves(pokemonA[0])
+            setPoke1(pokemonA[0]);
+            setPoke2('a')
+            setPokemon(pokemonA);
         }
     }
 
@@ -45,30 +68,15 @@ const Batalha = () => {
         poke.movesSelect = arrayMoves
     }
 
-    const trocarPokemon = async () => {
-        if (pokemon[0].currentHP === 0) {
-            let url = "https://pokeapi.co/api/v2/pokemon/2";
-            var resposta = await fetch(url);
-            var pokemonA = []
-            pokemonA[0] = await resposta.json();
-
-            // Stats
-            pokemonA[0].currentHP = pokemonA[0].stats[0].base_stat
-
-            await defineMoves(pokemonA[0])
-            setPoke1(pokemonA[0]);
-            setPokemon(pokemonA);
-        }
-    }
-
-    const turno = (ataque1, poke1) => {
-        poke1.currentHP -= 20
+    const turno = (ataque1, ataque2, poke1, poke2) => {
+        poke1.currentHP -= ataque2
         if (poke1.currentHP <= 0) {
-            // setBloqueado(true);
+            setBloqueado(true);
             poke1.currentHP = 0;
             alert('O seu pokemon foi derrotado! Selecione outro!')
         }
         setMove1('')
+        setMove2('')
     }
 
     return (
@@ -76,10 +84,10 @@ const Batalha = () => {
             <>
                 <div id='telaBatalha'>
                     <div id='enemyBTL'>
-                        <Typography>{(pokemon) ? pokemon[0].name : ""}</Typography>
+                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
                         <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
                         <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
-                        <div><img loading='lazy' alt={(pokemon) ? pokemon[0].name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].name + ".png" : ""}></img></div>
+                        <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" : ""}></img></div>
                     </div>
                     <div>a</div>
                     <div id='pokeEnemyBTL'>
@@ -89,17 +97,16 @@ const Batalha = () => {
                     <div>b</div>
                     <div>c</div>
                     <div id='selfBTL'>
-                        <Typography>{(pokemon) ? pokemon[0].name : ""}</Typography>
+                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
                         <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
                         <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
                     </div>
                     <div>a</div>
                     <div id='ataquesBTL'>
-                        {/* <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[0].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[4].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[17].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[20].name.replaceAll("-", " ") : ""}</div> */}
-                        <div onClick={trocarPokemon()} className='trocar ATK'>Trocar de Pokémon</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[0].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[4].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[17].name.replaceAll("-", " ") : ""}</div>
+                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[20].name.replaceAll("-", " ") : ""}</div>
                     </div>
                 </div>
             </>
