@@ -60,9 +60,9 @@ const Times = () => {
                                 id,
                                 name,
                                 moves{
-                                move{
-                                    name
-                                }
+                                    move{
+                                        name
+                                    }
                                 },
                                 stats{
                                     base_stat

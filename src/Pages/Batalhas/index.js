@@ -69,41 +69,154 @@ const Batalha = () => {
 
 
     const trocarPokemon = async (poke) => {
+        if (poke1.currentHP > 0) turno(null, poke)
         setPoke1(poke);
         setOpen(false)
     }
 
     const turno = (ataque1, poke1) => {
-        poke2.currentHP -= ataque1.power
+        var random = Math.floor(Math.random() * 3)
         var derrotados = 0;
         var derrotadosIni = 0;
-        if (poke1.currentHP <= 0) {
-            setBloqueado(true)
-            poke1.currentHP = 0;
-            for (let i = 0; i < pokemon.length; i++) {
-                if (pokemon[i].currentHP === 0) {
-                    derrotados++
+
+        // Checa a velocidade dos pokemon, pra definir quem ataca primeiro
+
+        console.log(poke1)
+
+        if (poke1.stats[5].base_stat > poke2.stats[5].base_stat) {
+            poke2.currentHP -= (ataque1) ? ataque1.power : 0
+            if (poke2.currentHP <= 0) {
+                poke2.currentHP = 0
+                for (let i = 0; i < pokemon2.length; i++) {
+                    if (pokemon2[i].currentHP === 0) {
+                        derrotadosIni++
+                    }
+                }
+                if (derrotadosIni < 6) {
+                    setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+                } else {
+                    setGanhou(true)
+                    setOpenFinal(true)
+                }
+            } else {
+                poke1.currentHP -= poke2.moves[random].power
+                if (poke1.currentHP <= 0) {
+                    setBloqueado(true)
+                    poke1.currentHP = 0;
+                    for (let i = 0; i < pokemon.length; i++) {
+                        if (pokemon[i].currentHP === 0) {
+                            derrotados++
+                        }
+                    }
+                    if (derrotados < 6) {
+                        setOpen(true)
+                    } else {
+                        setGanhou(false)
+                        setOpenFinal(true)
+                    }
                 }
             }
-            if (derrotados < 6) {
-                setOpen(true)
+        } else if (poke1.stats[5].base_stat == poke2.stats[5].base_stat) {
+            var randomSpeed = Math.floor(Math.random() * 2)
+            if (randomSpeed == 0) {
+                poke2.currentHP -= (ataque1) ? ataque1.power : 0
+                if (poke2.currentHP <= 0) {
+                    poke2.currentHP = 0
+                    for (let i = 0; i < pokemon2.length; i++) {
+                        if (pokemon2[i].currentHP === 0) {
+                            derrotadosIni++
+                        }
+                    }
+                    if (derrotadosIni < 6) {
+                        setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+                    } else {
+                        setGanhou(true)
+                        setOpenFinal(true)
+                    }
+                } else {
+                    poke1.currentHP -= poke2.moves[random].power
+                    if (poke1.currentHP <= 0) {
+                        setBloqueado(true)
+                        poke1.currentHP = 0;
+                        for (let i = 0; i < pokemon.length; i++) {
+                            if (pokemon[i].currentHP === 0) {
+                                derrotados++
+                            }
+                        }
+                        if (derrotados < 6) {
+                            setOpen(true)
+                        } else {
+                            setGanhou(false)
+                            setOpenFinal(true)
+                        }
+                    }
+                }
             } else {
-                setGanhou(false)
-                setOpenFinal(true)
-            }
-        } else if (poke2.currentHP <= 0) {
-            poke2.currentHP = 0
-            for (let i = 0; i < pokemon2.length; i++) {
-                console.log(pokemon2[i].currentHP === 0)
-                if (pokemon2[i].currentHP === 0) {
-                    derrotadosIni++
+                poke1.currentHP -= poke2.moves[random].power
+                if (poke1.currentHP <= 0) {
+                    setBloqueado(true)
+                    poke1.currentHP = 0;
+                    for (let i = 0; i < pokemon.length; i++) {
+                        if (pokemon[i].currentHP === 0) {
+                            derrotados++
+                        }
+                    }
+                    if (derrotados < 6) {
+                        setOpen(true)
+                    } else {
+                        setGanhou(false)
+                        setOpenFinal(true)
+                    }
+                } else {
+                    poke2.currentHP -= (ataque1) ? ataque1.power : 0
+                    if (poke2.currentHP <= 0) {
+                        poke2.currentHP = 0
+                        for (let i = 0; i < pokemon2.length; i++) {
+                            if (pokemon2[i].currentHP === 0) {
+                                derrotadosIni++
+                            }
+                        }
+                        if (derrotadosIni < 6) {
+                            setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+                        } else {
+                            setGanhou(true)
+                            setOpenFinal(true)
+                        }
+                    }
                 }
             }
-            if (derrotadosIni < 6) {
-                setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+        } else {
+            poke1.currentHP -= poke2.moves[random].power
+            if (poke1.currentHP <= 0) {
+                setBloqueado(true)
+                poke1.currentHP = 0;
+                for (let i = 0; i < pokemon.length; i++) {
+                    if (pokemon[i].currentHP === 0) {
+                        derrotados++
+                    }
+                }
+                if (derrotados < 6) {
+                    setOpen(true)
+                } else {
+                    setGanhou(false)
+                    setOpenFinal(true)
+                }
             } else {
-                setGanhou(true)
-                setOpenFinal(true)
+                poke2.currentHP -= (ataque1) ? ataque1.power : 0
+                if (poke2.currentHP <= 0) {
+                    poke2.currentHP = 0
+                    for (let i = 0; i < pokemon2.length; i++) {
+                        if (pokemon2[i].currentHP === 0) {
+                            derrotadosIni++
+                        }
+                    }
+                    if (derrotadosIni < 6) {
+                        setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+                    } else {
+                        setGanhou(true)
+                        setOpenFinal(true)
+                    }
+                }
             }
         }
         setMove1('')
