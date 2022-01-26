@@ -66,9 +66,6 @@ const Times = () => {
                                 },
                                 stats{
                                     base_stat
-                                },
-                                sprites{
-                                    front_default
                                 }
                             }
                         }

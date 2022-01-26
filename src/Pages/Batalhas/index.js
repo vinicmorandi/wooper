@@ -1,114 +1,171 @@
 // React
-import React, { useEffect, useState, initialState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Material UI
-import { LinearProgress, Typography, Button, CircularProgress } from "@mui/material";
-
-import socketClient from "socket.io-client"
+import { LinearProgress, Typography, CircularProgress, Button, DialogContent, DialogContentText, DialogActions, List, ListItem, ListItemAvatar, ListItemText, DialogTitle, Dialog } from "@mui/material";
 
 // CSS
 import './batalhas.css'
 
-// Socket.IO
-var socket = socketClient();
-
 const Batalha = () => {
     const [pokemon, setPokemon] = useState('')
     const [move1, setMove1] = useState('')
-    const [move2, setMove2] = useState('')
     const [poke1, setPoke1] = useState('')
+    const [move2, setMove2] = useState('')
     const [poke2, setPoke2] = useState('')
+    const [pokemon2, setPokemon2] = useState('')
+    const [open, setOpen] = useState(false)
+    const [openFinal, setOpenFinal] = useState(false)
     const [bloqueado, setBloqueado] = useState('')
-    const [user, setUser] = useState(initialState)
+    const [ganhou, setGanhou] = useState('')
+    const tabelaFraquezas = [[1, 1, 1, 1, 1, 0.5, 1, 0, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1], [2, 1, 0.5, 0.5, 1, 2, 0.5, 0, 2, 1, 1, 1, 1, 0.5, 2, 1, 2, 1], [1, 2, 1, 1, 1, 0.5, 2, 0, 0.5, 1, 1, 2, 0.5, 1, 1, 1, 1, 1], [1, 1, 1, 0.5, 0.5, 0.5, 1, 0.5, 0, 1, 1, 2, 1, 1, 1, 1, 1, 2], [1, 1, 0, 2, 1, 2, 0.5, 0, 2, 2, 1, 0.5, 2, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 0.5, 1, 0, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 0.5, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 0.5, 1, 2, 1, 2, 1, 1, 2, 1], [0, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 1], [1, 1, 1, 1, 1, 2, 1, 0, 0.5, 0.5, 0.5, 1, 0.5, 1, 2, 1, 1, 2], [1, 1, 1, 1, 1, 0.5, 2, 1, 2, 0.5, 0.5, 2, 1, 1, 2, 0.5, 1, 1], [1, 1, 1, 1, 2, 2, 1, 1, 0.5, 2, 0.5, 0.5, 1, 1, 1, 0.5, 1, 1], [1, 1, 0.5, 0.5, 2, 2, 0.5, 1, 0.5, 0.5, 2, 0.5, 1, 1, 1, 0.5, 1, 1], [1, 1, 2, 1, 0, 1, 1, 0, 1, 1, 2, 0.5, 0.5, 1, 1, 0.5, 1, 1], [1, 2, 1, 2, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 0.5, 1, 1, 0, 1], [1, 1, 2, 1, 2, 1, 1, 1, 0.5, 0.5, 0.5, 2, 1, 1, 0.5, 2, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 1, 1, 2, 1, 0], [1, 0.5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 0.5], [1, 2, 1, 0.5, 1, 1, 1, 0, 0.5, 0.5, 1, 1, 1, 1, 1, 2, 2, 1]]
     var usuario = JSON.parse(localStorage.getItem('usuario'))
 
     useEffect(() => {
         document.title = 'Batalha | Wooper'
-        importaPokemon()
-        if (move1 && move2) {
-            turno(move1, move2, poke1, poke2);
+        if (pokemon === "") importaPokemon()
+        if (move1) {
+            turno(move1, poke1);
         }
-    })
-
-    socket.on('connection', (username) => {
-        setUser(username)
-        console.log(usuario)
     })
 
     const importaPokemon = async () => {
+        if (usuario) {
+            if (usuario.times) {
+                var timeUsu = JSON.parse(usuario.times.replaceAll("'", "\""))
+                for (let i = 0; i < timeUsu.length; i++) {
+                    timeUsu[i].currentHP = timeUsu[i].stats[0].base_stat
 
-        // Variáveis
-        var pokemonA = [];
+                    var arrayMoves = []
+                    for (let c = 0; c < 4; c++) {
+                        await fetch("https://pokeapi.co/api/v2/move/" + timeUsu[i].moves[c].move.name, {
+                            method: 'GET',
+                        }).then((res) => res.json())
+                            .then((result) => arrayMoves[c] = result);
+                    }
+                    timeUsu[i].moves = arrayMoves
+                }
 
-        // Básicos
-        let url = "https://pokeapi.co/api/v2/pokemon/1";
-        var resposta = await fetch(url);
-        pokemonA[0] = await resposta.json();
+                var teste = JSON.parse(usuario.times.replaceAll("'", "\""))
+                for (let i = 0; i < teste.length; i++) {
+                    teste[i].currentHP = teste[i].stats[0].base_stat
 
-        // Stats
-        pokemonA[0].currentHP = pokemonA[0].stats[0].base_stat
-
-        if (pokemon === '' || pokemon === undefined) {
-            await defineMoves(pokemonA[0])
-            setPoke1(pokemonA[0]);
-            setPoke2('a')
-            setPokemon(pokemonA);
+                    var arrayMoves = []
+                    for (let c = 0; c < 4; c++) {
+                        await fetch("https://pokeapi.co/api/v2/move/" + teste[i].moves[c].move.name, {
+                            method: 'GET',
+                        }).then((res) => res.json())
+                            .then((result) => arrayMoves[c] = result);
+                    }
+                    teste[i].moves = arrayMoves
+                }
+                setPokemon(timeUsu)
+                setPoke1(timeUsu[0])
+                setPoke2(teste[0])
+                setPokemon2(teste)
+            }
         }
     }
 
-    const defineMoves = async (poke) => {
-        var arrayMoves = []
-        for (let i = 0; i < poke.moves.length; i++) {
-            let urlMove = poke.moves[i].move.url;
-            var moveR = await fetch(urlMove);
-            var move = await moveR.json();
-            arrayMoves[i] = move
-        }
 
-        poke.movesSelect = arrayMoves
+    const trocarPokemon = async (poke) => {
+        setPoke1(poke);
+        setOpen(false)
     }
 
-    const turno = (ataque1, ataque2, poke1, poke2) => {
-        poke1.currentHP -= ataque2
+    const turno = (ataque1, poke1) => {
+        poke2.currentHP -= ataque1.power
+        var derrotados = 0;
+        var derrotadosIni = 0;
         if (poke1.currentHP <= 0) {
-            setBloqueado(true);
+            setBloqueado(true)
             poke1.currentHP = 0;
-            alert('O seu pokemon foi derrotado! Selecione outro!')
+            for (let i = 0; i < pokemon.length; i++) {
+                if (pokemon[i].currentHP === 0) {
+                    derrotados++
+                }
+            }
+            if (derrotados < 6) {
+                setOpen(true)
+            } else {
+                setGanhou(false)
+                setOpenFinal(true)
+            }
+        } else if (poke2.currentHP <= 0) {
+            poke2.currentHP = 0
+            for (let i = 0; i < pokemon2.length; i++) {
+                console.log(pokemon2[i].currentHP === 0)
+                if (pokemon2[i].currentHP === 0) {
+                    derrotadosIni++
+                }
+            }
+            if (derrotadosIni < 6) {
+                setTimeout(() => { setPoke2(pokemon2[derrotadosIni]) }, 400)
+            } else {
+                setGanhou(true)
+                setOpenFinal(true)
+            }
         }
         setMove1('')
         setMove2('')
     }
 
     return (
-        (pokemon) ?
+        (poke1) ?
             <>
                 <div id='telaBatalha'>
                     <div id='enemyBTL'>
-                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
-                        <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
-                        <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
-                        <div><img loading='lazy' alt={(pokemon) ? pokemon[0].species.name : ""} src={(pokemon) ? "./Assets/Images/pokemons/" + pokemon[0].id.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false }) + pokemon[0].species.name + ".png" : ""}></img></div>
+                        <Typography>{(poke2) ? poke2.name : ""}</Typography>
+                        <Typography>{(poke2) ? poke2.currentHP + "/" + poke2.stats[0].base_stat : ""}</Typography>
+                        <LinearProgress variant='determinate' value={(poke2) ? poke2.currentHP / poke2.stats[0].base_stat * 100 : 0}></LinearProgress>
+                        <div><img loading='lazy' id='pokeIni' alt={(poke2) ? poke2.name : ""} src={(poke2) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + poke2.id + ".gif" : ""}></img></div>
                     </div>
-                    <div>a</div>
-                    <div id='pokeEnemyBTL'>
-                        <div>b</div>
-                    </div>
-                    <div>a</div>
-                    <div>b</div>
-                    <div>c</div>
+                    <div><img id='imgPokeMain' loading='lazy' alt={(pokemon) ? poke1.name : ""} src={(pokemon) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/" + poke1.id + ".gif" : ""}></img></div>
                     <div id='selfBTL'>
-                        <Typography>{(pokemon) ? pokemon[0].species.name : ""}</Typography>
-                        <Typography>{(pokemon) ? pokemon[0].currentHP + "/" + pokemon[0].stats[0].base_stat : ""}</Typography>
-                        <LinearProgress variant='determinate' value={(pokemon) ? pokemon[0].currentHP / pokemon[0].stats[0].base_stat * 100 : ""}></LinearProgress>
+                        <Typography>{(pokemon) ? poke1.name : ""}</Typography>
+                        <Typography>{(pokemon) ? poke1.currentHP + "/" + poke1.stats[0].base_stat : ""}</Typography>
+                        <LinearProgress variant='determinate' value={(pokemon) ? poke1.currentHP / poke1.stats[0].base_stat * 100 : ""}></LinearProgress>
                     </div>
-                    <div>a</div>
                     <div id='ataquesBTL'>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[0].id) }} className={((pokemon) ? pokemon[0].movesSelect[0].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[0].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[4].id) }} className={((pokemon) ? pokemon[0].movesSelect[4].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[4].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[17].id) }} className={((pokemon) ? pokemon[0].movesSelect[17].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[17].name.replaceAll("-", " ") : ""}</div>
-                        <div disabled={bloqueado} onClick={() => { setMove1(pokemon[0].movesSelect[20].id) }} className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "") + ' ATK'}><div className={((pokemon) ? pokemon[0].movesSelect[20].type.name : "")}></div>{(pokemon) ? pokemon[0].movesSelect[20].name.replaceAll("-", " ") : ""}</div>
+                        <div onClick={() => { setMove1(poke1.moves[0]) }} className={((pokemon) ? poke1.moves[0].type.name : "") + ' ATK'}><div className={((pokemon) ? poke1.moves[0].type.name : "")}></div>{(pokemon) ? poke1.moves[0].name.replaceAll("-", " ") : ""}</div>
+                        <div onClick={() => { setMove1(poke1.moves[1]) }} className={((pokemon) ? poke1.moves[1].type.name : "") + ' ATK'}><div className={((pokemon) ? poke1.moves[1].type.name : "")}></div>{(pokemon) ? poke1.moves[1].name.replaceAll("-", " ") : ""}</div>
+                        <div onClick={() => { setMove1(poke1.moves[2]) }} className={((pokemon) ? poke1.moves[2].type.name : "") + ' ATK'}><div className={((pokemon) ? poke1.moves[2].type.name : "")}></div>{(pokemon) ? poke1.moves[2].name.replaceAll("-", " ") : ""}</div>
+                        <div onClick={() => { setMove1(poke1.moves[3]) }} className={((pokemon) ? poke1.moves[3].type.name : "") + ' ATK'}><div className={((pokemon) ? poke1.moves[3].type.name : "")}></div>{(pokemon) ? poke1.moves[3].name.replaceAll("-", " ") : ""}</div>
+                        <div onClick={() => { setOpen(true) }} className='trocar ATK'>Trocar de Pokémon</div>
                     </div>
                 </div>
+                {/* Troca de Pokémon */}
+                <Dialog onClose={() => { if (!bloqueado) setOpen(false) }} open={open}>
+                    <DialogTitle>Selecione um Pokémon</DialogTitle>
+                    <List>
+                        {pokemon.map((pokemon) => (
+                            (pokemon.currentHP > 0) ?
+                                <ListItem button onClick={() => trocarPokemon(pokemon)} key={pokemon.name}>
+                                    <ListItemAvatar>
+                                        <img height='55px' loading='lazy' alt={(pokemon) ? pokemon.name : ""} src={(pokemon) ? pokemon.sprites.front_default : ""}></img>
+                                    </ListItemAvatar>
+                                    <ListItemText sx={{ textTransform: "capitalize" }} primary={pokemon.name} />
+                                </ListItem>
+                                : ""
+                        ))}
+                    </List>
+                </Dialog>
+
+                {/* Perdeu */}
+                <Dialog open={openFinal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">
+                        {(ganhou) ? "Você Ganhou!" : "Você Perdeu! :("}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {(ganhou) ? "BOA, CARALHO! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho. Deseja tentar novamente?"}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => { window.location.href = "/" }}>Não :(</Button>
+                        <Button onClick={() => { window.location.href = "/batalha" }}>BORA, PORRA</Button>
+                    </DialogActions>
+                </Dialog>
             </>
             : <CircularProgress sx={{ margin: 'auto', display: 'block' }} thickness={1} size='100px' color='inherit' />
     );

@@ -1,18 +1,19 @@
 #telaBatalha {
-    width: 100vw;
-    height: calc(100vh - 70px);
-    margin-top: 30px;
-    padding: 10px;
+    max-width: 400px;
+    margin:30px auto 0px;
+    padding: 20px;
     background-image: url("https://wallpaperaccess.com/full/446984.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
-    grid-template-rows: 20% 53% 27%;
 }
 
 #ataquesBTL {
     position: relative;
+}
+
+#imgPokeMain {
+    margin-top: 200px;
+    height: 100px;
 }
 
 .ATK {
@@ -36,10 +37,22 @@
     cursor: pointer;
 }
 
+#pokeIni {
+    height: 100px;
+    margin-left: calc(100% - 120px);
+}
+
+.trocar {
+    background-color: white;
+}
+
 #selfBTL {
     background-color: white;
     padding: 10px;
     height: 80px;
+    padding-right: 15%;
+    -webkit-clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
 }
 
 .normal {
