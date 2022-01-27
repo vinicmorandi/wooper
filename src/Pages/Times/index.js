@@ -55,17 +55,22 @@ const Times = () => {
                 },
                 body: JSON.stringify({
                     query: `
-                        query pokemon($name: String!){
-                            pokemon(name:$name){
+                        query pokemon($name: String!) {
+                            pokemon(name:$name) {
                                 id,
                                 name,
-                                moves{
-                                    move{
+                                moves {
+                                    move {
                                         name
                                     }
                                 },
-                                stats{
+                                stats {
                                     base_stat
+                                },
+                                types {
+                                    type {
+                                        name
+                                    }
                                 }
                             }
                         }
@@ -113,7 +118,7 @@ const Times = () => {
         return (
             <TableRow key={poke.id}>
                 <TableCell align='center'>#{poke.id}</TableCell >
-                <TableCell align='center'><img height='30px' loading='lazy' alt={poke.name} src={poke.sprites.front_default}></img></TableCell >
+                <TableCell align='center'><img height='30px' loading='lazy' alt={poke.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + poke.id + ".gif"}></img></TableCell >
                 <TableCell align='center'>{(poke.name.charAt(0).toUpperCase() + poke.name.slice(1)).replace('-', ' ')}</TableCell>
                 {(renderTime)
                     ? <>
