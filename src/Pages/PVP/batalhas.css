@@ -1,0 +1,163 @@
+#telaBatalha {
+    max-width: 400px;
+    margin:30px auto 0px;
+    padding: 20px;
+    background-image: url("https://wallpaperaccess.com/full/446984.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#ataquesBTL {
+    position: relative;
+}
+
+#imgPokeMain {
+    margin-top: 200px;
+    height: 100px;
+}
+
+.ATK {
+    background-size: 25%;
+    background-repeat: no-repeat;
+    background-position-y: 35%;
+    background-position-x: -18px;
+    height: 46px;
+    color: black !important;
+    text-align: left !important;
+    font-size: 16px !important;
+    font-weight: 300 !important;
+    text-transform: capitalize;
+    padding-left: 57px;
+    outline: 0;
+    border: 0;
+    margin: 5px;
+    border-radius: 60px;
+    box-shadow: 1px 1px 13px -4px black;
+    line-height: 46px;
+    cursor: pointer;
+}
+
+#pokeIni {
+    height: 100px;
+    margin-left: calc(100% - 120px);
+}
+
+.trocar {
+    background-color: white;
+}
+
+#selfBTL {
+    background-color: white;
+    padding: 10px;
+    height: 80px;
+    padding-right: 15%;
+    -webkit-clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+}
+
+.normal {
+    background-image: url(https://i.imgur.com/Q9AZAUE.jpeg);
+    background-color: #acb1b0 !important;
+}
+
+/*Lutador*/
+.fighting {
+    background-image: url(https://i.imgur.com/E9rvCDD.jpeg);
+    background-color: #f2798a !important;
+}
+
+/*Voador*/
+.flying {
+    background-image: url(https://i.imgur.com/Nc54VQe.jpeg);
+    background-color: #b5cced !important;
+}
+
+/*Venenoso*/
+.poison {
+    background-image: url(https://i.imgur.com/1JzifyU.jpeg);
+    background-color: #d78ada !important;
+}
+
+/*Terra*/
+.ground {
+    background-image: url(https://i.imgur.com/KfGtoFj.jpeg);
+    background-color: #eda881 !important;
+}
+
+/*Pedra*/
+.rock {
+    background-image: url(https://i.imgur.com/LneeZPw.jpeg);
+    background-color: #cdba8f !important;
+}
+
+/*Inseto*/
+.bug {
+    background-image: url(https://i.pinimg.com/564x/44/e2/0d/44e20d09b7092e7247ec81d51af8a696.jpg);
+    background-color: #a5cc55 !important;
+}
+
+/*Fantasma*/
+.ghost {
+    background-image: url(https://i.imgur.com/sF6RSGd.jpeg);
+    background-color: #8191cb !important;
+}
+
+/*Aço*/
+.steel {
+    background-image: url(https://i.imgur.com/SeSjqoj.jpeg);
+    background-color: #41a7ac !important;
+}
+
+/*Fogo*/
+.fire {
+    background-image: url(https://i.imgur.com/g0GOMzQ.jpeg);
+    background-color: #fcaf5f !important;
+}
+
+/*Água*/
+.water {
+    background-image: url(https://i.imgur.com/DYmXpf7.jpeg);
+    background-color: #4aadcc !important;
+}
+
+/*Grama*/
+.grass {
+    background-image: url(https://i.imgur.com/NCKpNaF.jpeg);
+    background-color: #4cc987 !important;
+}
+
+/*Elétrico*/
+.electric {
+    background-image: url(https://i.imgur.com/uFL3HJU.jpeg);
+    background-color: #f0d465 !important;
+}
+
+/*Psíquico*/
+.psychic {
+    background-image: url(https://i.imgur.com/QKp8ePf.jpeg);
+    background-color: #fca2a1 !important;
+}
+
+/*Gelo*/
+.ice {
+    background-image: url(https://i.imgur.com/f8sP7Sh.jpeg);
+    background-color: #6ce4da !important;
+}
+
+/*Dragão*/
+.dragon {
+    background-image: url(https://i.imgur.com/4dQdxyN.jpeg);
+    background-color: #4586b0 !important;
+}
+
+/*Dark*/
+.dark {
+    background-image: url(https://i.imgur.com/sWqq3cO.jpeg);
+    background-color: #717171 !important;
+}
+
+/*Fada*/
+.fairy {
+    background-color: #fabcec !important;
+    background-image: url(https://i.imgur.com/9JreAr0.jpeg);
+}

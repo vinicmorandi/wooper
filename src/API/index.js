@@ -15,6 +15,9 @@ app.use(cors())
 
 // Modelos
 const db = require('./models')
+const { SocketAddress } = require('net')
+const {v4: uuidV4} = require('uuid');
+const { SportsHockeyTwoTone } = require('@mui/icons-material');
 
 // Schema
 const typedefs = gql`
@@ -169,14 +172,38 @@ const io = require("socket.io")(server, {
     }
 });
 
+var salas = []
+
 // Evento chamado quando o usuário conecta com o socketIO
 io.on('connection', (socket) => {
-    const username = "Sussy Baka"
-    socket.emit('connection', username);
+    var usuarios = []
+    socket.join("teste")
+    console.log("conectou!")
+
+    socket.on('login',(usuario)=>{
+        socket.emit('loginU', usuario)
+        socket.in('teste').emit('loginU', usuario)
+        usuarios[usuario.id] = usuario
+        if(usuarios.length == 2){
+            socket.emit('atualiza-lobbyU',usuarios)
+        }
+    })
+
+    socket.on('atualiza-lobby',(lobby)=>{
+        console.log(lobby)
+        socket.in('teste').emit('atualiza-lobbyU',lobby)
+    })
+
+    socket.on('ataque', (ataque,idUsu) => {
+        socket.emit('retorno', ataque, idUsu)
+        socket.in("teste").emit('retorno', ataque, idUsu)
+        console.log(idUsu)
+    })
 });
 
 // Evento chamado quando o usuário desconecta do socketIO
 io.on('disconnect', () => {
+    console.log("desconectou! :(")
     socket.removeAllListeners();
 });
 

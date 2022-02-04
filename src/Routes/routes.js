@@ -11,16 +11,17 @@ import { Button, Menu, MenuItem, Divider } from "@mui/material";
 import { KeyboardArrowDown, Logout, CatchingPokemon, Settings } from "@mui/icons-material";
 
 // Páginas
-import Landing from "../Pages/Landing"
-import Login from "../Pages/Login"
-import Pokedex from '../Pages/Pokedex'
-import Signup from '../Pages/Signup'
-import Ranking from '../Pages/Ranking'
-import Batalha from '../Pages/Batalhas'
-import Times from '../Pages/Times'
+import Landing from "../Pages/Landing";
+import Login from "../Pages/Login";
+import Pokedex from '../Pages/Pokedex';
+import Signup from '../Pages/Signup';
+import Ranking from '../Pages/Ranking';
+import Batalha from '../Pages/Batalhas';
+import Times from '../Pages/Times';
+import PVP from "../Pages/PVP";
 
 // CSS
-import "./navbar.css"
+import "./navbar.css";
 
 export default function Routes() {
 
@@ -28,7 +29,7 @@ export default function Routes() {
     const [abaAtiva, setAbaAtiva] = React.useState('');
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
-        setAbaAtiva('')
+        setAbaAtiva('');
         if (localStorage.getItem('usuario')) {
             setAnchorEl(event.currentTarget);
         }
@@ -38,10 +39,10 @@ export default function Routes() {
     };
     const logout = () => {
         localStorage.removeItem('usuario');
-        handleClose()
-    }
+        handleClose();
+    };
 
-    var usuario = JSON.parse(localStorage.getItem('usuario'))
+    var usuario = JSON.parse(localStorage.getItem('usuario'));
 
     return (
         <Router>
@@ -51,10 +52,14 @@ export default function Routes() {
                 <header>
                     <div id='leftLanding'>
                         <p><NavLink id='tituloLanding' to='/'>Wooper</NavLink></p>
-                        <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke') }}>Pokédex</NavLink></p>
-                        <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking') }}>Ranking</NavLink></p>
-                        <p className={(abaAtiva === 'batalhas') ? 'ativo' : 'optLanding'}><NavLink to='/batalha' onClick={() => { setAbaAtiva('batalhas') }}>Batalhas</NavLink></p>
-                        <p className={(abaAtiva === 'baka') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('baka') }}>Baka</NavLink></p>
+                        <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke'); }}>Pokédex</NavLink></p>
+                        <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking'); }}>Ranking</NavLink></p>
+                        {(usuario) ? (usuario.times) ?
+                            <>
+                                <p className={(abaAtiva === 'batalhas') ? 'ativo' : 'optLanding'}><NavLink to='/batalha' onClick={() => { setAbaAtiva('batalhas'); }}>PVE</NavLink></p>
+                                <p className={(abaAtiva === 'pvp') ? 'ativo' : 'optLanding'}><NavLink to='/pvp' onClick={() => { setAbaAtiva('pvp'); }}>PVP</NavLink></p>
+                            </>
+                            : "" : ""}
                     </div>
                     <div id='rightLanding'>
                         <p id='botaoMain' onClick={handleClick}>
@@ -88,6 +93,9 @@ export default function Routes() {
                         </Route>
                         <Route path='/times'>
                             <Times></Times>
+                        </Route>
+                        <Route path='/pvp'>
+                            <PVP></PVP>
                         </Route>
                         <Route path='/'>
                             <Landing></Landing>
