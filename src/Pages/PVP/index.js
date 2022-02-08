@@ -14,11 +14,19 @@ var usuario = JSON.parse(localStorage.getItem('usuario'));
 const PVP = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [usuarioA, setUsuarioA] = useState();
+    const [inimigo, setInimigo] = useState();
     const [carregando, setCarregando] = useState(false);
     const [ataques, setAtaques] = useState([]);
-    const [outroUsuarioId, setOutroUsuarioId] = useState('');
+    const [procurando, setProcurando] = useState(false);
+    var sala = '';
+
+    const [open, setOpen] = useState(false);
+    const [openFinal, setOpenFinal] = useState(false);
+    const [bloqueado, setBloqueado] = useState('');
+    const [ganhou, setGanhou] = useState('');
 
     const login = async () => {
+        setProcurando(true);
         socket.emit("connection");
         if (usuario) {
             usuario.pokemon = await importaPokemon(usuario);
@@ -54,24 +62,30 @@ const PVP = () => {
     // atualizar o lobby, assim o novo usuário também vai ter 
     // as informações do primeiro
 
-    socket.on('loginU', async (user) => {
+    socket.on('loginU', async (user, salaAtual) => {
         var arrayUsers = usuarios;
         user.pokemon = await importaPokemon(user);
         arrayUsers[user.id] = user;
+        console.log(user);
         if (user.id !== usuario.id) {
-            setOutroUsuarioId(user.id);
+            setInimigo(user);
         }
         setUsuarios(arrayUsers);
+        if (sala === '') sala = salaAtual;
     });
 
     socket.on('atualiza-lobbyU', (lobby) => {
-        console.log("lobby");
         console.log(lobby);
+        for (let i = 0; i < lobby.length; i++) {
+            if (lobby[i].id !== usuario.id) {
+                setInimigo(lobby[i]);
+            }
+        }
         setUsuarios(lobby);
     });
 
     const ataque = (a) => {
-        socket.emit('ataque', a, usuario.id);
+        socket.emit('ataque', sala, a, usuario.id);
         setCarregando(true);
     };
 
@@ -106,32 +120,37 @@ const PVP = () => {
         return usuRetorno;
     };
 
+    const trocarPokemon = async (poke) => {
+        let user = usuarioA;
+        let users = usuarios;
+        if (usuarioA.pokemon.atual.currentHP > 0) turno(null, poke);
+        user.pokemon.atual = poke;
+        users[usuarioA.id] = user;
+        setUsuarioA(user);
+        setUsuarios(usuarios);
+        setOpen(false);
+    };
+
     return (
         <>
             {
                 (carregando) ? <div>carregando...</div> : ""
             }
             {
-                (usuarios.length > 0) ? (usuarios) ?
+                (usuarios.length > 1) ?
                     <div id='telaBatalha'>
                         <>
                             {
-                                (outroUsuarioId !== '') ?
+                                (inimigo) ?
                                     <div id='enemyBTL'>
-                                        <Typography>{usuarios[outroUsuarioId].pokemon.atual.name}</Typography>
-                                        <Typography>{usuarios[outroUsuarioId].pokemon.atual.currentHP} /  {usuarios[outroUsuarioId].pokemon.atual.stats[0]}</Typography>
-                                        <LinearProgress variant='determinate' value={usuarios[outroUsuarioId].pokemon.atual.currentHP / usuarios[outroUsuarioId].pokemon.atual.stats[0] * 100}></LinearProgress>
-                                        <div><img loading='lazy' id='pokeIni' alt={usuarios[outroUsuarioId].pokemon.atual.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + usuarios[outroUsuarioId].pokemon.atual.id + ".gif"}></img></div>
+                                        <Typography>{inimigo.pokemon.atual.name}</Typography>
+                                        <Typography>{inimigo.pokemon.atual.currentHP} /  {inimigo.pokemon.atual.stats[0]}</Typography>
+                                        <LinearProgress variant='determinate' value={inimigo.pokemon.atual.currentHP / inimigo.pokemon.atual.stats[0] * 100}></LinearProgress>
+                                        <div><img loading='lazy' id='pokeIni' alt={inimigo.pokemon.atual.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + inimigo.pokemon.atual.id + ".gif"}></img></div>
                                     </div>
-                                    // <div id='enemyBTL'>
-                                    //     <Typography>{(usuarios[outroUsuarioId].pokemon.atual) ? usuarios[outroUsuarioId].pokemon.atual.name : ""}</Typography>
-                                    //     <Typography>{(usuarios[outroUsuarioId].pokemon.atual) ? usuarios[outroUsuarioId].pokemon.atual.currentHP + "/" + usuarios[outroUsuarioId].pokemon.atual.stats[0] : ""}</Typography>
-                                    //     <LinearProgress variant='determinate' value={(usuarios[outroUsuarioId].pokemon.atual) ? usuarios[outroUsuarioId].pokemon.atual.currentHP / usuarios[outroUsuarioId].pokemon.atual.stats[0] * 100 : 0}></LinearProgress>
-                                    //     <div><img loading='lazy' id='pokeIni' alt={(usuarios[outroUsuarioId].pokemon.atual) ? usuarios[outroUsuarioId].pokemon.atual.name : ""} src={(usuarios[outroUsuarioId].pokemon.atual) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + usuarios[outroUsuarioId].pokemon.atual.id + ".gif" : ""}></img></div>
-                                    // </div> 
                                     : ""
                             }
-                            {(usuarioA) ?
+                            {(usuarioA.pokemon) ?
                                 <>
                                     <div><img id='imgPokeMain' loading='lazy' alt={(usuarioA) ? usuarioA.pokemon.atual.name : ""} src={(usuarioA) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/" + usuarioA.pokemon.atual.id + ".gif" : ""}></img></div>
                                     <div id='selfBTL'>
@@ -146,14 +165,48 @@ const PVP = () => {
                                                 {move.name.replaceAll("-", " ")}
                                             </div>
                                         ))) : ""}
-                                        {/* <div onClick={() => { setOpen(true); }} className='trocar ATK'>Trocar de Pokémon</div> */}
+                                        <div onClick={() => { setOpen(true); }} className='trocar ATK'>Trocar de Pokémon</div>
                                     </div>
                                 </> : ""
                             }
+
+                            {/* Troca de Pokémon */}
+                            {
+                                (usuarioA.pokemon) ? <Dialog onClose={() => { if (!bloqueado) setOpen(false); }} open={open}>
+                                    <DialogTitle>Selecione um Pokémon</DialogTitle>
+                                    <List>
+                                        {usuarioA.pokemon.time.map((pokemon) => (
+                                            (pokemon.currentHP > 0) ?
+                                                <ListItem button onClick={() => trocarPokemon(pokemon)} key={pokemon.name}>
+                                                    <ListItemAvatar>
+                                                        <img height='55px' loading='lazy' alt={(pokemon) ? pokemon.name : ""} src={(pokemon) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + pokemon.id + ".gif" : ""}></img>
+                                                    </ListItemAvatar>
+                                                    <ListItemText sx={{ textTransform: "capitalize" }} primary={pokemon.name} />
+                                                </ListItem>
+                                                : ""
+                                        ))}
+                                    </List>
+                                </Dialog> : ""
+                            }
+
+                            <Dialog open={openFinal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                                <DialogTitle id="alert-dialog-title">
+                                    {(ganhou) ? "Você Ganhou!" : "Você Perdeu! :("}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        {(ganhou) ? "BOA, CARALHO! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho. Deseja tentar novamente?"}
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={() => { window.location.href = "/"; }}>Não :(</Button>
+                                    <Button onClick={() => { window.location.href = "/batalha"; }}>BORA, PORRA</Button>
+                                </DialogActions>
+                            </Dialog>
                         </>
                     </div>
 
-                    : "" : <Button onClick={() => { login(); }}>Oi</Button>
+                    : (procurando) ? <p>Procurando Adversários...</p> : <Button onClick={() => { login(); }}>Procurar Adversários</Button>
             }
 
         </>

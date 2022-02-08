@@ -173,30 +173,47 @@ const io = require("socket.io")(server, {
 });
 
 var salas = []
+var usuarios = []
 
 // Evento chamado quando o usuário conecta com o socketIO
 io.on('connection', (socket) => {
-    var usuarios = []
-    socket.join("teste")
-    console.log("conectou!")
-
     socket.on('login',(usuario)=>{
-        socket.emit('loginU', usuario)
-        socket.in('teste').emit('loginU', usuario)
-        usuarios[usuario.id] = usuario
-        if(usuarios.length == 2){
-            socket.emit('atualiza-lobbyU',usuarios)
+        var sala = ''
+        for(let i = 0; i<salas.length; i++){
+            if(salas[i].usuarios.length < 2){
+                sala = salas[i]
+                continue
+            }
+        }
+        if(sala===''){
+            sala = {
+                "id": Math.floor(Math.random() * 9999999999999),
+                "usuarios": []
+            }
+            salas.push(sala)
+        }
+        socket.join(sala.id)
+        console.log("Conectou na sala " + sala.id)
+
+
+
+        socket.emit('loginU', usuario, sala.id)
+        socket.in(sala.id).emit('loginU', usuario, sala.id)
+        var jaConectou = false
+        for(let i = 0; i<sala.usuarios.length;i++){
+            if(sala.usuarios[i].id==usuario.id){
+                jaConectou = true
+            }
+        }
+        if(!jaConectou) sala.usuarios.push(usuario)
+        if(sala.usuarios.length == 2){
+            socket.emit('atualiza-lobbyU',sala.usuarios)
         }
     })
 
-    socket.on('atualiza-lobby',(lobby)=>{
-        console.log(lobby)
-        socket.in('teste').emit('atualiza-lobbyU',lobby)
-    })
-
-    socket.on('ataque', (ataque,idUsu) => {
+    socket.on('ataque', (sala, ataque, idUsu) => {
         socket.emit('retorno', ataque, idUsu)
-        socket.in("teste").emit('retorno', ataque, idUsu)
+        socket.in(sala.id).emit('retorno', ataque, idUsu)
         console.log(idUsu)
     })
 });
