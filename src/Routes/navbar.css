@@ -1,35 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-#root {
-    display: flex;
-    flex-direction: column;
-    margin: 0px;
-    left: 0px;
-    top: 0px;
-    font-family: 'Roboto', sans-serif;
-}
-
 body {
     margin: 0px;
 }
 
-#sidebar {
-    position: static;
-    left: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin: 0px;
-    padding: 7px 15px;
-    box-shadow: 1px 1px 3px black;
-}
-
-#sidebar * {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
 a {
     text-decoration: none;
+}
+
+#cont {
+    padding: 10px 100px;
 }

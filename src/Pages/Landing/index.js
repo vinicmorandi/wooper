@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 
-import { Button, Typography } from '@mui/material'
-import { NavLink } from 'react-router-dom'
-import { Twitter, Groups } from '@mui/icons-material'
+import { Button, Typography } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+import { Twitter, Groups } from '@mui/icons-material';
 
-import './landing.css'
+import './landing.css';
 
 const Landing = () => {
 
@@ -21,20 +21,6 @@ const Landing = () => {
                     <img src='Assets/Images/unDraw/prog.svg' alt='' height='700px'></img>
                 </div>
             </div>
-            {/* <div id='scrollCards'>
-                <div id='headerHome'>
-                    <Typography variant='h2' gutterBottom={true}>Seja Bem-Vindo!</Typography>
-                    <Typography variant='h6'>Lorem ipsum dolor sit amet</Typography>
-                </div>
-                <div className='cards'>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                    <Card img='' titulo='Teste' texto='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ligula purus' botao='Sussy'></Card>
-                </div>
-            </div> */}
             <div id='scrollContato'>
                 <div id='contato'>
                     <Typography variant='h2' gutterBottom={true}>Contato</Typography>
@@ -59,7 +45,7 @@ const Landing = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Landing
+export default Landing;

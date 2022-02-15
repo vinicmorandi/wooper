@@ -51,7 +51,7 @@ export default function Routes() {
                 <CssBaseline />
                 <header>
                     <div id='leftLanding'>
-                        <p><NavLink id='tituloLanding' to='/'>Wooper</NavLink></p>
+                        <p><NavLink onClick={() => { setAbaAtiva(''); }} id='tituloLanding' to='/'>Wooper</NavLink></p>
                         <p className={(abaAtiva === 'poke') ? 'ativo' : 'optLanding'}><NavLink to='/pokedex' onClick={() => { setAbaAtiva('poke'); }}>Pokédex</NavLink></p>
                         <p className={(abaAtiva === 'ranking') ? 'ativo' : 'optLanding'}><NavLink to='/ranking' onClick={() => { setAbaAtiva('ranking'); }}>Ranking</NavLink></p>
                         {(usuario) ? (usuario.times) ?
@@ -73,7 +73,7 @@ export default function Routes() {
                         </Menu>
                     </div>
                 </header>
-                <Box component="main">
+                <Box id='cont' component="main">
                     {/* Rotas - Dependendo do link, será retornado um componente diferente */}
                     <Switch>
                         <Route path='/signup'>

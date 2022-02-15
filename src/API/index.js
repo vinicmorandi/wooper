@@ -34,25 +34,6 @@ const typedefs = gql`
         derrotas: Int
     }
 
-    type Pokemon {
-        id: Int!,
-        nome: String,
-        tipo1: Int,
-        tipo2: Int,
-        move1: String,
-        move2: String,
-        move3: String,
-        move4: String,
-        statHp: Int,
-        statAtk: Int,
-        statDef: Int,
-        statSpa: Int,
-        statSpd: Int,
-        statSpe: Int,
-        spriteFrente: String,
-        spriteCostas: String
-    }
-
     type Query {
         usuarios: [Usuario!],
         usuariosEmail(email:String!, senha:String!): [Usuario]
@@ -62,7 +43,8 @@ const typedefs = gql`
         criarUsuario(nome:String!, email:String!, senha: String!):[Usuario],
         loginUsu(email:String!, senha:String!): [Usuario],
         salvarTime(id: String!,time: String! ): [Usuario],
-        usuariosElo: [Usuario!]
+        usuariosElo: [Usuario!],
+        salvarElo(id: String!,time: Int! ): [Usuario]
     }
 `
 
@@ -111,7 +93,10 @@ const resolvers = {
         usuariosElo: async (root, args, { db }, info) => {
             const users = await db.Usuarios.findAll({ order: [['elo', 'DESC']], limit: 500 })
             return users
-        }
+        },
+        salvarElo: async (root, args, { db }, info) => {
+            db.Usuarios.update({ elo: args.elo }, { where: { id: args.id } })
+        },
     },
     // Define o modelo do usuário
     Usuario: {
@@ -124,24 +109,6 @@ const resolvers = {
         tipo: (parent) => parent.tipo,
         vitorias: (parent) => parent.vitorias,
         derrotas: (parent) => parent.derrotas,
-    },
-    Pokemon: {
-        id: (parent) => parent.id,
-        nome: (parent) => parent.nome,
-        tipo1: (parent) => parent.tipo1,
-        tipo2: (parent) => parent.tipo2,
-        move1: (parent) => parent.move1,
-        move2: (parent) => parent.move2,
-        move3: (parent) => parent.move3,
-        move4: (parent) => parent.move4,
-        statHp: (parent) => parent.statHp,
-        statAtk: (parent) => parent.statAtk,
-        statDef: (parent) => parent.statDef,
-        statSpa: (parent) => parent.statSpa,
-        statSpd: (parent) => parent.statSpd,
-        statSpe: (parent) => parent.statSpe,
-        spriteFrente: (parent) => parent.spriteFrente,
-        spriteCostas: (parent) => parent.spriteCostas,
     }
 }
 
@@ -213,8 +180,12 @@ io.on('connection', (socket) => {
 
     socket.on('ataque', (sala, ataque, idUsu) => {
         socket.emit('retorno', ataque, idUsu)
-        socket.in(sala.id).emit('retorno', ataque, idUsu)
-        console.log(idUsu)
+        socket.in(sala).emit('retorno', ataque, idUsu)
+    })
+
+    socket.on('troca', (sala, poke, ini) => {
+        console.log(sala)
+        socket.in(sala).emit('trocaA',ini,poke)
     })
 });
 

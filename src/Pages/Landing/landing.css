@@ -2,12 +2,12 @@
 
 
 header {
-    height: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 40px;
+    padding: 6px 100px;
     line-height: 40px;
+    box-shadow: 1px 1px 1px 1px rgb(241, 241, 241);
 }
 
 #leftLanding {
@@ -46,7 +46,6 @@ a:active {
     display: flex;
     justify-content: space-between;
     height: 100vh;
-    padding: 20px 40px 0px;
 }
 
 #leftMain {
