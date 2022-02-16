@@ -7,6 +7,7 @@ import { LinearProgress, Typography, CircularProgress, Button, DialogContent, Di
 
 // GraphQL
 import { useMutation, gql } from "@apollo/client";
+import { CodeOutlined } from "@mui/icons-material";
 
 // Setup
 var socket = io("ws://localhost:3000");
@@ -31,6 +32,9 @@ const PVP = () => {
     const [moveUsuario, setMoveUsuario] = useState('');
     const [inimigo, setInimigo] = useState();
     const [moveInimigo, setMoveInimigo] = useState('');
+
+    const [atual, setAtual] = useState(0);
+    const [atualIni, setAtualIni] = useState(0);
 
     const [salvarElo] = useMutation(salvar_query);
 
@@ -119,12 +123,10 @@ const PVP = () => {
     // Primeiro, ele checa para ver se nenhum dos usuários trocou de pokémon
     // Depois, ele dá as ordens de ataque com base na velocidade dos pokémon
     // Se os 2 pokémon tiverem a mesma velocidade
-    const turno = () => {
-        checaSwitch(usuarioA, moveUsuario);
-        checaSwitch(inimigo, moveInimigo);
-        if (usuarioA.pokemon.atual.stats[5] > inimigo.pokemon.atual.stats[5]) {
+    const turno = async () => {
+        if (usuarioA.pokemon.time[atual].stats[5] > inimigo.pokemon.time[atualIni].stats[5]) {
             orderAtaques('usuario');
-        } else if (usuarioA.pokemon.atual.stats[5] === inimigo.pokemon.atual.stats[5]) {
+        } else if (usuarioA.pokemon.time[atual].stats[5] === inimigo.pokemon.time[atualIni].stats[5]) {
             var randomSpeed = Math.floor(Math.random() * 2);
             if (randomSpeed > 1) {
                 orderAtaques('usuario');
@@ -150,19 +152,14 @@ const PVP = () => {
         }
     };
 
-    const checaSwitch = (ind, move) => {
-        if (move.name == "switch") troca(ind, move.poke);
-    };
-
     const ataqueUsuario = () => {
         if (moveUsuario !== '' && moveUsuario.name !== 'switch') {
-            console.log(moveUsuario);
-            let multiplicador = retornaMultiplicador(moveUsuario, inimigo.pokemon.atual);
+            let multiplicador = retornaMultiplicador(moveUsuario, inimigo.pokemon.time[atualIni]);
             let derrotadosIni = 0;
 
-            inimigo.pokemon.atual.currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveUsuario.power * (usuario.pokemon.atual.stats[1] / inimigo.pokemon.atual.stats[2]) / 50 + 2) * multiplicador);
-            if (inimigo.pokemon.atual.currentHP <= 0) {
-                inimigo.pokemon.atual.currentHP = 0;
+            inimigo.pokemon.time[atualIni].currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveUsuario.power * (usuario.pokemon.time[atual].stats[1] / inimigo.pokemon.time[atualIni].stats[2]) / 50 + 2) * multiplicador);
+            if (inimigo.pokemon.time[atualIni].currentHP <= 0) {
+                inimigo.pokemon.time[atualIni].currentHP = 0;
                 for (let i = 0; i < inimigo.pokemon.time.length; i++) {
                     if (inimigo.pokemon.time[i].currentHP === 0) {
                         derrotadosIni++;
@@ -185,16 +182,16 @@ const PVP = () => {
     const ataqueInimigo = () => {
         if (moveInimigo !== '' && moveInimigo.name !== 'switch') {
 
-            let multiplicador = retornaMultiplicador(moveInimigo, usuarioA.pokemon.atual);
+            let multiplicador = retornaMultiplicador(moveInimigo, usuarioA.pokemon.time[atual]);
             let derrotados = 0;
 
-            usuario.pokemon.atual.currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveInimigo.power * (inimigo.pokemon.atual.stats[1] / usuario.pokemon.atual.stats[2]) / 50 + 2) * multiplicador);
+            usuarioA.pokemon.time[atual].currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveInimigo.power * (inimigo.pokemon.time[atualIni].stats[1] / usuarioA.pokemon.time[atual].stats[2]) / 50 + 2) * multiplicador);
 
-            if (usuario.pokemon.atual.currentHP <= 0) {
+            if (usuarioA.pokemon.time[atual].currentHP <= 0) {
                 setBloqueado(true);
-                usuario.pokemon.atual.currentHP = 0;
-                for (let i = 0; i < usuario.pokemon.time.length; i++) {
-                    if (usuario.pokemon.time[i].currentHP === 0) {
+                usuarioA.pokemon.time[atual].currentHP = 0;
+                for (let i = 0; i < usuarioA.pokemon.time.length; i++) {
+                    if (usuarioA.pokemon.time[i].currentHP === 0) {
                         derrotados++;
                     }
                 }
@@ -211,20 +208,6 @@ const PVP = () => {
                     });
                 }
             }
-        }
-    };
-
-    const troca = (user, poke) => {
-        if (user.id == usuarioA.id) {
-            let u = usuarioA;
-            u.pokemon.atual = poke;
-            setUsuarioA(u);
-            setMoveUsuario('');
-        } else {
-            let ini = inimigo;
-            ini.pokemon.atual = poke;
-            setInimigo(ini);
-            setMoveInimigo('');
         }
     };
 
@@ -255,17 +238,18 @@ const PVP = () => {
         setUsuarios(lobby);
     });
 
+    socket.on('troca', (posicao) => {
+        setAtualIni(posicao);
+    });
+
     const ataque = (atk) => {
         socket.emit('ataque', sala, atk, usuario.id);
         setCarregando(true);
     };
 
     const trocarPokemon = (poke) => {
-        let atk = {
-            "name": "switch",
-            "poke": poke
-        };
-        ataque(atk);
+        socket.emit("troca", sala, poke.posicao);
+        setAtual(poke.posicao);
         setOpen(false);
     };
 
@@ -288,9 +272,9 @@ const PVP = () => {
         let timeRetorno = [];
         for (let i = 0; i < time.length; i++) {
             timeRetorno[i] = await definePokemon(time[i]);
+            timeRetorno[i].posicao = i;
         }
         usuRetorno.time = timeRetorno;
-        usuRetorno.atual = timeRetorno[0];
 
         return usuRetorno;
     };
@@ -327,38 +311,40 @@ const PVP = () => {
             ? <div id='telaBatalha'><>
                 {(inimigo)
                     ? <div id='enemyBTL'>
-                        <Typography>{inimigo.pokemon.atual.name}</Typography>
-                        <Typography>{inimigo.pokemon.atual.currentHP} /  {inimigo.pokemon.atual.stats[0]}</Typography>
-                        <LinearProgress variant='determinate' value={inimigo.pokemon.atual.currentHP / inimigo.pokemon.atual.stats[0] * 100}></LinearProgress>
-                        <div><img loading='lazy' id='pokeIni' alt={inimigo.pokemon.atual.name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + inimigo.pokemon.atual.id + ".gif"}></img></div>
+                        <Typography>{inimigo.pokemon.time[atualIni].name}</Typography>
+                        <Typography>{inimigo.pokemon.time[atualIni].currentHP} /  {inimigo.pokemon.time[atualIni].stats[0]}</Typography>
+                        <LinearProgress variant='determinate' value={inimigo.pokemon.time[atualIni].currentHP / inimigo.pokemon.time[atualIni].stats[0] * 100}></LinearProgress>
+                        <div><img loading='lazy' id='pokeIni' alt={inimigo.pokemon.time[atualIni].name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + inimigo.pokemon.time[atualIni].id + ".gif"}></img></div>
                     </div>
 
                     : ""
                 }
-                {(usuarioA.pokemon.atual)
+                {(usuarioA.pokemon.time[atual])
                     ? <>
-                        <div><img id='imgPokeMain' loading='lazy' alt={(usuarioA) ? usuarioA.pokemon.atual.name : ""} src={(usuarioA) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/" + usuarioA.pokemon.atual.id + ".gif" : ""}></img></div>
-                        <div id='selfBTL'>
-                            <Typography>{(usuarioA.pokemon.atual) ? usuarioA.pokemon.atual.name : ""}</Typography>
-                            <Typography>{(usuarioA.pokemon.atual) ? usuarioA.pokemon.atual.currentHP + "/" + usuarioA.pokemon.atual.stats[0] : ""}</Typography>
-                            <LinearProgress variant='determinate' value={(usuarioA.pokemon.atual) ? usuarioA.pokemon.atual.currentHP / usuarioA.pokemon.atual.stats[0] * 100 : 0}></LinearProgress>
-                        </div>
-                        <div id='ataquesBTL'>
-                            {(carregando)
-                                ? <div>Oi</div>
+                        <div><img id='imgPokeMain' loading='lazy' alt={(usuarioA) ? usuarioA.pokemon.time[atual].name : ""} src={(usuarioA) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/" + usuarioA.pokemon.time[atual].id + ".gif" : ""}></img></div>
+                        <div id='self'>
+                            <div id='selfBTL'>
+                                <Typography>{(usuarioA.pokemon.time[atual]) ? usuarioA.pokemon.time[atual].name : ""}</Typography>
+                                <Typography>{(usuarioA.pokemon.time[atual]) ? usuarioA.pokemon.time[atual].currentHP + "/" + usuarioA.pokemon.time[atual].stats[0] : ""}</Typography>
+                                <LinearProgress variant='determinate' value={(usuarioA.pokemon.time[atual]) ? usuarioA.pokemon.time[atual].currentHP / usuarioA.pokemon.time[atual].stats[0] * 100 : 0}></LinearProgress>
+                            </div>
+                            <div id='ataquesBTL'>
+                                {(carregando)
+                                    ? <div>Oi</div>
 
-                                : <> {
-                                    (usuarioA.pokemon.atual.moves)
-                                        ? (usuarioA.pokemon.atual.moves.map(move => (
-                                            <div onClick={() => { ataque(move); }} className={move.type.name + ' ATK'}>
-                                                <div className={move.type.name}></div>
-                                                {move.name.replaceAll("-", " ")}
-                                            </div>
-                                        )))
+                                    : <> {
+                                        (usuarioA.pokemon.time[atual].moves)
+                                            ? (usuarioA.pokemon.time[atual].moves.map(move => (
+                                                <div onClick={() => { ataque(move); }} className={move.type.name + ' ATK'}>
+                                                    <div className={move.type.name}></div>
+                                                    {move.name.replaceAll("-", " ")}
+                                                </div>
+                                            )))
 
-                                        : ""
-                                }</>
-                            }
+                                            : ""
+                                    }</>
+                                }
+                            </div>
                         </div>
                     </>
 
@@ -366,7 +352,7 @@ const PVP = () => {
                 }
 
                 {/* Troca de Pokémon */}
-                {(usuarioA.pokemon.atual)
+                {(usuarioA.pokemon.time[atual])
                     ? <Dialog onClose={() => { if (!bloqueado) setOpen(false); }} open={open}>
                         <DialogTitle>Selecione um Pokémon</DialogTitle>
                         <List>

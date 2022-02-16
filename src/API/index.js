@@ -140,7 +140,6 @@ const io = require("socket.io")(server, {
 });
 
 var salas = []
-var usuarios = []
 
 // Evento chamado quando o usuário conecta com o socketIO
 io.on('connection', (socket) => {
@@ -154,7 +153,7 @@ io.on('connection', (socket) => {
         }
         if(sala===''){
             sala = {
-                "id": Math.floor(Math.random() * 9999999999999),
+                "id": salas.length,
                 "usuarios": []
             }
             salas.push(sala)
@@ -183,9 +182,8 @@ io.on('connection', (socket) => {
         socket.in(sala).emit('retorno', ataque, idUsu)
     })
 
-    socket.on('troca', (sala, poke, ini) => {
-        console.log(sala)
-        socket.in(sala).emit('trocaA',ini,poke)
+    socket.on('troca', (sala, atual) => {
+        socket.in(sala).emit('troca',atual)
     })
 });
 
