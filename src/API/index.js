@@ -15,9 +15,6 @@ app.use(cors())
 
 // Modelos
 const db = require('./models')
-const { SocketAddress } = require('net')
-const {v4: uuidV4} = require('uuid');
-const { SportsHockeyTwoTone } = require('@mui/icons-material');
 
 // Schema
 const typedefs = gql`
@@ -44,7 +41,7 @@ const typedefs = gql`
         loginUsu(email:String!, senha:String!): [Usuario],
         salvarTime(id: String!,time: String! ): [Usuario],
         usuariosElo: [Usuario!],
-        salvarElo(id: String!,time: Int! ): [Usuario]
+        salvarElo(id: String!, elo: String!, vitorias:String!, derrotas:String! ): [Usuario]
     }
 `
 
@@ -95,7 +92,8 @@ const resolvers = {
             return users
         },
         salvarElo: async (root, args, { db }, info) => {
-            db.Usuarios.update({ elo: args.elo }, { where: { id: args.id } })
+            console.log(args)
+            db.Usuarios.update({ elo: args.elo, vitorias: args.vitorias, derrotas: args.derrotas }, { where: { id: args.id } })
         },
     },
     // Define o modelo do usuário

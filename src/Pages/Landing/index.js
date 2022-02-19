@@ -15,7 +15,7 @@ const Landing = () => {
                 <div id='leftMain'>
                     <p id='tituloMain'>Batalhe com Qualquer Pessoa, em Qualquer Lugar</p>
                     <p id='textoMain'>O <span className='destaque'>Wooper™</span> é um simulador de batalhas Pokémon em tempo real! Construa seu time, batalhe contra outros jogadores, e alcance o topo do ranking! Acha que está pronto para começar a sua jornada?</p>
-                    <p id='botaoMain'><NavLink to='/login'><Button size="large" variant="contained">Comece Agora</Button></NavLink></p>
+                    <p id='botaoMain'><NavLink to='/pvp'><Button size="large" variant="contained">Comece Agora</Button></NavLink></p>
                 </div>
                 <div id='rightMain'>
                     <img src='Assets/Images/unDraw/prog.svg' alt='' height='700px'></img>

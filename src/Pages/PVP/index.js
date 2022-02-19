@@ -14,12 +14,15 @@ var socket = io("ws://localhost:3000");
 var usuario = JSON.parse(localStorage.getItem('usuario'));
 var sala = '';
 document.title = 'Batalha | Wooper';
+console.log(usuario)
 
 var salvar_query = gql`
-    mutation salvarElo($id : String!, $elo : Int!){
-        salvarElo(id:$id, elo:$elo){
+    mutation salvarElo($id : String!, $elo : String!, $vitorias : String!, $derrotas : String!){
+        salvarElo(id:$id, elo:$elo, vitorias:$vitorias, derrotas:$derrotas){
             id:id
-            nome:nome
+            elo:elo
+            vitorias:vitorias
+            derrotas:derrotas
         }
     }
 
@@ -125,35 +128,24 @@ const PVP = () => {
     // Se os 2 pokémon tiverem a mesma velocidade
     const turno = async () => {
         if (usuarioA.pokemon.time[atual].stats[5] > inimigo.pokemon.time[atualIni].stats[5]) {
-            orderAtaques('usuario');
+            ataqueUsuario();
         } else if (usuarioA.pokemon.time[atual].stats[5] === inimigo.pokemon.time[atualIni].stats[5]) {
             var randomSpeed = Math.floor(Math.random() * 2);
             if (randomSpeed > 1) {
-                orderAtaques('usuario');
+                ataqueUsuario();
             } else {
-                orderAtaques('inimigo');
+                ataqueInimigo()
             }
         } else {
-            orderAtaques('inimigo');
+            ataqueInimigo()
         }
         setMoveUsuario('');
         setMoveInimigo('');
         setCarregando(false);
     };
 
-    // Pega a ordem dos ataques
-    const orderAtaques = (primeiro) => {
-        if (primeiro == "usuario") {
-            ataqueUsuario();
-            ataqueInimigo();
-        } else {
-            ataqueInimigo();
-            ataqueUsuario();
-        }
-    };
-
-    const ataqueUsuario = () => {
-        if (moveUsuario !== '' && moveUsuario.name !== 'switch') {
+    const ataqueUsuario = async () => {
+        if (usuarioA.pokemon.time[atual].currentHP > 0) {
             let multiplicador = retornaMultiplicador(moveUsuario, inimigo.pokemon.time[atualIni]);
             let derrotadosIni = 0;
 
@@ -171,16 +163,15 @@ const PVP = () => {
                     salvarElo({
                         variables: {
                             id: String(usuario.id),
-                            elo: usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))
+                            elo: String(usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))),
+                            vitorias: String(usuario.vitorias + 1),
+                            derrotas: String(usuario.derrotas)
                         }
                     });
                 }
             }
         }
-    };
-
-    const ataqueInimigo = () => {
-        if (moveInimigo !== '' && moveInimigo.name !== 'switch') {
+        if (inimigo.pokemon.time[atualIni].currentHP > 0) {
 
             let multiplicador = retornaMultiplicador(moveInimigo, usuarioA.pokemon.time[atual]);
             let derrotados = 0;
@@ -203,7 +194,69 @@ const PVP = () => {
                     salvarElo({
                         variables: {
                             id: String(usuario.id),
-                            elo: usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))
+                            elo: String(usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))),
+                            vitorias: String(usuario.vitorias),
+                            derrotas: String(usuario.derrotas + 1)
+                        }
+                    });
+                }
+            }
+        }
+    };
+
+    const ataqueInimigo = async () => {
+        if (inimigo.pokemon.time[atualIni].currentHP > 0) {
+
+            let multiplicador = retornaMultiplicador(moveInimigo, usuarioA.pokemon.time[atual]);
+            let derrotados = 0;
+
+            usuarioA.pokemon.time[atual].currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveInimigo.power * (inimigo.pokemon.time[atualIni].stats[1] / usuarioA.pokemon.time[atual].stats[2]) / 50 + 2) * multiplicador);
+
+            if (usuarioA.pokemon.time[atual].currentHP <= 0) {
+                setBloqueado(true);
+                usuarioA.pokemon.time[atual].currentHP = 0;
+                for (let i = 0; i < usuarioA.pokemon.time.length; i++) {
+                    if (usuarioA.pokemon.time[i].currentHP === 0) {
+                        derrotados++;
+                    }
+                }
+                if (derrotados < 6) {
+                    setOpen(true);
+                } else {
+                    setGanhou(false);
+                    setOpenFinal(true);
+                    salvarElo({
+                        variables: {
+                            id: String(usuario.id),
+                            elo: String(usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))),
+                            vitorias: String(usuario.vitorias),
+                            derrotas: String(usuario.derrotas + 1),
+                        }
+                    });
+                }
+            }
+        }
+        if (usuarioA.pokemon.time[atual].currentHP > 0) {
+            let multiplicador = retornaMultiplicador(moveUsuario, inimigo.pokemon.time[atualIni]);
+            let derrotadosIni = 0;
+
+            inimigo.pokemon.time[atualIni].currentHP -= Math.floor((((2 * 100 / 5) + 2) * moveUsuario.power * (usuario.pokemon.time[atual].stats[1] / inimigo.pokemon.time[atualIni].stats[2]) / 50 + 2) * multiplicador);
+            if (inimigo.pokemon.time[atualIni].currentHP <= 0) {
+                inimigo.pokemon.time[atualIni].currentHP = 0;
+                for (let i = 0; i < inimigo.pokemon.time.length; i++) {
+                    if (inimigo.pokemon.time[i].currentHP === 0) {
+                        derrotadosIni++;
+                    }
+                }
+                if (derrotadosIni === 6) {
+                    setGanhou(true);
+                    setOpenFinal(true);
+                    salvarElo({
+                        variables: {
+                            id: String(usuario.id),
+                            elo: String(usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))),
+                            vitorias: String(usuario.vitorias + 1),
+                            derrotas: String(usuario.derrotas),
                         }
                     });
                 }
@@ -380,6 +433,9 @@ const PVP = () => {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             {(ganhou) ? "BOA, CARALHO! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho. Deseja tentar novamente?"}
+                        </DialogContentText>
+                        <DialogContentText id="alert-dialog-description">
+                            Elo atual: {usuario.elo} -&gt; <b>{(usuario && inimigo) ? Math.round((ganhou) ? usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400))) :usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400))) ):""}</b>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

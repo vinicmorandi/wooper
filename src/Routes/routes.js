@@ -45,7 +45,7 @@ export default function Routes() {
     var usuario = JSON.parse(localStorage.getItem('usuario'));
 
     return (
-        <Router>
+        (usuario) ? <Router>
             {/* Sidebar */}
             <Box>
                 <CssBaseline />
@@ -67,7 +67,6 @@ export default function Routes() {
                         </p>
                         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
                             <MenuItem onClick={handleClose}><CatchingPokemon sx={{ marginRight: '10px' }} /> <NavLink to='/times'>Meu Time</NavLink></MenuItem>
-                            <MenuItem onClick={handleClose}><Settings sx={{ marginRight: '10px' }} /> Configurações</MenuItem>
                             <Divider />
                             <MenuItem onClick={logout}><Logout sx={{ marginRight: '10px' }} /> Sair</MenuItem>
                         </Menu>
@@ -104,6 +103,17 @@ export default function Routes() {
                 </Box>
             </Box>
         </Router>
+            : <Router>
+
+                <Switch>
+                    <Route path='/signup'>
+                        <Signup />
+                    </Route>
+                    <Route path='/'>
+                        <Login />
+                    </Route>
+                </Switch>
+            </Router>
     );
 
 }

@@ -41,7 +41,7 @@ const Login = () => {
                 <TextField label="Email" type='email' variant="outlined" />
                 <TextField label="Senha" type='password' variant="outlined" />
             </div>
-            <div id='botaoLogin'><Button color="primary" variant="contained" endIcon={<Send />} onClick={e => submitForm(e)}>Crar Conta</Button></div>
+            <div id='botaoLogin'><Button color="primary" variant="contained" endIcon={<Send />} onClick={e => submitForm(e)}>Criar Conta</Button></div>
         </Box>
     )
 }

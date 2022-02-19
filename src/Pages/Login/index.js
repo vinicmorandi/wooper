@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 
 // Material UI
 import { Box } from "@mui/system";
-import { TextField, Typography, Switch, FormGroup, FormControlLabel, Link as LinkMUI, Button } from "@mui/material";
+import { TextField, Typography, Switch, FormGroup, FormControlLabel, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import { Send } from "@mui/icons-material";
 
 // CSS
@@ -18,7 +19,10 @@ const usuarios_query = gql`
         loginUsu(email:$email,senha:$senha){
             id,
             nome,
-            times
+            times,
+            elo,
+            vitorias,
+            derrotas,
         }
     }
     `;
@@ -42,7 +46,7 @@ const Login = () => {
         if (a.data.loginUsu[0]) {
             const usuario = a.data.loginUsu[0]
             localStorage.setItem('usuario', JSON.stringify(usuario));
-            window.location.href = "/home"
+            window.location.href = "/"
         }
     }
 
@@ -58,10 +62,7 @@ const Login = () => {
                 <TextField label="Email" onChange={e => setEmail(e.target.value)} type='email' variant="outlined" />
                 <TextField label="Senha" onChange={e => setSenha(e.target.value)} type='password' variant="outlined" />
             </div>
-            <FormGroup sx={{ width: '100% !important', display: 'block' }}>
-                <FormControlLabel control={<Switch defaultChecked />} label="Lembrar senha" />
-            </FormGroup>
-            <Typography align='center' sx={{ width: '100% !important' }}>Não possui uma conta? <LinkMUI underline='none' color='primary' href='/signup'>Crie uma agora!</LinkMUI></Typography>
+            <Typography align='center' sx={{ width: '100% !important' }}>Não possui uma conta? <Link to="/signup">Crie uma agora!</Link></Typography>
             <div id='botaoLogin'><Button color="primary" variant="contained" onClick={e => handleLogin(e)} endIcon={<Send />}>Login</Button></div>
         </Box>
     )
