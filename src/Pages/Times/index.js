@@ -107,10 +107,10 @@ const Times = () => {
                 }).then((res) => res.json())
                     .then((result) => timeUsu[a].moves = result.data.pokemon.moves);
             }
+            setTime(timeUsu);
+            var timeUsuNomes = timeUsu.map((a) => { return a.name; });
+            setTimeNomes(timeUsuNomes);
         }
-        setTime(timeUsu);
-        var timeUsuNomes = timeUsu.map((a) => { return a.name; });
-        setTimeNomes(timeUsuNomes);
         setCarregando(false);
     };
 
@@ -134,7 +134,6 @@ const Times = () => {
                 enqueueSnackbar("Limite de Pokémons Atingido!", { 'variant': 'warning', 'autoHideDuration': 1000 });
             }
         }
-        console.log(time);
 
     };
 
@@ -161,7 +160,6 @@ const Times = () => {
         for (let j = 0; j < timeP.length; j++) {
             if (timeP[j].id == pokeId) timeP[j].moves[i].move.name = move;
         }
-        console.log(timeP);
         setTime(timeP);
 
     };

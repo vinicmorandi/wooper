@@ -23,20 +23,9 @@ const usuariosElo_query = gql`
 const Ranking = () => {
     // Define estados para a paginação
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [usuariosGQL] = useMutation(usuariosElo_query)
     const [rows, setRows] = React.useState('')
-
-    // Muda a página
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    // Quantidade de usuários por página
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
 
     // Título
     useEffect(() => {
@@ -55,7 +44,6 @@ const Ranking = () => {
         <>
             <div id='headerRanking'>
                 <Typography variant='h2' align='center' gutterBottom={true}>Ranking</Typography>
-                <Typography variant='h6' align='center' gutterBottom={true}>Lorem ipsum dolor sit amet</Typography>
             </div>
             <Paper sx={{ width: '70%', margin: 'auto', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: '70vh' }}>
@@ -84,16 +72,6 @@ const Ranking = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage="Usuários por Página"
-                />
             </Paper>
         </>
     )

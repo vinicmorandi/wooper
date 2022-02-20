@@ -119,7 +119,6 @@ const Batalha = () => {
 
 
     const trocarPokemon = async (poke) => {
-        console.log(poke);
         if (poke1.currentHP > 0) turno(null, poke);
         setPoke1(poke);
         setOpen(false);
@@ -329,8 +328,8 @@ const Batalha = () => {
                         <Typography>{(poke2) ? poke2.name : ""}</Typography>
                         <Typography>{(poke2) ? poke2.currentHP + "/" + poke2.stats[0] : ""}</Typography>
                         <LinearProgress variant='determinate' value={(poke2) ? poke2.currentHP / poke2.stats[0] * 100 : 0}></LinearProgress>
-                        <div><img loading='lazy' id='pokeIni' alt={(poke2) ? poke2.name : ""} src={(poke2) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + poke2.id + ".gif" : ""}></img></div>
                     </div>
+                    <div><img loading='lazy' id='pokeIni' alt={(poke2) ? poke2.name : ""} src={(poke2) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + poke2.id + ".gif" : ""}></img></div>
                     <div><img id='imgPokeMain' loading='lazy' alt={(pokemon) ? poke1.name : ""} src={(pokemon) ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/" + poke1.id + ".gif" : ""}></img></div>
                     <div id='self'>
                         <div id='selfBTL'>
@@ -371,12 +370,12 @@ const Batalha = () => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            {(ganhou) ? "BOA, CARALHO! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho. Deseja tentar novamente?"}
+                            {(ganhou) ? "BOA! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho... Deseja tentar novamente?"}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => { window.location.href = "/"; }}>Não :(</Button>
-                        <Button onClick={() => { window.location.href = "/batalha"; }}>BORA, PORRA</Button>
+                        <Button onClick={() => { window.location.href = "/batalha"; }}>Sim B)</Button>
                     </DialogActions>
                 </Dialog>
             </>

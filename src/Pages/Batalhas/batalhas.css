@@ -4,6 +4,7 @@
     background-image: url("https://wallpaperaccess.com/full/446984.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    text-transform: capitalize;
 }
 
 #ataquesBTL {
@@ -49,6 +50,16 @@
 }
 
 #selfBTL {
+    background-color: white;
+    padding: 10px;
+    height: 80px;
+    padding-right: 15%;
+    -webkit-clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+    width: 500px;
+}
+
+#enemyBTL {
     background-color: white;
     padding: 10px;
     height: 80px;

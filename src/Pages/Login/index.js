@@ -62,7 +62,7 @@ const Login = () => {
                 <TextField label="Email" onChange={e => setEmail(e.target.value)} type='email' variant="outlined" />
                 <TextField label="Senha" onChange={e => setSenha(e.target.value)} type='password' variant="outlined" />
             </div>
-            <Typography align='center' sx={{ width: '100% !important' }}>Não possui uma conta? <Link to="/signup">Crie uma agora!</Link></Typography>
+            <Typography align='center' sx={{ width: '100% !important' }}>Não possui uma conta? <Link to="/signup" style={{color:'#1976d2'}}>Crie uma agora!</Link></Typography>
             <div id='botaoLogin'><Button color="primary" variant="contained" onClick={e => handleLogin(e)} endIcon={<Send />}>Login</Button></div>
         </Box>
     )

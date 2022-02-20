@@ -38,7 +38,7 @@ const Landing = () => {
                         </div>
                         <div>
                             <Groups color='primary' fontSize='large' />
-                            <Typography variant='h4'>Criado por SussyBaka</Typography>
+                            <Typography variant='h4'>Criado por [aaaaa]</Typography>
                             <div>Uma equipe de progradores brasileiros, responsável por sites como <span className='destaque'>Aprenda™</span>, <span className='destaque'>Curriculum™</span>, e <span className='destaque'>NotTwitter™</span></div>
                         </div>
                     </div>

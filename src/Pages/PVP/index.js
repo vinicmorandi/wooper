@@ -14,7 +14,6 @@ var socket = io("ws://localhost:3000");
 var usuario = JSON.parse(localStorage.getItem('usuario'));
 var sala = '';
 document.title = 'Batalha | Wooper';
-console.log(usuario)
 
 var salvar_query = gql`
     mutation salvarElo($id : String!, $elo : String!, $vitorias : String!, $derrotas : String!){
@@ -134,10 +133,10 @@ const PVP = () => {
             if (randomSpeed > 1) {
                 ataqueUsuario();
             } else {
-                ataqueInimigo()
+                ataqueInimigo();
             }
         } else {
-            ataqueInimigo()
+            ataqueInimigo();
         }
         setMoveUsuario('');
         setMoveInimigo('');
@@ -363,12 +362,14 @@ const PVP = () => {
         <>{(usuarios.length > 1)
             ? <div id='telaBatalha'><>
                 {(inimigo)
-                    ? <div id='enemyBTL'>
-                        <Typography>{inimigo.pokemon.time[atualIni].name}</Typography>
-                        <Typography>{inimigo.pokemon.time[atualIni].currentHP} /  {inimigo.pokemon.time[atualIni].stats[0]}</Typography>
-                        <LinearProgress variant='determinate' value={inimigo.pokemon.time[atualIni].currentHP / inimigo.pokemon.time[atualIni].stats[0] * 100}></LinearProgress>
+                    ? <>
+                        <div id='enemyBTL'>
+                            <Typography>{inimigo.pokemon.time[atualIni].name}</Typography>
+                            <Typography>{inimigo.pokemon.time[atualIni].currentHP} /  {inimigo.pokemon.time[atualIni].stats[0]}</Typography>
+                            <LinearProgress variant='determinate' value={inimigo.pokemon.time[atualIni].currentHP / inimigo.pokemon.time[atualIni].stats[0] * 100}></LinearProgress>
+                        </div>
                         <div><img loading='lazy' id='pokeIni' alt={inimigo.pokemon.time[atualIni].name} src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/" + inimigo.pokemon.time[atualIni].id + ".gif"}></img></div>
-                    </div>
+                    </>
 
                     : ""
                 }
@@ -383,7 +384,7 @@ const PVP = () => {
                             </div>
                             <div id='ataquesBTL'>
                                 {(carregando)
-                                    ? <div>Oi</div>
+                                    ? <div></div>
 
                                     : <> {
                                         (usuarioA.pokemon.time[atual].moves)
@@ -432,15 +433,15 @@ const PVP = () => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            {(ganhou) ? "BOA, CARALHO! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho. Deseja tentar novamente?"}
+                            {(ganhou) ? "BOA! ESSE É O MEU MENINO! QUER AMASSAR MAIS UM?" : "Não foi dessa vez, guerreirinho... Deseja tentar novamente?"}
                         </DialogContentText>
                         <DialogContentText id="alert-dialog-description">
-                            Elo atual: {usuario.elo} -&gt; <b>{(usuario && inimigo) ? Math.round((ganhou) ? usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400))) :usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400))) ):""}</b>
+                            Elo atual: {usuario.elo} -&gt; <b>{(usuario && inimigo) ? Math.round((ganhou) ? usuario.elo + 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400))) : usuario.elo - 100 * (1 / (1 + 10 ^ ((usuario.elo - inimigo.elo) / 400)))) : ""}</b>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => { window.location.href = "/"; }}>Não :(</Button>
-                        <Button onClick={() => { window.location.href = "/batalha"; }}>BORA, PORRA</Button>
+                        <Button onClick={() => { window.location.href = "/batalha"; }}>Sim B)</Button>
                     </DialogActions>
                 </Dialog>
             </></div>

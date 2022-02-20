@@ -91,31 +91,11 @@ const Pokedex = () => {
         setPokemon(arrayPoke)
     }
 
-    const pesquisaPokemon = (e) => {
-        var pokemonArray = [];
-        // Se a pesquisa estiver vazia, pega todos
-        if (e === '') {
-            pokemonArray = todosPokemon
-        } else {
-            // Senão, vai comparar com os pokemons já cadastrados
-            for (let i = 0; i < todosPokemon.length; i++) {
-                if (todosPokemon[i]) {
-                    // Se o nome incluir o valor da pesquisa, vai adicionar o pokemon ao array
-                    if (todosPokemon[i].species.name.includes(e)) {
-                        pokemonArray[i] = todosPokemon[i]
-                    }
-                }
-            }
-        }
-        setPokemon(pokemonArray)
-    }
-
     return (
         <>
             <>
                 <div id='headerPokedex'>
                     <Typography variant='h2' align='center' gutterBottom={true}>Pokédex</Typography>
-                    <TextField label="Pesquisar" variant='outlined' onChange={event => pesquisaPokemon(event.target.value)} />
                 </div>
                 <div id='pokedex'>
                     {/* Se a API ainda estiver carregando, vai aparecer uma gif, senão, os cards dos pokemon vão aparecer */}
