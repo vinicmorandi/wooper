@@ -16,6 +16,11 @@ export default function Lobby({ onPlay, onEditTeam, team, error }) {
         onPlay(mode, { name, ...payload });
     };
 
+    const updateName = (value) => {
+        setName(value);
+        localStorage.setItem('wooper-name', value);
+    };
+
     const idOf = (slug) => dex?.pokemon.find((p) => p.slug === slug)?.pokedexId;
 
     return (
@@ -31,7 +36,7 @@ export default function Lobby({ onPlay, onEditTeam, team, error }) {
                     placeholder="Seu nome (opcional)"
                     maxLength={20}
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => updateName(e.target.value)}
                 />
 
                 {/* Time atual */}
