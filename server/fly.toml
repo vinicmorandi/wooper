@@ -6,7 +6,7 @@ primary_region = "gru"
 [env]
   NODE_ENV = "production"
   PORT = "3001"
-  CLIENT_ORIGIN = "*"
+  CLIENT_ORIGIN = "https://wooper-demo.vercel.app,https://wooper.vercel.app"
 
 [http_service]
   internal_port = 3001

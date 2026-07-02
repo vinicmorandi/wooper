@@ -9,10 +9,26 @@ const { Match } = require('./src/match');
 const pokedex = require('./src/pokedex');
 
 const PORT = process.env.PORT || 3001;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || '*';
+const DEFAULT_CLIENT_ORIGINS = ['https://wooper-demo.vercel.app', 'https://wooper.vercel.app'];
+const configuredClientOrigins = (process.env.CLIENT_ORIGIN || '*')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+const allowedClientOrigins = configuredClientOrigins.includes('*')
+    ? ['*']
+    : [...new Set([...configuredClientOrigins, ...DEFAULT_CLIENT_ORIGINS])];
+const corsOrigin = allowedClientOrigins.includes('*')
+    ? '*'
+    : (origin, callback) => {
+        if (!origin || allowedClientOrigins.includes(origin)) {
+            callback(null, true);
+            return;
+        }
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+    };
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: corsOrigin }));
 app.use(compression());
 app.get('/', (req, res) => res.json({ ok: true, service: 'wooper-server' }));
 
@@ -24,7 +40,7 @@ app.get('/pokedex', (req, res) => {
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    cors: { origin: CLIENT_ORIGIN, methods: ['GET', 'POST'] },
+    cors: { origin: corsOrigin, methods: ['GET', 'POST'] },
 });
 
 // ---- Estado em memória ----
