@@ -6,8 +6,7 @@ is online) until someone runs out of Pokémon.
 
 Play it here: https://wooper-demo.vercel.app
 
-<!-- gravar um gif de batalha (ScreenToGif) -> docs/demo.gif e descomentar -->
-<!-- ![battle demo](docs/demo.gif) -->
+![Wooper battle demo](client/demo.gif)
 
 ## How it works
 
