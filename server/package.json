@@ -1,0 +1,25 @@
+{
+  "name": "wooper-server",
+  "version": "1.0.0",
+  "description": "Servidor autoritativo do Wooper - batalhas Pokémon 1v1 em tempo real",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.22"
+  }
+}
