@@ -32,7 +32,10 @@ jobs:
 
       - name: Render task definition with image
         run: |
-          sed -e "s|<IMAGE>|${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest|g" server/ecs-task-def.json > task-def.json
+          sed -e "s|<IMAGE>|${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest|g" \
+              -e "s|<ACCOUNT_ID>|${{ secrets.AWS_ACCOUNT_ID }}|g" \
+              -e "s|<REGION>|${{ secrets.AWS_REGION }}|g" \
+              server/ecs-task-def.json > task-def.json
 
       - name: Deploy to ECS (update service)
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
