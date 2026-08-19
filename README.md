@@ -53,8 +53,12 @@ somewhere else:
 
 - client: Vercel, root `client/`, build `npm run build`, output `dist/`,
   set `VITE_SERVER_URL` to the server's public URL
-- server: Railway/Fly.io, root `server/`, start `npm start`,
-  set `CLIENT_ORIGIN` to the frontend URL (CORS)
+- server: AWS ECS Fargate. Every push to `main` runs the Jest suite first and
+  only then builds the Docker image, pushes it to ECR and updates the ECS
+  service ([deploy-ecs.yml](.github/workflows/deploy-ecs.yml)). CORS is locked
+  to the frontend origins via `CLIENT_ORIGIN` in the task definition
+  ([server/ecs-task-def.json](server/ecs-task-def.json)). First-time AWS setup:
+  [server/DEPLOY_ECS.md](server/DEPLOY_ECS.md).
 
 ## Credits
 

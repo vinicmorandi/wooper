@@ -19,8 +19,11 @@ docker tag wooper-server:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaw
 aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/wooper-server:latest
 
-# registrar task definition
-sed -e "s|<IMAGE>|${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/wooper-server:latest|g" ecs-task-def.json > task-def.json
+# registrar task definition (task-def.json é artefato renderizado — está no .gitignore, não commite)
+sed -e "s|<IMAGE>|${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/wooper-server:latest|g" \
+    -e "s|<ACCOUNT_ID>|${AWS_ACCOUNT_ID}|g" \
+    -e "s|<REGION>|${AWS_REGION}|g" \
+    ecs-task-def.json > task-def.json
 aws ecs register-task-definition --cli-input-json file://task-def.json
 
 # criar service (primeira vez) ou atualizar service
@@ -31,10 +34,11 @@ aws ecs create-service --cluster ${ECS_CLUSTER} --service-name ${ECS_SERVICE} --
 
 2) CI (GitHub Actions):
 
-- Coloque o arquivo `.github/workflows/deploy-ecs.yml` (fornecido) na raiz do repositório `wooper`.
+- O workflow já está no repo (`.github/workflows/deploy-ecs.yml`): todo push na `main` roda a suíte de testes do server e, **só se ela passar**, builda a imagem, publica no ECR e atualiza o service.
 - Configure os secrets no repositório: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `AWS_ACCOUNT_ID`, `ECR_REPOSITORY`, `ECS_CLUSTER`, `ECS_SERVICE`.
 
 Observações importantes:
+- O CORS de produção é travado pela env `CLIENT_ORIGIN` no `ecs-task-def.json` (aceita lista separada por vírgula). Se o domínio do front mudar, atualize lá — sem a env, o servidor cai no `*`.
 - O servidor mantém estado de partidas em memória — para rodar múltiplas réplicas sem perda de partidas, migre o state para Redis/ElastiCache ou mantenha um único serviço (scaling vertical) e um ALB que direcione conexões.
 - Ajuste `executionRoleArn` e `taskRoleArn` em `ecs-task-def.json` para os ARNs corretos da sua conta.
 - Ajuste `awslogs-region` no `ecs-task-def.json`.

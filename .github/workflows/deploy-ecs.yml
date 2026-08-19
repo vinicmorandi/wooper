@@ -3,6 +3,8 @@ name: Build and Deploy to ECS Fargate
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
 
 jobs:
   test:
