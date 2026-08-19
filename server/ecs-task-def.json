@@ -18,7 +18,8 @@
       ],
       "environment": [
         { "name": "NODE_ENV", "value": "production" },
-        { "name": "PORT", "value": "3001" }
+        { "name": "PORT", "value": "3001" },
+        { "name": "CLIENT_ORIGIN", "value": "https://wooper-demo.vercel.app" }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",

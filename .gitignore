@@ -8,6 +8,9 @@ client/dist/
 .env
 .env.local
 
+# task definition renderizada (o template é server/ecs-task-def.json)
+task-def.json
+
 # misc
 .DS_Store
 coverage/
